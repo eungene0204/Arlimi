@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="user_info">
+        <item>로그인</item>
+        <item>사장님</item>
+        <item>로그 아웃</item>
+        
+       </string-array>
+</resources>

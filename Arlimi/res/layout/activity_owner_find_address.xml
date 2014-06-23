@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relaytiveLayout_address"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <TextView 
+        android:id="@+id/textview_search_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="35sp"
+        android:text="식당명: "
+        />
+    
+    <EditText 
+        android:id="@+id/edittext_search_address"
+        android:layout_width="150px"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_search_address"
+        android:layout_alignBottom="@id/textview_search_address"
+        />
+    
+    <Button 
+        android:id="@+id/btn_search_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/edittext_search_address"
+        android:layout_alignBottom="@id/edittext_search_address"
+        android:text="검색"
+        />
+    <ProgressBar
+android:id="@+id/address_progress"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:layout_centerHorizontal="true"
+android:indeterminate="true"
+android:visibility="gone" />
+    
+    <TextView 
+        android:id="@+id/textview_current_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_search_address"
+        android:layout_alignLeft="@id/textview_search_address"
+        android:text="주소"
+        />
+    
+    <LinearLayout
+        android:id="@+id/linear_map"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="500px" 
+        android:layout_alignParentBottom="true"
+        >
+        
+        <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+ 
+        
+    </LinearLayout>
+    
+
+</RelativeLayout>

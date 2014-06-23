@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+        
+    <TextView
+        android:id="@+id/textview_new_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="30sp"
+        android:layout_marginLeft="10px"
+        android:text="Name:"
+        />
+    
+    <EditText
+        android:id="@+id/edittext_new_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_name"
+        android:layout_alignBottom="@id/textview_new_name" 
+        />
+        
+    <TextView
+        android:id="@+id/textview_new_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textview_new_name"
+        android:textSize="30sp"
+        android:layout_marginRight="10px"
+        android:text="ID:"
+        />
+    
+    <EditText
+        android:id="@+id/edittext_new_id"
+        android:layout_width="250px"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_id"
+        android:layout_alignBottom="@id/textview_new_id"
+        android:layout_marginRight="10px" 
+        />
+    
+    <Button 
+        android:id="@+id/btn_thesameid_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/edittext_new_id"
+        android:layout_alignBottom="@id/edittext_new_id"
+        android:text="Check"
+        />
+    
+    <TextView 
+       android:id="@+id/textview_new_pass"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_alignParentLeft="true"
+       android:layout_below="@id/textview_new_id"
+       android:textSize="30sp"
+       android:text="PASS:"
+       android:layout_marginLeft="10px"
+        />
+    
+    <EditText 
+        android:id="@+id/edittext_new_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_pass"
+        android:layout_alignBottom="@id/textview_new_pass"
+        />
+    
+    
+    <TextView
+        android:id="@+id/textview_new_restaurant_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textview_new_pass"
+        android:textSize="30sp"
+        android:layout_marginLeft="10px"
+        android:text="Restaurant Name:"
+        />
+    
+    <EditText
+        android:id="@+id/edittext_new_restaurant_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_restaurant_name"
+        android:layout_alignBottom="@id/textview_new_restaurant_name" 
+        />
+    
+    <TextView
+        android:id="@+id/textview_new_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textview_new_restaurant_name"
+        android:textSize="30sp"
+        android:layout_marginLeft="10px"
+        android:text="Address:"
+        />
+    
+    <EditText
+        android:id="@+id/edittext_new_address"
+        android:layout_width="50px"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_address"
+        android:layout_alignBottom="@id/textview_new_address" 
+        />
+    
+      <Button 
+        android:id="@+id/btn_find_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/edittext_new_address"
+        android:layout_alignBottom="@id/edittext_new_address"
+        android:text="Find"
+        />
+    
+    
+    <TextView
+        android:id="@+id/textview_new_mobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textview_new_address"
+        android:textSize="30sp"
+        android:layout_marginLeft="10px"
+        android:text="Mobile:"
+        />
+    
+    <EditText
+        android:id="@+id/edittext_new_mobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_mobile"
+        android:layout_alignBottom="@id/textview_new_mobile" 
+        />
+    
+    
+    <TextView
+        android:id="@+id/textview_new_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textview_new_mobile"
+        android:textSize="30sp"
+        android:layout_marginLeft="10px"
+        android:text="Phone:"
+        />
+    
+    <EditText
+        android:id="@+id/edittext_new_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_phone"
+        android:layout_alignBottom="@id/textview_new_phone" 
+        />
+    
+    
+    <TextView
+        android:id="@+id/textview_new_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textview_new_phone"
+        android:textSize="30sp"
+        android:layout_marginLeft="10px"
+        android:text="Email:"
+        />
+    
+    <EditText
+        android:id="@+id/edittext_new_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_email"
+        android:layout_alignBottom="@id/textview_new_email" 
+        />
+    
+    
+    <TextView
+        android:id="@+id/textview_new_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/textview_new_email"
+        android:textSize="30sp"
+        android:layout_marginLeft="10px"
+        android:text="Category:"
+        />
+    
+    <EditText
+        android:id="@+id/edittext_new_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textview_new_category"
+        android:layout_alignBottom="@id/textview_new_category" 
+        />
+    
+    <Button 
+        android:id="@+id/btn_new_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:textSize="20sp"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>

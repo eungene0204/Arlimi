@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="siva.arlimi.activity"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    
+    <permission android:name="siva.arlimi.activity.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="siva.arlimi.activity.permission.C2D_MESSAGE" />
+
+    <!-- Required to show current location -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    
+    <!--  Activity recognition  -->
+    <uses-permission
+    android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
+    
+    <!-- Required OpenGL ES 2.0. for Maps V2 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        >
+       
+        <!--  Google play service -->
+        <meta-data android:name="com.google.android.gms.version"
+           android:value="@integer/google_play_services_version" />
+        
+        <meta-data android:value="@string/facebook_app_id" android:name="com.facebook.sdk.ApplicationId"/>
+       
+        <receiver
+            android:name="siva.arlimi.gcm.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            
+            <intent-filter >
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <category android:name="siva.arlimi.activity" />
+            </intent-filter>
+        </receiver>
+        
+        <!--  Service  -->
+         <service android:name="siva.arlimi.geofence.ReceiveTransitionIntentService"
+             android:exported="false"
+             >
+             
+         </service>
+         <service android:name="siva.arlimi.gcm.GcmIntentService" />
+
+        <!-- Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAN3kspWK8RRmiufQeYVo5eADsk_cz85CI" />
+
+        <activity
+            android:name="siva.arlimi.activity.OpenActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
+        
+        <activity android:name="siva.arlimi.owner.OwnerManagementActivity" >
+        </activity>
+        <activity android:name="siva.arlimi.owner.OwnerLoginActivity" >
+        </activity>
+        <activity android:name="siva.arlimi.owner.OwnerRegistrationActivity" >
+        </activity>
+        <activity android:name="siva.arlimi.openapi.DaumMapView" >
+        </activity>
+        <activity android:name="FindAddressActivity" >
+        </activity>
+        <activity android:name="TestMap" >
+        </activity>
+        <activity android:name="FindCurrentPosition"></activity>
+        <activity android:name="GoogleMapTask"></activity>
+        <activity android:name="siva.arlimi.owner.OwnerCalendar"></activity>
+        <activity android:name="siva.arlimi.owner.InputMenuActivty"></activity>
+        <activity android:name="com.facebook.LoginActivity"></activity>
+        <activity android:name="siva.arlimi.owner.RegisterEvent"></activity>
+        <activity android:name="siva.arlimi.activity.LoginActivity"></activity>
+        <activity android:name="siva.arlimi.activity.HomeActivity"></activity>
+        <activity android:name="RegisterEventActivity"></activity>
+        
+    </application>
+
+</manifest>

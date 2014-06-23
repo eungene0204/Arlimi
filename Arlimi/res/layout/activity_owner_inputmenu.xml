@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+   <EditText 
+       android:id="@+id/edittext_menu"
+       android:layout_width="match_parent" 
+       android:layout_height="200px"
+      
+       /> 
+       
+   <Button 
+       android:id="@+id/btn_input_menu"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@id/edittext_menu"
+       android:layout_alignParentRight="true"
+       android:text="Register"
+       />
+    
+
+</RelativeLayout>
