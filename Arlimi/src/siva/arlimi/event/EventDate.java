@@ -98,4 +98,13 @@ public class EventDate implements Serializable
 	{
 		this.mYear = mYear;
 	}
+	
+	@Override
+	public String toString()
+	{
+		String str = String.valueOf(getYear())  + String.valueOf(getMonth())
+				+ String.valueOf(getDay());
+		
+		return str.toString();
+	}
 }

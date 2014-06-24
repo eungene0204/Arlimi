@@ -1,10 +1,13 @@
 package siva.arlimi.activity;
 
-import siva.arlimi.calendar.EventCalendar;
+
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import siva.arlimi.event.Event;
-import siva.arlimi.event.EventDate;
 import siva.arlimi.event.EventRadius;
-import siva.arlimi.networktask.EventRegistrationConnection;
+import siva.arlimi.event.EventUtil;
 import siva.arlimi.owner.Owner;
 import android.content.Intent;
 import android.database.Cursor;
@@ -139,7 +142,10 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 	private void registerEvent(Event event) 
 	{
 		event.setContents(mContentsEditTxt.getText().toString());
-		
+		event.setRadius(mEventRadius);
+	
+		Log.i(TAG, "User: " + event.getOwner().getName());
+		Log.i(TAG, "Email: " + event.getOwner().getEmail());
 		Log.i(TAG, "EventContents: " + event.getContents());
 		Log.i(TAG, "Event Start Date: " + event.getEventStartDate().getYear() +
 				event.getEventStartDate().getMonth() + event.getEventStartDate().getDay());
@@ -149,6 +155,27 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 				+ event.getEventEndDate().getMonth() + event.getEventEndDate().getDay());
 		Log.i(TAG, "Event End Time: " + event.getEventEndTime().getHour() +
 				event.getEventEndTime().getMin());
+		Log.i(TAG, "Radius: " + event.getRadius().getRadius() );
+		
+		JSONObject json = new JSONObject();
+		
+		try
+		{
+			json.put(EventUtil.USER, event.getOwner().getName());
+			json.put(EventUtil.EMAIL, event.getOwner().getEmail());
+			json.put(EventUtil.EVENT_CONTENTS, event.getContents());
+			json.put(EventUtil.EVENT_START_DATE, event.getEventStartDate().toString());
+			json.put(EventUtil.EVENT_END_DATE, event.getEventEndDate().toString());
+			json.put(EventUtil.EVENT_START_TIME, event.getEventStartTime().toString());
+			json.put(EventUtil.EVENT_END_TIME, event.getEventEndTime().toString());
+			json.put(EventUtil.EVENT_RADIUS, event.getRadius().getRadius());
+
+		} catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
+	
+		System.out.println(json);
 		
 		/*
 		EventRegistrationConnection conn = new EventRegistrationConnection();

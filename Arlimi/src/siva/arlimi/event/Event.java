@@ -11,18 +11,20 @@ public class Event implements Serializable
 	public static final String TAG = "Event";
 
 	private Context mContext;
-	
+
 	private EventTime mEventStartTime;
 	private EventTime mEventEndTime;
 	private EventDate mEventStartDate;
 	private EventDate mEventEndDate;
+	private EventRadius mEventRadius;
+
 	private String mContents;
 	private String mBusinessName;
-	
+
 	private Owner mOwner;
-	
+
 	private boolean mIsStart = false;
-	
+
 	public Event()
 	{
 	}
@@ -33,40 +35,49 @@ public class Event implements Serializable
 		mOwner = new Owner();
 	}
 
-	public void setBusinessName(String name)
+	public void setRadius(EventRadius radius)
 	{
-		mBusinessName= name;
+		this.mEventRadius = radius;
 	}
 	
+	public EventRadius getRadius()
+	{
+		return this.mEventRadius;
+	}
+
+	public void setBusinessName(String name)
+	{
+		mBusinessName = name;
+	}
+
 	public String getBusinessName()
 	{
 		return this.mBusinessName;
 	}
-	
+
 	public void setContents(String contents)
 	{
 		this.mContents = contents;
 	}
-	
+
 	public String getContents()
 	{
 		return mContents;
 	}
-	
+
 	public void showTimePicker()
 	{
-		if(mIsStart)
+		if (mIsStart)
 		{
 			mEventStartTime = new EventTime(mContext);
 			mEventStartTime.showTimePicker();
-		}
-		else
+		} else
 		{
 			mEventEndTime = new EventTime(mContext);
 			mEventEndTime.showTimePicker();
 		}
 	}
-	
+
 	public void setIsStart(boolean isStart)
 	{
 		mIsStart = isStart;
@@ -74,58 +85,54 @@ public class Event implements Serializable
 
 	public EventDate getEventStartDate()
 	{
-		if( null == mEventStartDate)
+		if (null == mEventStartDate)
 			return null;
 		else
 			return mEventStartDate;
 	}
-	
-	
+
 	public EventDate getEventEndDate()
 	{
-		if( null == mEventEndDate)
-			return null;
-		else
-			return mEventEndDate;
+		return  (null == mEventEndDate) ? null : mEventEndDate;
 	}
-	
+
 	public EventTime getEventStartTime()
 	{
-		if(null == mEventStartTime)
+		if (null == mEventStartTime)
 			return null;
 		else
 			return mEventStartTime;
 	}
-	
+
 	public EventTime getEventEndTime()
 	{
-		if(null == mEventEndTime)
+		if (null == mEventEndTime)
 			return null;
 		else
 			return mEventEndTime;
 	}
-	
+
 	public void setOwner(Owner owner)
 	{
 		this.mOwner = owner;
 	}
-	
+
 	public Owner getOwner()
 	{
 		return this.mOwner;
 	}
-	
+
 	public void showDatePicker()
 	{
-		if(mIsStart)
+		if (mIsStart)
 		{
 			mEventStartDate = new EventDate(mContext);
 			mEventStartDate.showDialog("Start Date");
-		}
-		else
+		} else
 		{
 			mEventEndDate = new EventDate(mContext);
 			mEventEndDate.showDialog("End Date");
 		}
+		
 	}
 }

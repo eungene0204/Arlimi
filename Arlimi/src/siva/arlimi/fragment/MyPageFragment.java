@@ -83,19 +83,19 @@ public class MyPageFragment extends Fragment implements OnClickListener
 		Log.i(TAG, "onCreateView");
 		View view = inflater.inflate(R.layout.fragment_mypage, container, false);
 	
-//		mUserLogOutBtn = (Button) view.findViewById(R.id.user_logout_btn);
-//		mUserLogOutBtn.setOnClickListener(this);
+		mUserLogOutBtn = (Button) view.findViewById(R.id.user_logout_btn);
+		mUserLogOutBtn.setOnClickListener(this);
 		
 		mEventRegisterBtn = (Button) 
 				view.findViewById(R.id.event_register_btn);
 		mEventRegisterBtn.setOnClickListener(this);
-/*	
-		mProfilePicture = (ProfilePictureView)view.findViewById(R.id.facebook_profilpic);
-		mProfilePicture.setCropped(true);
-		mProfilePicture.setProfileId(mPerson.getmId()); */
 		
-//		mUserNameView = (TextView) view.findViewById(R.id.facebook_user_textview);
-//		mUserNameView.setText(mPerson.getName());
+		mProfilePicture = (ProfilePictureView)view.findViewById(R.id.facebook_profile_pic);
+		mProfilePicture.setCropped(true);
+		mProfilePicture.setProfileId(mPerson.getmId()); 
+		
+		mUserNameView = (TextView) view.findViewById(R.id.facebook_user_name);
+		mUserNameView.setText(mPerson.getName());
 		
 		return view;
 	}
@@ -109,9 +109,9 @@ public class MyPageFragment extends Fragment implements OnClickListener
 			showEventRegistratoinActivity();
 			break;
 			
-	/*	case R.id.user_logout_btn:
+		case R.id.user_logout_btn:
 			//mFaceBookTask.logOutFacebook();
-			logOut(); */
+			logOut(); 
 			
 			default:
 				break;

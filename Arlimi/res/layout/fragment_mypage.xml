@@ -14,7 +14,7 @@
         >
   
     <com.facebook.widget.ProfilePictureView
-        android:id="@+id/facebook_user_profile_pic"
+        android:id="@+id/facebook_profile_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -35,9 +35,9 @@
     
       
     <View 
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/background_light"
+        style="@style/Divider"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
         />
     
     
@@ -45,20 +45,22 @@
         android:id="@+id/event_register_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="이벤 트 등록하기"
+        android:layout_gravity="center"
+        android:text="이벤트 등록하기"
         />
     
      
     <View 
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/background_dark"
+        style="@style/Divider"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
         />
    
     <Button 
-        android:id="@+id/facebook_logout_btn"
+        android:id="@+id/user_logout_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text= "@string/logout"
         />
     

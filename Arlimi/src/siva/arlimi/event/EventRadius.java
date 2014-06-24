@@ -27,6 +27,8 @@ public class EventRadius implements OnSeekBarChangeListener, Serializable
 	private SeekBar mSeekBar;
 	private TextView mRadiusTextView;
 	
+	private int mRadius;
+	
 	public EventRadius(Context context)
 	{
 		mContext = (Activity)context;
@@ -36,11 +38,23 @@ public class EventRadius implements OnSeekBarChangeListener, Serializable
 		
 		mSeekBar.setOnSeekBarChangeListener(this);
 	}
+	
+	public void setRadius(int radius)
+	{
+		this.mRadius = radius;
+	}
+	
+	public int getRadius()
+	{
+		return mRadius;
+	}
 
 	@Override
 	public void onProgressChanged(SeekBar seekBar, int progress,
 			boolean fromUser)
 	{
+		setRadius(progress);
+		
 		switch(progress)
 		{
 		

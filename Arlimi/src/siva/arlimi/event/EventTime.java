@@ -83,4 +83,12 @@ public class EventTime implements Serializable
 	{
 		return isStartTime;
 	}
+	
+	@Override
+	public String toString()
+	{
+		String str = String.valueOf(getHour()) +String.valueOf(getMin());
+		
+		return str.toString();
+	}
 }
