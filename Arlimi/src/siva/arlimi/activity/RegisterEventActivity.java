@@ -170,7 +170,12 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 			json.put(EventUtil.EVENT_END_TIME, event.getEventEndTime().toString());
 			json.put(EventUtil.EVENT_RADIUS, event.getRadius().getRadius());
 
-		} catch (JSONException e)
+		}
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
+		catch (NullPointerException e)
 		{
 			e.printStackTrace();
 		}

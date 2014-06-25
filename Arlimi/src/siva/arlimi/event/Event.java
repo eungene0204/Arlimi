@@ -85,31 +85,22 @@ public class Event implements Serializable
 
 	public EventDate getEventStartDate()
 	{
-		if (null == mEventStartDate)
-			return null;
-		else
-			return mEventStartDate;
+		return (null == mEventStartDate) ? new EventDate(mContext): mEventStartDate;
 	}
 
 	public EventDate getEventEndDate()
 	{
-		return  (null == mEventEndDate) ? null : mEventEndDate;
+		return  (null == mEventEndDate) ? new EventDate(mContext) : mEventEndDate;
 	}
 
 	public EventTime getEventStartTime()
 	{
-		if (null == mEventStartTime)
-			return null;
-		else
-			return mEventStartTime;
+		return (null == mEventStartTime) ? new EventTime(mContext) : mEventStartTime;
 	}
 
 	public EventTime getEventEndTime()
 	{
-		if (null == mEventEndTime)
-			return null;
-		else
-			return mEventEndTime;
+		return (null == mEventEndTime) ? new EventTime(mContext) : mEventEndTime;
 	}
 
 	public void setOwner(Owner owner)
@@ -120,6 +111,7 @@ public class Event implements Serializable
 	public Owner getOwner()
 	{
 		return this.mOwner;
+		
 	}
 
 	public void showDatePicker()

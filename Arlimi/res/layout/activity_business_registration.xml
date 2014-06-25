@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <EditText 
+        android:id="@+id/business_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="업체명"
+        />
+    
+     <EditText 
+        android:id="@+id/business_address"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="주소"
+        />
+     
+     <EditText 
+        android:id="@+id/business_phone_number"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="전화번호"
+        />
+     
+     <View 
+        style="@style/Divider" 
+        android:layout_marginTop="20dp"
+         />
+     
+     <Button 
+         android:id="@+id/business_registration_btn"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center"
+         android:text="등록하기" 
+         />
+
+</LinearLayout>

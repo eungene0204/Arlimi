@@ -2,16 +2,14 @@ package siva.arlimi.fragment;
 
 import java.io.Serializable;
 
+import siva.arlimi.activity.BusinessRegistration;
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.activity.OpenActivity;
 import siva.arlimi.activity.R;
 import siva.arlimi.activity.RegisterEventActivity;
-import siva.arlimi.event.Event;
-import siva.arlimi.facebook.FaceBookUserInfo;
 import siva.arlimi.owner.Owner;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,7 +18,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.Session;
@@ -34,6 +31,7 @@ public class MyPageFragment extends Fragment implements OnClickListener
 
 	private Button mEventRegisterBtn;
 	private Button mUserLogOutBtn;
+	private Button mBusinessRegistration;
 	
 
 	private Owner mPerson;
@@ -90,6 +88,12 @@ public class MyPageFragment extends Fragment implements OnClickListener
 				view.findViewById(R.id.event_register_btn);
 		mEventRegisterBtn.setOnClickListener(this);
 		
+		mBusinessRegistration = (Button)
+				view.findViewById(R.id.business_registration_btn);
+		mBusinessRegistration.setOnClickListener(this);
+		
+		
+		
 		mProfilePicture = (ProfilePictureView)view.findViewById(R.id.facebook_profile_pic);
 		mProfilePicture.setCropped(true);
 		mProfilePicture.setProfileId(mPerson.getmId()); 
@@ -105,6 +109,11 @@ public class MyPageFragment extends Fragment implements OnClickListener
 	{
 		switch(v.getId())
 		{
+		
+		case R.id.business_registration_btn:
+			showBusinessRegistrationActivity();
+			break;
+			
 		case R.id.event_register_btn:
 			showEventRegistratoinActivity();
 			break;
@@ -119,13 +128,20 @@ public class MyPageFragment extends Fragment implements OnClickListener
 	}
 	
 
+	private void showBusinessRegistrationActivity()
+	{
+		Intent intent = new Intent(getActivity(), BusinessRegistration.class);
+		intent.putExtra(Owner.TAG, (Serializable)mPerson);
+		
+		startActivity(intent);
+	}
+
 	private void showEventRegistratoinActivity()
 	{
 		Intent intent = new Intent(getActivity(), RegisterEventActivity.class);
 		intent.putExtra(Owner.TAG,(Serializable)mPerson);
 		
 		startActivity(intent);
-		
 	}
 
 	private void logOut()

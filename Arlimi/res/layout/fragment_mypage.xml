@@ -33,6 +33,20 @@
         />
     </LinearLayout>
     
+       
+    <View 
+        style="@style/Divider"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        />
+    
+    <Button 
+        android:id="@+id/business_registration_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="업체등록"
+        />
       
     <View 
         style="@style/Divider"

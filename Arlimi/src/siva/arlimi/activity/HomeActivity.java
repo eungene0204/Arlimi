@@ -59,7 +59,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	private UiLifecycleHelper mUihelper;
 	private Session.StatusCallback callback = new StatusCallback()
 	{
-		
 		@Override
 		public void call(Session session, SessionState state, Exception exception)
 		{

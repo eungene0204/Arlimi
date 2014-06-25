@@ -103,6 +103,7 @@
         <activity android:name="siva.arlimi.activity.LoginActivity"></activity>
         <activity android:name="siva.arlimi.activity.HomeActivity"></activity>
         <activity android:name="RegisterEventActivity"></activity>
+        <activity android:name="BusinessRegistration"></activity>
         
     </application>
 
