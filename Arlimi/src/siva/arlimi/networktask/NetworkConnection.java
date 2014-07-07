@@ -9,12 +9,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.json.JSONObject;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
 public class NetworkConnection extends AsyncTask<String, String, String>
 {
 	public 	final static String TAG = "NetworkConnection";
+	
+	private final int TIME_LIMIT = 5000;
 	
 	private Object mData = null;
 	private String mUrl;
@@ -24,23 +28,29 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	{
 		String result = null;
 		HttpURLConnection conn = null;
-		
+
 		try
 		{
+
 			URL url = getUrl();
 			conn = (HttpURLConnection)url.openConnection();
-			conn.setReadTimeout(5000);
-			conn.setConnectTimeout(5000);
+			conn.setReadTimeout(TIME_LIMIT);
+			conn.setConnectTimeout(TIME_LIMIT);
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			conn.connect();
-	
-			if(null != mData)
-				sendData(conn, (String)mData);
 			
-			result = readData(conn);
-		
+			if( HttpURLConnection.HTTP_OK == conn.getResponseCode())
+			{
+	
+				if(null != mData)
+					sendData(conn, mData);
+
+				result = readData(conn);
+
+			}
+
 		} 
 		catch (MalformedURLException e)
 		{
@@ -78,15 +88,18 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 
 	//abstract public void makeData(Object obj);
 	
-	protected void sendData(HttpURLConnection conn, String data)
+	protected void sendData(HttpURLConnection conn, Object data)
 	{
-		Log.i(TAG, "Writting data: " + data);
+		JSONObject json = (JSONObject) data;
+		
+		Log.i(TAG, json.toString());
 		
 		OutputStreamWriter out;
+		
 		try
 		{
 			out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
-			out.write(data);
+			out.write(json.toString());
 			out.flush();
 			out.close();
 			
@@ -102,11 +115,37 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	
 	public String readData(HttpURLConnection conn)
 	{
-		StringBuilder result = new StringBuilder();
 		
-		BufferedReader in;
+		int length = conn.getContentLength();
+		StringBuilder stringBuilder = new StringBuilder(length);
+		
 		try
 		{
+			BufferedReader bufferedReader = new BufferedReader(
+					new InputStreamReader(conn.getInputStream()));
+			
+			char[] buffer = new char[length];
+			int charRead;
+			
+			while(  -1 != (charRead = bufferedReader.read(buffer)) )
+			{
+				stringBuilder.append(buffer, 0, length); 
+			}
+			
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
+		
+		return stringBuilder.toString();
+		
+		
+		/*
+		try
+		{
+			BufferedReader in;
 			in = new BufferedReader(
 					new InputStreamReader(conn.getInputStream()));
 			
@@ -118,13 +157,16 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 		in.close();
 		
 		
-		} catch (IOException e)
+		}
+	    catch (IOException e)
 		{
 			e.printStackTrace();
 		}
-
-		return result.toString(); 
 		
+		return result.toString();  
+		
+	}
+	*/
 	}
 
 }

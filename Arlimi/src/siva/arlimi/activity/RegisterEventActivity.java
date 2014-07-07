@@ -2,12 +2,17 @@ package siva.arlimi.activity;
 
 
 
+import java.io.UnsupportedEncodingException;
+
+import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import siva.arlimi.event.Event;
 import siva.arlimi.event.EventRadius;
 import siva.arlimi.event.EventUtil;
+import siva.arlimi.networktask.NetworkConnection;
+import siva.arlimi.networktask.NetworkURL;
 import siva.arlimi.owner.Owner;
 import android.content.Intent;
 import android.database.Cursor;
@@ -139,7 +144,7 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 		startActivityForResult(intent, SELECT_PICTURE);
 	}
 
-	private void registerEvent(Event event) 
+	private void registerEvent(Event event)  
 	{
 		event.setContents(mContentsEditTxt.getText().toString());
 		event.setRadius(mEventRadius);
@@ -159,8 +164,10 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 		
 		JSONObject json = new JSONObject();
 		
+		
 		try
 		{
+			
 			json.put(EventUtil.USER, event.getOwner().getName());
 			json.put(EventUtil.EMAIL, event.getOwner().getEmail());
 			json.put(EventUtil.EVENT_CONTENTS, event.getContents());
@@ -169,7 +176,17 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 			json.put(EventUtil.EVENT_START_TIME, event.getEventStartTime().toString());
 			json.put(EventUtil.EVENT_END_TIME, event.getEventEndTime().toString());
 			json.put(EventUtil.EVENT_RADIUS, event.getRadius().getRadius());
+			
+			System.out.println("JSON Object: " + json);
 
+			String jsonString = json.toString();
+
+			System.out.println("JSON String: " + jsonString);
+			
+			NetworkConnection conn = new NetworkConnection();
+			conn.setURL(NetworkURL.LOCAL_REGISTRATIONEVENT);
+			conn.setData(json);
+			conn.execute();
 		}
 		catch (JSONException e)
 		{
@@ -179,8 +196,6 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 		{
 			e.printStackTrace();
 		}
-	
-		System.out.println(json);
 		
 		/*
 		EventRegistrationConnection conn = new EventRegistrationConnection();

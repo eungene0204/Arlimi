@@ -27,6 +27,7 @@ public class LoginActivity extends Activity
 	
 	private UiLifecycleHelper uiHelper;
 	
+	
 	private Session.StatusCallback callback = new StatusCallback()
 	{
 		
