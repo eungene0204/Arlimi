@@ -184,7 +184,7 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 			System.out.println("JSON String: " + jsonString);
 			
 			NetworkConnection conn = new NetworkConnection();
-			conn.setURL(NetworkURL.LOCAL_REGISTRATIONEVENT);
+			conn.setURL(NetworkURL.APP_ENGINE_REGISTRATIONEVENT);
 			conn.setData(json);
 			conn.execute();
 		}

@@ -43,6 +43,8 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 			
 			if( HttpURLConnection.HTTP_OK == conn.getResponseCode())
 			{
+				
+				Log.i(TAG, "HTTP_OK");
 	
 				if(null != mData)
 					sendData(conn, mData);

@@ -1,10 +1,11 @@
 package siva.arlimi.activity;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Locale;
 
-import siva.arlimi.networktask.SearchAddress;
+//import siva.arlimi.networktask.SearchAddress;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -41,7 +42,7 @@ public class FindAddressActivity extends Activity implements View.OnClickListene
 	
 
 	private EditText mAddressEditText;
-	SearchAddress searchAddress;
+	//SearchAddress searchAddress;
 	
 	private TextView mCurrentAddressTextView;
 
@@ -90,7 +91,7 @@ public class FindAddressActivity extends Activity implements View.OnClickListene
 		String[] address = new String[1];
 		String addr = mAddressEditText.getText().toString();
 
-		address[0] = SearchAddress.getGoogleURL(addr);
+//		address[0] = SearchAddress.getGoogleURL(addr);
 		return address;
 
 	}
