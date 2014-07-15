@@ -27,8 +27,6 @@ public class EventListFragment extends Fragment
 	
 	private EventList mEventList;
 	
-	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)

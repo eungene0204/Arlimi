@@ -66,7 +66,7 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.test_main);
+		//setContentView(R.layout.test_main);
 		
 		mGeofenceStore = new GeofenceStore(this);
 		
@@ -74,8 +74,8 @@ public class MainActivity extends FragmentActivity implements
 		
 		mGeofenceList = new ArrayList<Geofence>();
 		
-		regBtn = (Button)findViewById(R.id.new_geofence_btn);
-		regBtn.setOnClickListener(this);
+	//	regBtn = (Button)findViewById(R.id.new_geofence_btn);
+	//	regBtn.setOnClickListener(this);
 		
 	}
 	
@@ -316,10 +316,11 @@ public class MainActivity extends FragmentActivity implements
 	{
 		switch(v.getId())
 		{
+		/*
 		case R.id.new_geofence_btn:
 			createGeofence();
 			addGeofence();
-			break;
+			break; */
 			
 			default:
 				break;

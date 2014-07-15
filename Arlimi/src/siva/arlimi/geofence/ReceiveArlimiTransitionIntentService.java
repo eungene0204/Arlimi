@@ -94,11 +94,12 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 				stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 		
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-		
+	
+		/*
 		builder.setSmallIcon(R.drawable.ic_notification)
 				.setContentTitle("Geofece Title" + transitionStringType + ids)
 				.setContentText("Geofence test")
-				.setContentIntent(notificationPendingIntent);
+				.setContentIntent(notificationPendingIntent); */
 		
 		NotificationManager notificationManager =
 				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
