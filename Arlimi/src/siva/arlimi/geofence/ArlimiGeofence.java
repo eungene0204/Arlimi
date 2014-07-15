@@ -9,25 +9,26 @@ public class ArlimiGeofence
 	private final double mLongitude;
 	private final float mRadius;
 	private long mExpirationDuration;
-	private int mTrasitionType;
+	private int mTransitionType;
+	
+	
 	
 	public ArlimiGeofence(
 			String id,
 			double latitude,
 			double longitude,
 			float radius,
-			long expirationDuration,
-			int transitonType
-			)
+			long expiration,
+			int transition)
 	{
 		this.mId = id;
 		this.mLatitude = latitude;
 		this.mLongitude = longitude;
 		this.mRadius = radius;
-		this.mExpirationDuration = expirationDuration;
-		this.mTrasitionType = transitonType;
+		this.mExpirationDuration = expiration;
+		this.mTransitionType = transition;
 	}
-	
+
 	public long getmExpirationDuration()
 	{
 		return mExpirationDuration;
@@ -38,14 +39,14 @@ public class ArlimiGeofence
 		this.mExpirationDuration = mExpirationDuration;
 	}
 
-	public int getmTrasitionType()
+	public int getmTransitionType()
 	{
-		return mTrasitionType;
+		return mTransitionType;
 	}
 
-	public void setmTrasitionType(int mTrasitionType)
+	public void setmTransitionType(int mTransitionType)
 	{
-		this.mTrasitionType = mTrasitionType;
+		this.mTransitionType = mTransitionType;
 	}
 
 	public String getmId()
@@ -68,15 +69,18 @@ public class ArlimiGeofence
 		return mRadius;
 	}
 	
+	/*
+	 * Create Geofence Object
+	 */
+	
 	public Geofence toGeofence()
 	{
 		return new Geofence.Builder()
-		.setRequestId(getmId())
-		.setTransitionTypes(mTrasitionType)
-		.setCircularRegion(getmLatitude(), getmLongitude(), getmRadius())
-		.setExpirationDuration(mExpirationDuration)
-		.build();
+				.setRequestId(getmId())
+				.setTransitionTypes(getmTransitionType())
+				.setCircularRegion(getmLatitude(), getmLongitude(), getmRadius())
+				.setExpirationDuration(mExpirationDuration)
+				.build();
 	}
-
 
 }

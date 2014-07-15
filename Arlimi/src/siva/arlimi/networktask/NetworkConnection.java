@@ -26,9 +26,9 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	@Override
 	protected String doInBackground(String... params)
 	{
-		String result = null;
+		String result = "";
 		HttpURLConnection conn = null;
-
+		
 		try
 		{
 
@@ -39,29 +39,29 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
+				
+			if (null != mData)
+				sendData(conn, mData);
+
 			conn.connect();
 			
 			if( HttpURLConnection.HTTP_OK == conn.getResponseCode())
 			{
-				
 				Log.i(TAG, "HTTP_OK");
-	
-				if(null != mData)
-					sendData(conn, mData);
-
 				result = readData(conn);
-
 			}
 
 		} 
 		catch (MalformedURLException e)
 		{
 			e.printStackTrace();
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			Log.e(TAG,e.toString());
 			e.printStackTrace();
-		} catch(Exception e)
+		} 
+		catch(Exception e)
 		{
 			Log.e(TAG, e.toString());;
 		}

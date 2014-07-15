@@ -1,11 +1,10 @@
 package siva.arlimi.activity;
 
-import siva.arlimi.adapter.TabPagerAdapter;
+import siva.arlimi.adapter.TabPagerAdapter
+;
 import siva.arlimi.event.Event;
 import siva.arlimi.fragment.ErrorDialogFragment;
 import siva.arlimi.gcm.GcmManager;
-import siva.arlimi.geofence.GeofenceManager;
-import siva.arlimi.geofence.GeofenceUtils;
 import siva.arlimi.location.AddressManager;
 import siva.arlimi.location.ArlimiLocationClient;
 import siva.arlimi.owner.Owner;
@@ -45,7 +44,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 
 	private UIManager mUIManager;
 	private GcmManager mGcmManager;
-	private GeofenceManager mGeofenceManager;
 	
 	//private Event mEvent;
 	private Owner mPersonInfo;
@@ -132,8 +130,9 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 
 		if (ConnectionResult.SUCCESS == resultCode)
 		{
+			/*
 			Log.i(GeofenceUtils.APPTAG,
-					getString(R.string.play_services_available));
+					getString(R.string.play_services_available)); */
 
 			return true;
 		} else
@@ -144,8 +143,9 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 			{
 				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
 				errorFragment.setDialog(dialog);
+				/*
 				errorFragment.show(getSupportFragmentManager(),
-						GeofenceUtils.APPTAG);
+						GeofenceUtils.APPTAG); */
 			}
 
 			return false;
@@ -301,7 +301,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	{
 		super.onActivityResult(requestCode, requestCode, intent);
 		mUihelper.onActivityResult(requestCode, resultCode, intent);
-		mGeofenceManager.onResult(requestCode, resultCode, intent);
+		//mGeofenceManager.onResult(requestCode, resultCode, intent);
 	}
 
 	@Override
@@ -349,7 +349,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 
 		} else if (v.getId() == R.id.geofence_add_btn)
 		{
-			mGeofenceManager.registerGeofence();
+			//mGeofenceManager.registerGeofence();
 		}
 
 	}

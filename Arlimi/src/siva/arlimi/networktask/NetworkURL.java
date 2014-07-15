@@ -6,7 +6,7 @@ public abstract class NetworkURL
 			"http://192.168.25.60:8888/siva_arlimi_appengine";
 	
 	public static final String LOCAL_REGISTRATIONEVENT = 
-			"http://192.168.25.60:8888/event/eventregistration";
+			"http://123.143.179.44:8080/event/eventregistration";
 	
 	public static final String APP_ENGINE_REGISTRATIONEVENT =
 			"http://1-dot-savvy-primacy-635.appspot.com/event/eventregistration";

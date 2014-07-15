@@ -140,7 +140,6 @@ public class MyPageFragment extends Fragment implements OnClickListener
 	{
 		Intent intent = new Intent(getActivity(), RegisterEventActivity.class);
 		intent.putExtra(Owner.TAG,(Serializable)mPerson);
-		
 		startActivity(intent);
 	}
 

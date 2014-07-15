@@ -36,7 +36,7 @@ public class EventListFragment extends Fragment
 		View root = inflater.inflate(R.layout.test_card, container, false);
 	
        // EventList eventList = readEvents();
-	//addList(root, eventList);
+	  //addList(root, eventList);
 		
 		return  root;
 	}

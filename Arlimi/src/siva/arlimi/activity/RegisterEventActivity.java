@@ -135,8 +135,9 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 			break;
 		}
 	}
-	
 
+	
+	
 	private void accessImageGallery()
 	{
 		Intent intent = new Intent(Intent.ACTION_PICK,
@@ -184,9 +185,11 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 			System.out.println("JSON String: " + jsonString);
 			
 			NetworkConnection conn = new NetworkConnection();
-			conn.setURL(NetworkURL.APP_ENGINE_REGISTRATIONEVENT);
+			conn.setURL(NetworkURL.LOCAL_REGISTRATIONEVENT);
 			conn.setData(json);
 			conn.execute();
+			
+			
 		}
 		catch (JSONException e)
 		{
@@ -210,6 +213,8 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 		conn.execute(param); */
 	}
 	
+	
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -232,7 +237,7 @@ public class RegisterEventActivity extends FragmentActivity implements OnClickLi
 		{
 			return null;
 		}
-		
+	
 		String[] projection = {MediaStore.Images.Media.DATA };
 		Cursor cursor = getContentResolver().query(selectedImageUri, projection,
 				null, null, null);
