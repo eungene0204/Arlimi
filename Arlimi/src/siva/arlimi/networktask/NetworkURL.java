@@ -12,5 +12,7 @@ public abstract class NetworkURL
 			"http://1-dot-savvy-primacy-635.appspot.com/event/eventregistration";
 	
 	public static final String READ_EVENT_LIST_FROM_DB =
-			"http://123.143.179.44:8080/SIVA_Arlimi_Test_Server/readEvent";
+			"http://123.143.179.44:8080/event/readEventList";
+	
+	
 }

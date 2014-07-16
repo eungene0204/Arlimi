@@ -2,6 +2,7 @@ package siva.arlimi.event;
 
 import java.io.Serializable;
 
+import siva.arlimi.geofence.ArlimiGeofence;
 import siva.arlimi.owner.Owner;
 import android.content.Context;
 
@@ -20,8 +21,11 @@ public class Event implements Serializable
 
 	private String mContents;
 	private String mBusinessName;
+	private String mLatitude;
+	private String mLongitude; 
 
 	private Owner mOwner;
+	private ArlimiGeofence mGeofence;
 
 	private boolean mIsStart = false;
 
@@ -33,8 +37,28 @@ public class Event implements Serializable
 	{
 		this.mContext = context;
 		mOwner = new Owner();
+		mGeofence = new ArlimiGeofence();
+		
 	}
-
+	
+	public void setLatitude(String lat)
+	{
+		double latitude = Double.valueOf(lat);
+		mGeofence.setLatitude(latitude);
+	}
+	
+	public void setLongitude(String lon)
+	{
+		double longitude = Double.valueOf(lon);
+		mGeofence.setLongitude(longitude);
+	}
+	
+	public void setEmail(String email)
+	{
+		if(null != mOwner)
+			mOwner.setEmail(email);
+	}
+	
 	public void setRadius(EventRadius radius)
 	{
 		this.mEventRadius = radius;

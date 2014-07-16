@@ -52,13 +52,11 @@ public class GeofenceStore
 				, INVALID_INT_VALUE);
 	
 		//If All values are valid 
-		if( 
-			INVALIDE_FLOAT_VALUE != lat &&
+		if( INVALIDE_FLOAT_VALUE != lat &&
 			INVALIDE_FLOAT_VALUE != lng &&
 			INVALIDE_FLOAT_VALUE != radius &&
 			INVALID_LONG_VALUE != expirationDuration &&
-			INVALID_INT_VALUE != transitionType
-			)
+			INVALID_INT_VALUE != transitionType)
 		{
 			return new ArlimiGeofence (id,lat,lng,radius,expirationDuration,
 					transitionType);
@@ -75,9 +73,9 @@ public class GeofenceStore
 		Editor editor = mPrefs.edit();
 		
 		editor.putFloat(getGeofenceFieldKey(id, KEY_LATITUDE), 
-				(float) geofence.getmLatitude());
+				(float) geofence.getLatitude());
 		editor.putFloat(getGeofenceFieldKey(id, KEY_LONGITUDE),
-				(float) geofence.getmLongitude());
+				(float) geofence.getLongitude());
 		editor.putFloat(getGeofenceFieldKey(id, KEY_RADIUS), 
 				(float) geofence.getmRadius());
 		editor.putLong(getGeofenceFieldKey(id, KEY_EXPIRATION_DURATION), 

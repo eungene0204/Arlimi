@@ -1,6 +1,7 @@
 package siva.arlimi.geofence;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import android.app.Dialog;

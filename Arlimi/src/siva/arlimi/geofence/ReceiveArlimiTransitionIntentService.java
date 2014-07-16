@@ -19,7 +19,7 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 {
 	private static final String TAG = "ReceiveArlimiTransitionIntentService";
 	public static final CharSequence GEOFENCE_ID_DELIMITER = ",";
-	
+
 	public ReceiveArlimiTransitionIntentService()
 	{
 		super("ReceiveArlimiTransitionIntentService");
@@ -33,96 +33,88 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	@Override
 	protected void onHandleIntent(Intent intent)
 	{
-		if(LocationClient.hasError(intent))
+		if (LocationClient.hasError(intent))
 		{
 			int errorCode = LocationClient.getErrorCode(intent);
-			
-			Log.e(TAG, "Location Service error: " +
-			Integer.toString(errorCode)
-			);
-		}
-		else
+
+			Log.e(TAG, "Location Service error: " + Integer.toString(errorCode));
+		} else
 		{
-			int transitionType =
-					LocationClient.getGeofenceTransition(intent);
-			
-			if(
-					(transitionType == Geofence.GEOFENCE_TRANSITION_ENTER)
-					||
-					(transitionType == Geofence.GEOFENCE_TRANSITION_EXIT)
-					||
-					(transitionType == Geofence.GEOFENCE_TRANSITION_DWELL)
-					)
+			int transitionType = LocationClient.getGeofenceTransition(intent);
+
+			if ((transitionType == Geofence.GEOFENCE_TRANSITION_ENTER)
+					|| (transitionType == Geofence.GEOFENCE_TRANSITION_EXIT)
+					|| (transitionType == Geofence.GEOFENCE_TRANSITION_DWELL))
 			{
-				List<Geofence> triggerList = 
-						LocationClient.getTriggeringGeofences(intent);
-				
+				List<Geofence> triggerList = LocationClient
+						.getTriggeringGeofences(intent);
+
 				String[] triggerIds = new String[triggerList.size()];
-				
-				for(int i = 0; i < triggerIds.length; i++)
+
+				for (int i = 0; i < triggerIds.length; i++)
 				{
 					triggerIds[i] = triggerList.get(i).getRequestId();
 				}
-				
+
 				String ids = TextUtils.join(GEOFENCE_ID_DELIMITER, triggerIds);
 				String transitionStringType = getTransitionString(transitionType);
-				
+
 				sendNotification(transitionStringType, ids);
-				
-				
-			}
-			else
+
+			} else
 			{
-				Log.e(TAG, "Geofence transition Error: " +
-			Integer.toString(transitionType));
+				Log.e(TAG,
+						"Geofence transition Error: "
+								+ Integer.toString(transitionType));
 			}
 		}
 	}
-	
+
 	private void sendNotification(String transitionStringType, String ids)
 	{
-		Intent notificationIntent =
-				new Intent(getApplicationContext(), MainActivity.class);
-		
+		Intent notificationIntent = new Intent(getApplicationContext(),
+				MainActivity.class);
+
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-		
+
 		stackBuilder.addParentStack(MainActivity.class);
-		
+
 		stackBuilder.addNextIntent(notificationIntent);
-		
-		PendingIntent notificationPendingIntent =
-				stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-		
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-	
+
+		PendingIntent notificationPendingIntent = stackBuilder
+				.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(
+				this);
+
 		/*
-		builder.setSmallIcon(R.drawable.ic_notification)
-				.setContentTitle("Geofece Title" + transitionStringType + ids)
-				.setContentText("Geofence test")
-				.setContentIntent(notificationPendingIntent); */
-		
-		NotificationManager notificationManager =
-				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		
-		notificationManager.notify(0,builder.build());
+		 * builder.setSmallIcon(R.drawable.ic_notification)
+		 * .setContentTitle("Geofece Title" + transitionStringType + ids)
+		 * .setContentText("Geofence test")
+		 * .setContentIntent(notificationPendingIntent);
+		 */
+
+		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+		notificationManager.notify(0, builder.build());
 	}
 
 	private String getTransitionString(int transitionType)
 	{
-		switch(transitionType)
+		switch (transitionType)
 		{
 		case Geofence.GEOFENCE_TRANSITION_DWELL:
 			return "User dewells";
-			
+
 		case Geofence.GEOFENCE_TRANSITION_ENTER:
 			return "User Enters";
-			
+
 		case Geofence.GEOFENCE_TRANSITION_EXIT:
 			return "User Exits";
-			
-			default:
-				return "User Unknown action";
-		
+
+		default:
+			return "User Unknown action";
+
 		}
 	}
 

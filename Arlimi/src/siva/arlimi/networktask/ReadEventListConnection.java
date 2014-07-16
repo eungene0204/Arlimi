@@ -13,7 +13,8 @@ public class ReadEventListConnection extends NetworkConnection
 	public static final String TAG = "ReadEventListConnection";
 	
 	private EventList mEventList;
-	DataDownloadListener mDataDownloadListener;
+	private DataDownloadListener mDataDownloadListener;
+	private String mResult;
 	
 	public ReadEventListConnection()
 	{
@@ -25,6 +26,16 @@ public class ReadEventListConnection extends NetworkConnection
 	{
 		super.onPostExecute(result);
 		
+	}
+	
+	public void setResult(String result)
+	{
+		this.mResult = result;
+	}
+	
+	public String getResult()
+	{
+		return mResult;
 	}
 	
 	public void setEventList(EventList list)

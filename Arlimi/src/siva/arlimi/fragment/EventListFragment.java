@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import siva.arlimi.activity.R;
 import siva.arlimi.event.Event;
 import siva.arlimi.event.EventList;
+import siva.arlimi.event.EventUtil;
+import siva.arlimi.networktask.NetworkURL;
 import siva.arlimi.networktask.ReadEventListConnection;
 import siva.arlimi.widget.EventCardList;
 import siva.arlimi.widget.EventCardWidget;
@@ -25,16 +27,14 @@ public class EventListFragment extends Fragment
 {
 	public static final String TAG = "EventListFragment";
 	
-	private EventList mEventList;
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		View root = inflater.inflate(R.layout.test_card, container, false);
+		View root = inflater.inflate(R.layout.fragment_event_list, container, false);
 	
-       // EventList eventList = readEvents();
-	  //addList(root, eventList);
+        EventList eventList = readEvents();
+	    addList(root, eventList);
 		
 		return  root;
 	}
@@ -42,10 +42,11 @@ public class EventListFragment extends Fragment
 	private EventList readEvents()  
 	{
 		EventList eventList = new EventList();
-		String url = "http://192.168.0.21:8088/SIVA_Arlimi_Test_Server/readEventList";
+		//String url = "http://192.168.0.21:8088/SIVA_Arlimi_Test_Server/readEventList";
 	
 		ReadEventListConnection conn = new ReadEventListConnection();
-		conn.setURL(url);
+		conn.setURL(NetworkURL.READ_EVENT_LIST_FROM_DB);
+		conn.setData(null);
 		
 		try
 		{
@@ -58,26 +59,37 @@ public class EventListFragment extends Fragment
                         JSONObject obj = jsonList.getJSONObject(i);
                         Event event = new Event();
                         
-                        String BusinessName = obj.getString("business_name");
-                        String contents = obj.getString("contents");
-                
-                        event.setBusinessName(BusinessName);
+                        String email = obj.getString(EventUtil.EMAIL);
+                        String contents = obj.getString(EventUtil.EVENT_CONTENTS);
+                        String latitude = obj.getString(EventUtil.EVENT_LATITUDE);
+                        String longitude = obj.getString(EventUtil.EVENT_LONGITUDE);
+               
                         event.setContents(contents);
+                        event.setBusinessName(email);
+                        event.setEmail(email);
+                        event.setLatitude(latitude);
+                        event.setLongitude(longitude);
                         
                         eventList.addEvent(event);
                         
-                        Log.i(TAG, BusinessName);
+                        Log.i(TAG, email);
                         Log.i(TAG, contents); 
+                        Log.i(TAG, "Latitude: " + latitude);
+                        Log.i(TAG, "Longitude: " + longitude);
+                        
                  }
 			
+		} 
+		catch (JSONException e)
+		{
+			e.printStackTrace();
 		} catch (InterruptedException e)
 		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e)
 		{
-			e.printStackTrace();
-		} catch (JSONException e)
-		{
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

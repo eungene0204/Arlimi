@@ -4,14 +4,16 @@ import com.google.android.gms.location.Geofence;
 
 public class ArlimiGeofence
 {
-	private final String mId;
-	private final double mLatitude;
-	private final double mLongitude;
-	private final float mRadius;
+	private String mId;
+	private double mLatitude;
+	private double mLongitude;
+	private float mRadius;
 	private long mExpirationDuration;
 	private int mTransitionType;
 	
-	
+	public ArlimiGeofence()
+	{
+	}
 	
 	public ArlimiGeofence(
 			String id,
@@ -27,6 +29,16 @@ public class ArlimiGeofence
 		this.mRadius = radius;
 		this.mExpirationDuration = expiration;
 		this.mTransitionType = transition;
+	}
+	
+	public void setLatitude(double lat)
+	{
+		this.mLatitude = lat;
+	}
+	
+	public void setLongitude(double lon)
+	{
+		this.mLongitude = lon;
 	}
 
 	public long getmExpirationDuration()
@@ -54,12 +66,12 @@ public class ArlimiGeofence
 		return mId;
 	}
 
-	public double getmLatitude()
+	public double getLatitude()
 	{
 		return mLatitude;
 	}
 
-	public double getmLongitude()
+	public double getLongitude()
 	{
 		return mLongitude;
 	}
@@ -78,7 +90,7 @@ public class ArlimiGeofence
 		return new Geofence.Builder()
 				.setRequestId(getmId())
 				.setTransitionTypes(getmTransitionType())
-				.setCircularRegion(getmLatitude(), getmLongitude(), getmRadius())
+				.setCircularRegion(getLatitude(), getLongitude(), getmRadius())
 				.setExpirationDuration(mExpirationDuration)
 				.build();
 	}
