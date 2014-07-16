@@ -17,6 +17,7 @@ import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailed
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationStatusCodes;
 import com.google.android.gms.location.LocationClient.OnAddGeofencesResultListener;
 
 public class GeofenceManager implements 
@@ -108,14 +109,33 @@ public class GeofenceManager implements
 	@Override
 	public void onAddGeofencesResult(int statusCode, String[] geofenceRequestIds)
 	{
-		// TODO Auto-generated method stub
+		if(LocationStatusCodes.SUCCESS == statusCode)
+		{
+			Log.i(TAG, "The Geofence is added successfully");
+		}
+		else
+		{
+			Log.i(TAG, "Fail to add the geofence");
+		}
+		
+		mInProgress = false;
+		mLocationClient.disconnect();
 		
 	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult result)
 	{
-		// TODO Auto-generated method stub
+		mInProgress = false;
+		
+		if(result.hasResolution())
+		{
+			try
+			{
+				result.startResolutionForResult(mContext, );
+			}
+			
+		}
 		
 	}
 
@@ -135,8 +155,8 @@ public class GeofenceManager implements
 	@Override
 	public void onDisconnected()
 	{
-		// TODO Auto-generated method stub
-		
+		mInProgress = false;
+		mLocationClient = null;
 	}
 	
 	public static class ErrorDialogFragment extends DialogFragment
