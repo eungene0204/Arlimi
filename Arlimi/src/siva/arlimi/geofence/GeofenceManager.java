@@ -7,8 +7,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -17,8 +19,8 @@ import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailed
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationStatusCodes;
 import com.google.android.gms.location.LocationClient.OnAddGeofencesResultListener;
+import com.google.android.gms.location.LocationStatusCodes;
 
 public class GeofenceManager implements 
 							ConnectionCallbacks,
@@ -28,7 +30,10 @@ public class GeofenceManager implements
 {
 	public static final String TAG = "GeofenceManager";
 	
-	private Activity mContext;
+	private final static int 
+	CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;	
+	
+	private FragmentActivity mContext;
 	private LocationClient mLocationClient;
 	private PendingIntent mGeofenceRequestIntent;
 	public enum REQUEST_TYPE {ADD};
@@ -38,11 +43,17 @@ public class GeofenceManager implements
 	
 	private List<Geofence> mGeofenceList;
 	
-	public GeofenceManager(Activity context)
+	public GeofenceManager(FragmentActivity context)
 	{
 		this.mContext = context;
 		mInProgress = false;
 		mGeofenceList = new ArrayList<Geofence>();
+	}
+	
+	public void addGeofenceList(Geofence geofence)
+	{
+		mGeofenceList.add(geofence);
+		
 	}
 	
 	public void addGeofence()
@@ -51,6 +62,7 @@ public class GeofenceManager implements
 		
 		if(!serviceConnected())
 		{
+			Log.i(TAG, "Google service failed");
 			return;
 		}
 		
@@ -87,10 +99,9 @@ public class GeofenceManager implements
 			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, mContext, 0);
 			if(dialog != null)
 			{
-				/*
 				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
 				errorFragment.setDialog(dialog);
-				errorFragment.show(getSupportFragmentManager(),TAG ); */
+				errorFragment.show(mContext.getSupportFragmentManager(),TAG ); 
 				
 			}
 			
@@ -132,7 +143,29 @@ public class GeofenceManager implements
 		{
 			try
 			{
-				result.startResolutionForResult(mContext, );
+				result.startResolutionForResult(mContext, 
+						CONNECTION_FAILURE_RESOLUTION_REQUEST);
+			}
+			catch(SendIntentException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		else // No Solution
+		{
+			int errorCode = result.getErrorCode();
+			
+			Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
+					errorCode, mContext, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+			
+			if(null != errorDialog)
+			{
+				ErrorDialogFragment errorFragment = 
+						new ErrorDialogFragment();
+				errorFragment.setDialog(errorDialog);
+				
+				errorFragment.show(mContext.getSupportFragmentManager(), TAG);
+				
 			}
 			
 		}

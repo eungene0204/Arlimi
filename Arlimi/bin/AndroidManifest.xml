@@ -58,12 +58,12 @@
             </intent-filter>
         </receiver>
         
-        <!--  Service  -->
-         <service android:name="siva.arlimi.geofence.ReceiveTransitionIntentService"
+        <!--Geofence  Service  -->
+         <service android:name="siva.arlimi.geofence.ReceiveArlimiTransitionIntentService"
              android:exported="false"
              >
-             
          </service>
+         
          <service android:name="siva.arlimi.gcm.GcmIntentService" />
 
         <!-- Google Maps API Key -->

@@ -13,6 +13,7 @@ public class Event implements Serializable
 
 	private Context mContext;
 
+	private String mId;
 	private EventTime mEventStartTime;
 	private EventTime mEventEndTime;
 	private EventDate mEventStartDate;
@@ -31,6 +32,8 @@ public class Event implements Serializable
 
 	public Event()
 	{
+		mOwner = new Owner();
+		mGeofence = new ArlimiGeofence();
 	}
 
 	public Event(Context context)
@@ -39,6 +42,11 @@ public class Event implements Serializable
 		mOwner = new Owner();
 		mGeofence = new ArlimiGeofence();
 		
+	}
+	
+	public void setId(String id)
+	{
+		this.mId = id;
 	}
 	
 	public void setLatitude(String lat)

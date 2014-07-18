@@ -2,11 +2,15 @@ package siva.arlimi.geofence;
 
 import java.util.List;
 
+import siva.arlimi.activity.HomeActivity;
+import siva.arlimi.activity.R;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
+import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -19,6 +23,17 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 {
 	private static final String TAG = "ReceiveArlimiTransitionIntentService";
 	public static final CharSequence GEOFENCE_ID_DELIMITER = ",";
+	
+	private final IBinder mBinder = new LocalBinder();
+	
+	public class LocalBinder extends Binder
+	{
+		ReceiveArlimiTransitionIntentService getService()
+		{
+			return ReceiveArlimiTransitionIntentService.this;
+		}
+		
+	}
 
 	public ReceiveArlimiTransitionIntentService()
 	{
@@ -29,6 +44,17 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	{
 		super(name);
 	}
+	
+	public int testBind()
+	{
+		return 9999;
+	}
+	
+	@Override
+	public IBinder onBind(Intent intent)
+	{
+		return mBinder;
+	}
 
 	@Override
 	protected void onHandleIntent(Intent intent)
@@ -38,7 +64,8 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 			int errorCode = LocationClient.getErrorCode(intent);
 
 			Log.e(TAG, "Location Service error: " + Integer.toString(errorCode));
-		} else
+		} 
+		else
 		{
 			int transitionType = LocationClient.getGeofenceTransition(intent);
 
@@ -73,11 +100,11 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	private void sendNotification(String transitionStringType, String ids)
 	{
 		Intent notificationIntent = new Intent(getApplicationContext(),
-				MainActivity.class);
+				HomeActivity.class);
 
 		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
-		stackBuilder.addParentStack(MainActivity.class);
+		stackBuilder.addParentStack(HomeActivity.class);
 
 		stackBuilder.addNextIntent(notificationIntent);
 
@@ -87,14 +114,15 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(
 				this);
 
-		/*
-		 * builder.setSmallIcon(R.drawable.ic_notification)
-		 * .setContentTitle("Geofece Title" + transitionStringType + ids)
-		 * .setContentText("Geofence test")
-		 * .setContentIntent(notificationPendingIntent);
-		 */
+		
+		  builder.setSmallIcon(R.drawable.ic_notification)
+		  .setContentTitle("SIVA Geofece" + transitionStringType + ids)
+		  .setContentText("Geofence Success!!")
+		  .setContentIntent(notificationPendingIntent);
+		 
 
-		NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		NotificationManager notificationManager = (NotificationManager) 
+				getSystemService(Context.NOTIFICATION_SERVICE);
 
 		notificationManager.notify(0, builder.build());
 	}
