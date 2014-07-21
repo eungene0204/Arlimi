@@ -2,8 +2,17 @@ package siva.arlimi.geofence;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import siva.arlimi.event.Event;
+import siva.arlimi.event.EventUtil;
 import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService.LocalBinder;
+import siva.arlimi.networktask.NetworkURL;
+import siva.arlimi.networktask.ReadEventListConnection;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -12,10 +21,7 @@ import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -50,27 +56,6 @@ public class GeofenceManager implements
 	
 	private List<Geofence> mGeofenceList;
 
-	
-	class IncomingHandler extends Handler
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			switch(msg.what)
-			{
-			case ReceiveArlimiTransitionIntentService.MSG_SET_VALUE:
-				Log.i(TAG, "Received from service: " + msg.arg1);
-				break;
-				
-				default:
-					super.handleMessage(msg);
-					break;
-			}
-		}
-	}
-	
-	final Messenger mMessenger = new Messenger(new IncomingHandler());
-	
 	public GeofenceManager(FragmentActivity context)
 	{
 		this.mContext = context;
@@ -81,15 +66,19 @@ public class GeofenceManager implements
 	public void addGeofenceList(Geofence geofence)
 	{
 		mGeofenceList.add(geofence);
-		
+	}
+	
+	public String[] getEventIds()
+	{
+		return mBoundService.getEventIds();
 	}
 	
 	private ReceiveArlimiTransitionIntentService mBoundService;
 	private boolean mIsBound = false;
+	private boolean mIsConnedtedService = false;
 	
 	private ServiceConnection mConnection = new ServiceConnection()
 	{
-		
 		@Override
 		public void onServiceDisconnected(ComponentName name)
 		{
@@ -99,28 +88,36 @@ public class GeofenceManager implements
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service)
 		{
-			LocalBinder binder = (LocalBinder)service;
+			Log.i(TAG, "onServiceConnected");
 			
+			LocalBinder binder = (LocalBinder)service;
 			mBoundService = binder.getService();
 			
-			int test = mBoundService.testBind();
-			Log.i(TAG, String.valueOf(test));
+			mIsConnedtedService = true;
+			
 		}
 	};
 	
+	public boolean getIsServiceConnected()
+	{
+		return this.mIsConnedtedService;
+	}
+	
 	public void doBindService()
 	{
-		Intent intent = new Intent(mContext, ReceiveArlimiTransitionIntentService.class);
+		Intent intent = 
+				new Intent(mContext, ReceiveArlimiTransitionIntentService.class);
+		
 		if(mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
 		{
-			Log.i(TAG, "binding is sucees");
+			Log.i(TAG, "binding successed");
 		}
 		else
 		{
-			Log.i(TAG, "failt to connecto service");
+			Log.i(TAG, "fail to connect to the service");
 		}
-		mIsBound = true;
 		
+		mIsBound = true;
 	}
 	
 	public void doUnbindService()
@@ -130,7 +127,60 @@ public class GeofenceManager implements
 			mContext.unbindService(mConnection);
 			mIsBound = false;
 		}
+	}
+	
+	public void readGeofenceFromDB()
+	{
+		ReadEventListConnection conn = new ReadEventListConnection();
+		conn.setURL(NetworkURL.READ_EVENT_LIST_FROM_DB);
+		conn.setData(null);
 		
+		try
+		{
+			String result = conn.execute().get();
+			
+			JSONArray jsonList= new JSONArray(result.toString());
+                 
+                 for(int i = 0; i < jsonList.length(); i++)
+                 {
+                	 	// need to do Refactoring 
+                	 	// Builder pattern
+                        JSONObject obj = jsonList.getJSONObject(i);
+                       
+                        String id = obj.getString(EventUtil.EVENT_ID);
+                        String email = obj.getString(EventUtil.EMAIL);
+                        String contents = obj.getString(EventUtil.EVENT_CONTENTS);
+                        String latitude = obj.getString(EventUtil.EVENT_LATITUDE);
+                        String longitude = obj.getString(EventUtil.EVENT_LONGITUDE);
+                        
+                        ArlimiGeofence geofence = new ArlimiGeofence(id, 
+                        		Double.valueOf(latitude), Double.valueOf(longitude),
+                        		100, Geofence.NEVER_EXPIRE, 
+                        		Geofence.GEOFENCE_TRANSITION_ENTER | 
+                        		Geofence.GEOFENCE_TRANSITION_EXIT);
+                        
+                        addGeofenceList(geofence.toGeofence());
+              
+                        Log.i(TAG, id);
+                        Log.i(TAG, email);
+                        Log.i(TAG, contents); 
+                        Log.i(TAG, "Latitude: " + latitude);
+                        Log.i(TAG, "Longitude: " + longitude);
+                        
+                 }
+		} 
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		
 	}
 	
@@ -138,7 +188,7 @@ public class GeofenceManager implements
 	{
 		mRequestType = REQUEST_TYPE.ADD;
 		
-		if(!serviceConnected())
+		if(!googlePlayserviceConnected())
 		{
 			Log.i(TAG, "Google service failed");
 			return;
@@ -161,7 +211,7 @@ public class GeofenceManager implements
 		
 	}
 		
-	private boolean serviceConnected()
+	private boolean googlePlayserviceConnected()
 	{
 		int resultCode = 
 				GooglePlayServicesUtil.isGooglePlayServicesAvailable(mContext);
@@ -259,7 +309,12 @@ public class GeofenceManager implements
 		{
 		case ADD:
 			mGeofenceRequestIntent = getTransitionPendingIntent();
-			mLocationClient.addGeofences(mGeofenceList, mGeofenceRequestIntent, this);
+			
+			if(!mGeofenceList.isEmpty())
+				mLocationClient.addGeofences(mGeofenceList, mGeofenceRequestIntent, this);
+			else
+				return;
+			
 			break;
 		}
 		

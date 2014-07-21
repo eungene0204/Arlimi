@@ -6,7 +6,6 @@ import java.util.List;
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.activity.R;
 import android.app.IntentService;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -37,56 +36,7 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	static final int MSG_REGISTER_CLIENT = 1;
 	static final int MSG_UNREGISTER_CLIENT = 2;
 	static final int MSG_SET_VALUE = 3;
-	
-	private NotificationManager mNM;
-	
-	class IncomingHandler extends Handler 
-	{
-		@Override
-		public void handleMessage(Message msg)
-		{
-			switch(msg.what)
-			{
-			case MSG_REGISTER_CLIENT:
-				mClients.add(msg.replyTo);
-				break;
-				
-			case MSG_UNREGISTER_CLIENT:
-				mClients.remove(msg.replyTo);
-				break;
-				
-			case MSG_SET_VALUE:
-				mValue = msg.arg1;
-				
-				for(int i =  mClients.size()-1;i >=0 ; i--)
-				{
-					try
-					{
-						mClients.get(i).send(Message.obtain(null,
-								MSG_SET_VALUE, mValue,0));
-					}
-					catch(RemoteException e)
-					{
-						mClients.remove(i);
-					}
-				}
-				break;
-				
-				default:
-					super.handleMessage(msg);
-			
-			}
-		}
-	}
-	
-	final Messenger mMessenger = new Messenger(new IncomingHandler());
-	
-	@Override
-	public void onCreate()
-	{
-				
-	}
-	
+
 	
 	public class LocalBinder extends Binder
 	{
@@ -121,17 +71,21 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	}
 
 	private final IBinder mBinder = new LocalBinder();
+
+	private String[] triggerIds;
 	
 	@Override
 	protected void onHandleIntent(Intent intent)
 	{
+		Log.i(TAG, "onHandleIntent");
+		
 		if (LocationClient.hasError(intent))
 		{
 			int errorCode = LocationClient.getErrorCode(intent);
 
 			Log.e(TAG, "Location Service error: " + Integer.toString(errorCode));
 		} 
-		else
+		else // has Geofence Info
 		{
 			int transitionType = LocationClient.getGeofenceTransition(intent);
 
@@ -141,8 +95,10 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 			{
 				List<Geofence> triggerList = LocationClient
 						.getTriggeringGeofences(intent);
-
-				String[] triggerIds = new String[triggerList.size()];
+			
+				//Set Geofence Ids
+				triggerIds = new String[triggerList.size()];
+				
 
 				for (int i = 0; i < triggerIds.length; i++)
 				{
@@ -161,6 +117,13 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 								+ Integer.toString(transitionType));
 			}
 		}
+	}
+	
+	public String[] getEventIds()
+	{
+		return (triggerIds == null) ? triggerIds = new String[0] :
+					triggerIds;
+				
 	}
 
 	private void sendNotification(String transitionStringType, String ids)

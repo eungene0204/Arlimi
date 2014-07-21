@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 
 import org.json.JSONObject;
@@ -18,10 +19,10 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 {
 	public 	final static String TAG = "NetworkConnection";
 	
-	private final int TIME_LIMIT = 5000;
+	protected final int TIME_LIMIT = 5000;
 	
-	private Object mData = null;
-	private String mUrl;
+	protected Object mData = null;
+	protected String mUrl;
 	
 	@Override
 	protected String doInBackground(String... params)
@@ -31,15 +32,8 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 		
 		try
 		{
-
-			URL url = getUrl();
-			conn = (HttpURLConnection)url.openConnection();
-			conn.setReadTimeout(TIME_LIMIT);
-			conn.setConnectTimeout(TIME_LIMIT);
-			conn.setRequestMethod("POST");
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-				
+			conn = getDefaultHttpConnection();
+			
 			if (null != mData)
 				sendData(conn, mData);
 
@@ -73,6 +67,21 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 		return result;
 	}
 	
+	protected HttpURLConnection getDefaultHttpConnection() throws IOException
+	{
+		
+		URL url = getUrl();
+		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+		conn.setReadTimeout(TIME_LIMIT);
+		conn.setConnectTimeout(TIME_LIMIT);
+		conn.setRequestMethod("POST");
+		conn.setDoOutput(true);
+		conn.setDoInput(true);
+		
+		return conn;
+	}
+	
+	
 	public void setData(Object data)
 	{
 		this.mData = data;
@@ -80,7 +89,7 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	
 	public void setURL(String url)
 	{
-		this.mUrl = url;
+		this.mUrl = (url.isEmpty() || null == url) ? "" : url;
 	}
 	
 	public URL getUrl() throws MalformedURLException
@@ -139,7 +148,6 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 		{
 			e.printStackTrace();
 		}
-		
 		
 		return stringBuilder.toString();
 		

@@ -45,19 +45,28 @@ public class EventListFragment extends Fragment
 	{
 		View root = inflater.inflate(R.layout.fragment_event_list, container, false);
 	
-        EventList eventList = readEvents();
-        mGeofenceManager.addGeofence();
-	    //addEventList(root, eventList);
+		mGeofenceManager = new GeofenceManager(getActivity());
+		mGeofenceManager.doBindService();
 		
+		if(mGeofenceManager.getIsServiceConnected())
+		{
+			EventList eventList = 
+					readEventsFromDB(mGeofenceManager.getEventIds());
+				
+			mGeofenceManager.readGeofenceFromDB();
+			mGeofenceManager.addGeofence();
+		}
+	
+	    //addEventList(root, eventList);
 		return  root;
 	}
 
-	private EventList readEvents()  
+	private EventList readEventsFromDB(String[] eventIds)  
 	{
+		Log.i(TAG, "readEVentsFromDB");
+		
 		EventList eventList = new EventList();
 		
-		mGeofenceManager = new GeofenceManager(getActivity());
-	
 		ReadEventListConnection conn = new ReadEventListConnection();
 		conn.setURL(NetworkURL.READ_EVENT_LIST_FROM_DB);
 		conn.setData(null);
@@ -80,15 +89,7 @@ public class EventListFragment extends Fragment
                         String contents = obj.getString(EventUtil.EVENT_CONTENTS);
                         String latitude = obj.getString(EventUtil.EVENT_LATITUDE);
                         String longitude = obj.getString(EventUtil.EVENT_LONGITUDE);
-                        
-                        ArlimiGeofence geofence = new ArlimiGeofence(id, 
-                        		Double.valueOf(latitude), Double.valueOf(longitude),
-                        		100, Geofence.NEVER_EXPIRE, 
-                        		Geofence.GEOFENCE_TRANSITION_ENTER | 
-                        		Geofence.GEOFENCE_TRANSITION_EXIT);
-                        
-                        mGeofenceManager.addGeofenceList(geofence.toGeofence());
-              
+             
                         event.setId(id);
                         event.setContents(contents);
                         event.setBusinessName(email);
@@ -117,7 +118,7 @@ public class EventListFragment extends Fragment
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		
 		return eventList;
 	}

@@ -1,10 +1,13 @@
 package siva.arlimi.networktask;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Iterator;
 
-import siva.arlimi.event.Event;
 import siva.arlimi.event.EventList;
 import android.util.Log;
 
@@ -13,34 +16,66 @@ public class ReadEventListConnection extends NetworkConnection
 	public static final String TAG = "ReadEventListConnection";
 	
 	private EventList mEventList;
-	private DataDownloadListener mDataDownloadListener;
 	private String mResult;
+
+	@Override
+	protected String doInBackground(String... params)
+	{
+		String result ="";
+		HttpURLConnection conn = null;
+		
+		try
+		{
+			URL url = getUrl();
+			conn = (HttpURLConnection)url.openConnection();
+			conn.setReadTimeout(TIME_LIMIT);
+			conn.setConnectTimeout(TIME_LIMIT);
+			conn.setRequestMethod("POST");
+			conn.setDoOutput(true);
+			conn.setDoInput(true);
+				
+			if (null != mData)
+				sendData(conn, mData);
+
+			conn.connect();
+			
+			if( HttpURLConnection.HTTP_OK == conn.getResponseCode())
+			{
+				Log.i(TAG, "HTTP_OK");
+				result = readData(conn);
+			}
+
+		} 
+		catch (MalformedURLException e)
+		{
+			e.printStackTrace();
+		}
+		catch (IOException e)
+		{
+			Log.e(TAG,e.toString());
+			e.printStackTrace();
+		} 
+		catch(Exception e)
+		{
+			Log.e(TAG, e.toString());;
+		}
+		finally
+		{
+			if( null != conn) conn.disconnect();
+		}
+		
+		return result;
+	}
 	
 	public ReadEventListConnection()
 	{
 		mEventList = new EventList();
 	}
 
-	@Override
-	protected void onPostExecute(String result)
-	{
-		super.onPostExecute(result);
-		
-	}
-	
-	public void setResult(String result)
-	{
-		this.mResult = result;
-	}
-	
-	public String getResult()
-	{
-		return mResult;
-	}
-	
 	public void setEventList(EventList list)
 	{
 		this.mEventList = list;
+		
 	}
 	
 	public EventList getEventList()
@@ -50,7 +85,6 @@ public class ReadEventListConnection extends NetworkConnection
 	
 	public void setDataDownloadListener(DataDownloadListener listener)
 	{
-		this.mDataDownloadListener = listener;
 	}
 	
 	public static interface DataDownloadListener
