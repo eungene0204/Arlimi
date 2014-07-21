@@ -1,10 +1,9 @@
 package siva.arlimi.activity;
 
-import siva.arlimi.adapter.TabPagerAdapter
-;
-import siva.arlimi.event.Event;
+import siva.arlimi.adapter.TabPagerAdapter;
 import siva.arlimi.fragment.ErrorDialogFragment;
 import siva.arlimi.gcm.GcmManager;
+import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.location.AddressManager;
 import siva.arlimi.location.ArlimiLocationClient;
 import siva.arlimi.owner.Owner;
@@ -44,6 +43,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 
 	private UIManager mUIManager;
 	private GcmManager mGcmManager;
+	private GeofenceManager mGeofenceManager;
 	
 	//private Event mEvent;
 	private Owner mPersonInfo;
@@ -89,6 +89,10 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 		
 		//Owner
 		mPersonInfo = new Owner();
+		
+		//Geofence
+		mGeofenceManager = new GeofenceManager(this);
+		mGeofenceManager.doBindService();
 	
 		// Check GCM
 		// mGcmManager = new GcmManager(context,this);
@@ -316,6 +320,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 
 		super.onStop();
 		mUihelper.onStop();
+		mGeofenceManager.doUnbindService();
 		// mFaceBook.onStop();
 	}
 

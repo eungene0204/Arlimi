@@ -1,16 +1,22 @@
 package siva.arlimi.geofence;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.activity.R;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -24,7 +30,63 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	private static final String TAG = "ReceiveArlimiTransitionIntentService";
 	public static final CharSequence GEOFENCE_ID_DELIMITER = ",";
 	
-	private final IBinder mBinder = new LocalBinder();
+	private ArrayList<Messenger> mClients = new ArrayList<Messenger>();
+	
+	private int mValue = 0;
+	
+	static final int MSG_REGISTER_CLIENT = 1;
+	static final int MSG_UNREGISTER_CLIENT = 2;
+	static final int MSG_SET_VALUE = 3;
+	
+	private NotificationManager mNM;
+	
+	class IncomingHandler extends Handler 
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			switch(msg.what)
+			{
+			case MSG_REGISTER_CLIENT:
+				mClients.add(msg.replyTo);
+				break;
+				
+			case MSG_UNREGISTER_CLIENT:
+				mClients.remove(msg.replyTo);
+				break;
+				
+			case MSG_SET_VALUE:
+				mValue = msg.arg1;
+				
+				for(int i =  mClients.size()-1;i >=0 ; i--)
+				{
+					try
+					{
+						mClients.get(i).send(Message.obtain(null,
+								MSG_SET_VALUE, mValue,0));
+					}
+					catch(RemoteException e)
+					{
+						mClients.remove(i);
+					}
+				}
+				break;
+				
+				default:
+					super.handleMessage(msg);
+			
+			}
+		}
+	}
+	
+	final Messenger mMessenger = new Messenger(new IncomingHandler());
+	
+	@Override
+	public void onCreate()
+	{
+				
+	}
+	
 	
 	public class LocalBinder extends Binder
 	{
@@ -32,7 +94,11 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 		{
 			return ReceiveArlimiTransitionIntentService.this;
 		}
-		
+	}
+
+	public int testBind()
+	{
+		return 9999;
 	}
 
 	public ReceiveArlimiTransitionIntentService()
@@ -45,17 +111,17 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 		super(name);
 	}
 	
-	public int testBind()
-	{
-		return 9999;
-	}
-	
+
 	@Override
 	public IBinder onBind(Intent intent)
 	{
+		Log.i(TAG, "OnBind");
 		return mBinder;
+		//return mMessenger.getBinder();
 	}
 
+	private final IBinder mBinder = new LocalBinder();
+	
 	@Override
 	protected void onHandleIntent(Intent intent)
 	{

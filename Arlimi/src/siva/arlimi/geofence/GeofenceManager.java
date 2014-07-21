@@ -3,12 +3,19 @@ package siva.arlimi.geofence;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService.LocalBinder;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -42,6 +49,27 @@ public class GeofenceManager implements
 	private boolean mInProgress;
 	
 	private List<Geofence> mGeofenceList;
+
+	
+	class IncomingHandler extends Handler
+	{
+		@Override
+		public void handleMessage(Message msg)
+		{
+			switch(msg.what)
+			{
+			case ReceiveArlimiTransitionIntentService.MSG_SET_VALUE:
+				Log.i(TAG, "Received from service: " + msg.arg1);
+				break;
+				
+				default:
+					super.handleMessage(msg);
+					break;
+			}
+		}
+	}
+	
+	final Messenger mMessenger = new Messenger(new IncomingHandler());
 	
 	public GeofenceManager(FragmentActivity context)
 	{
@@ -53,6 +81,56 @@ public class GeofenceManager implements
 	public void addGeofenceList(Geofence geofence)
 	{
 		mGeofenceList.add(geofence);
+		
+	}
+	
+	private ReceiveArlimiTransitionIntentService mBoundService;
+	private boolean mIsBound = false;
+	
+	private ServiceConnection mConnection = new ServiceConnection()
+	{
+		
+		@Override
+		public void onServiceDisconnected(ComponentName name)
+		{
+			mBoundService = null;
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service)
+		{
+			LocalBinder binder = (LocalBinder)service;
+			
+			mBoundService = binder.getService();
+			
+			int test = mBoundService.testBind();
+			Log.i(TAG, String.valueOf(test));
+		}
+	};
+	
+	public void doBindService()
+	{
+		Intent intent = new Intent(mContext, ReceiveArlimiTransitionIntentService.class);
+		if(mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+		{
+			Log.i(TAG, "binding is sucees");
+		}
+		else
+		{
+			Log.i(TAG, "failt to connecto service");
+		}
+		mIsBound = true;
+		
+	}
+	
+	public void doUnbindService()
+	{
+		if(mIsBound)
+		{
+			mContext.unbindService(mConnection);
+			mIsBound = false;
+		}
+		
 		
 	}
 	
@@ -116,6 +194,8 @@ public class GeofenceManager implements
 		
 		return PendingIntent.getService(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
+	
+	
 
 	@Override
 	public void onAddGeofencesResult(int statusCode, String[] geofenceRequestIds)

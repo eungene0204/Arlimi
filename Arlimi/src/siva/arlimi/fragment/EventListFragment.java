@@ -38,37 +38,7 @@ public class EventListFragment extends Fragment
 	public static final String TAG = "EventListFragment";
 	
 	private GeofenceManager mGeofenceManager;
-	private boolean mBound = false;
-	
-	private ServiceConnection mConnection = new ServiceConnection()
-	{
-		
-		@Override
-		public void onServiceDisconnected(ComponentName name)
-		{
-			
-		}
-		
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service)
-		{
-			LocalBinder binder = (LocalBinder)service;
-			mBound = false;
-			
-		}
-	};
-	
 
-	@Override public void onStart() 
-	{
-		if(!mBound)
-		{
-			Intent intent = new Intent();
-			
-		}
-		
-	}
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
