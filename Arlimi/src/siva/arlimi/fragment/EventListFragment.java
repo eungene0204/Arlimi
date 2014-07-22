@@ -16,6 +16,7 @@ import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService;
 import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService.LocalBinder;
 import siva.arlimi.networktask.NetworkURL;
+import siva.arlimi.networktask.ReadEventListByIDConnection;
 import siva.arlimi.networktask.ReadEventListConnection;
 import siva.arlimi.widget.EventCardList;
 import siva.arlimi.widget.EventCardWidget;
@@ -50,11 +51,15 @@ public class EventListFragment extends Fragment
 		
 		if(mGeofenceManager.getIsServiceConnected())
 		{
+			/*
 			EventList eventList = 
-					readEventsFromDB(mGeofenceManager.getEventIds());
+					readEventsFromDB(mGeofenceManager.getEventIds()); */
 				
 			mGeofenceManager.readGeofenceFromDB();
 			mGeofenceManager.addGeofence();
+			ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
+			conn.setURL(NetworkURL.READ_EVENT_LIST_FROM_DB);
+			
 		}
 	
 	    //addEventList(root, eventList);

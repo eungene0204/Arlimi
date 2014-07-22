@@ -14,5 +14,8 @@ public abstract class NetworkURL
 	public static final String READ_EVENT_LIST_FROM_DB =
 			"http://123.143.179.44:8080/event/readEventList";
 	
+	public static final String READ_EVENT_BY_ID =
+			"http://123.143.179.44:8080/event/readEventByID";
+	
 	
 }
