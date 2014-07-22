@@ -44,23 +44,39 @@ public class EventListFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
+		Log.i(TAG, "onCreateView");
+		
 		View root = inflater.inflate(R.layout.fragment_event_list, container, false);
 	
 		mGeofenceManager = new GeofenceManager(getActivity());
 		mGeofenceManager.doBindService();
-		
+	
+		/*
 		if(mGeofenceManager.getIsServiceConnected())
 		{
-			/*
-			EventList eventList = 
-					readEventsFromDB(mGeofenceManager.getEventIds()); */
+			Log.i(TAG, "service is true");
+			
+			//EventList eventList = 
+					//readEventsFromDB(mGeofenceManager.getEventIds()); 
 				
 			mGeofenceManager.readGeofenceFromDB();
 			mGeofenceManager.addGeofence();
-			ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
-			conn.setURL(NetworkURL.READ_EVENT_LIST_FROM_DB);
 			
-		}
+			if(mGeofenceManager.getEventIds().length > 0)
+			{
+				Log.i(TAG, "has event id");
+				
+				ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
+				conn.setEventIds(mGeofenceManager.getEventIds());
+				conn.setURL(NetworkURL.READ_EVENT_LIST_FROM_DB);
+				conn.execute();
+			}
+			else
+			{
+				Log.i(TAG, "Id List is emty");
+			}
+			
+		}*/ 
 	
 	    //addEventList(root, eventList);
 		return  root;
@@ -144,7 +160,13 @@ public class EventListFragment extends Fragment
 		}
 		
 		scrollView.addView(eventCardList);
-		
+	}
+	
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		Log.i(TAG, "onResume");
 	}
 
 }

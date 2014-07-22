@@ -24,7 +24,6 @@ public class ReadEventListByIDConnection extends NetworkConnection
 		try
 		{
 			HttpURLConnection conn = getDefaultHttpConnection();
-			
 		
 			sendEventID(conn);
 			

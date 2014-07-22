@@ -8,20 +8,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import siva.arlimi.event.Event;
 import siva.arlimi.event.EventUtil;
-import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService.LocalBinder;
 import siva.arlimi.networktask.NetworkURL;
 import siva.arlimi.networktask.ReadEventListConnection;
 import android.app.Dialog;
 import android.app.PendingIntent;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -46,21 +40,25 @@ public class GeofenceManager implements
 	private final static int 
 	CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;	
 	
-	private FragmentActivity mContext;
 	private LocationClient mLocationClient;
 	private PendingIntent mGeofenceRequestIntent;
 	public enum REQUEST_TYPE {ADD};
 	private REQUEST_TYPE mRequestType;
-	
+
+	private FragmentActivity mContext;
 	private boolean mInProgress;
-	
+		
 	private List<Geofence> mGeofenceList;
+	
+	private GeofenceServiceBinder mBinder;
 
 	public GeofenceManager(FragmentActivity context)
 	{
 		this.mContext = context;
 		mInProgress = false;
 		mGeofenceList = new ArrayList<Geofence>();
+		mBinder = new GeofenceServiceBinder(context);
+		
 	}
 	
 	public void addGeofenceList(Geofence geofence)
@@ -68,67 +66,16 @@ public class GeofenceManager implements
 		mGeofenceList.add(geofence);
 	}
 	
-	public String[] getEventIds()
-	{
-		return mBoundService.getEventIds();
-	}
-	
-	private ReceiveArlimiTransitionIntentService mBoundService;
-	private boolean mIsBound = false;
-	private boolean mIsConnedtedService = false;
-	
-	private ServiceConnection mConnection = new ServiceConnection()
-	{
-		@Override
-		public void onServiceDisconnected(ComponentName name)
-		{
-			mBoundService = null;
-		}
-		
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service)
-		{
-			Log.i(TAG, "onServiceConnected");
-			
-			LocalBinder binder = (LocalBinder)service;
-			mBoundService = binder.getService();
-			
-			mIsConnedtedService = true;
-			
-		}
-	};
-	
-	public boolean getIsServiceConnected()
-	{
-		return this.mIsConnedtedService;
-	}
-	
 	public void doBindService()
 	{
-		Intent intent = 
-				new Intent(mContext, ReceiveArlimiTransitionIntentService.class);
-		
-		if(mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-		{
-			Log.i(TAG, "binding successed");
-		}
-		else
-		{
-			Log.i(TAG, "fail to connect to the service");
-		}
-		
-		mIsBound = true;
+		mBinder.doBindService();
 	}
 	
-	public void doUnbindService()
+	public void unDoBindService()
 	{
-		if(mIsBound)
-		{
-			mContext.unbindService(mConnection);
-			mIsBound = false;
-		}
+		mBinder.doUnbindService();
 	}
-	
+
 	public void readGeofenceFromDB()
 	{
 		ReadEventListConnection conn = new ReadEventListConnection();
@@ -207,8 +154,6 @@ public class GeofenceManager implements
 		{
 			//do something
 		}
-		
-		
 	}
 		
 	private boolean googlePlayserviceConnected()

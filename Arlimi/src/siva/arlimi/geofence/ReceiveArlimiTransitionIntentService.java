@@ -36,19 +36,15 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	static final int MSG_REGISTER_CLIENT = 1;
 	static final int MSG_UNREGISTER_CLIENT = 2;
 	static final int MSG_SET_VALUE = 3;
-
 	
+	private boolean mIsCalled = false;
+
 	public class LocalBinder extends Binder
 	{
 		ReceiveArlimiTransitionIntentService getService()
 		{
 			return ReceiveArlimiTransitionIntentService.this;
 		}
-	}
-
-	public int testBind()
-	{
-		return 9999;
 	}
 
 	public ReceiveArlimiTransitionIntentService()
@@ -96,6 +92,10 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 				List<Geofence> triggerList = LocationClient
 						.getTriggeringGeofences(intent);
 			
+				//Check if there is geofece
+				if(!triggerList.isEmpty())
+					mIsCalled = true;
+				
 				//Set Geofence Ids
 				triggerIds = new String[triggerList.size()];
 				
@@ -104,13 +104,19 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 				{
 					triggerIds[i] = triggerList.get(i).getRequestId();
 				}
+				
+				Log.i(TAG, String.valueOf(mIsCalled));
+				
+				Log.i(TAG, triggerIds[0]);
 
 				String ids = TextUtils.join(GEOFENCE_ID_DELIMITER, triggerIds);
 				String transitionStringType = getTransitionString(transitionType);
+			
 
 				sendNotification(transitionStringType, ids);
 
-			} else
+			}
+			else
 			{
 				Log.e(TAG,
 						"Geofence transition Error: "
@@ -121,9 +127,16 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	
 	public String[] getEventIds()
 	{
+		if(triggerIds == null)
+			Log.i(TAG, "id is null");
+		
 		return (triggerIds == null) ? triggerIds = new String[0] :
 					triggerIds;
-				
+	}
+	
+	public boolean getIsServiceCalled()
+	{
+		return this.mIsCalled;
 	}
 
 	private void sendNotification(String transitionStringType, String ids)
