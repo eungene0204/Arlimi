@@ -8,8 +8,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import siva.arlimi.event.EventList;
 import siva.arlimi.event.EventUtil;
 import siva.arlimi.networktask.NetworkURL;
+import siva.arlimi.networktask.ReadEventListByIDConnection;
 import siva.arlimi.networktask.ReadEventListConnection;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -58,7 +60,6 @@ public class GeofenceManager implements
 		mInProgress = false;
 		mGeofenceList = new ArrayList<Geofence>();
 		mBinder = new GeofenceServiceBinder(context);
-		
 	}
 	
 	public void addGeofenceList(Geofence geofence)
@@ -66,16 +67,11 @@ public class GeofenceManager implements
 		mGeofenceList.add(geofence);
 	}
 	
-	public void doBindService()
+	public GeofenceServiceBinder getBinder()
 	{
-		mBinder.doBindService();
+		return mBinder;
 	}
 	
-	public void unDoBindService()
-	{
-		mBinder.doUnbindService();
-	}
-
 	public void readGeofenceFromDB()
 	{
 		ReadEventListConnection conn = new ReadEventListConnection();
@@ -295,5 +291,17 @@ public class GeofenceManager implements
 		}
 		
 	} // end of errordialog class
+
+	public EventList readEventListById()
+	{
+		EventList eventList = new EventList();
+	
+		ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
+		conn.setURL(NetworkURL.READ_EVENT_BY_ID);
+		conn.setEventIds(mBinder.getEventIds());
+		conn.execute();
+		
+		return eventList;
+	}
 
 }

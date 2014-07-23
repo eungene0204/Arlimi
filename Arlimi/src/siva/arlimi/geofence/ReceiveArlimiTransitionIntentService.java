@@ -29,15 +29,12 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	private static final String TAG = "ReceiveArlimiTransitionIntentService";
 	public static final CharSequence GEOFENCE_ID_DELIMITER = ",";
 	
-	private ArrayList<Messenger> mClients = new ArrayList<Messenger>();
-	
-	private int mValue = 0;
-	
 	static final int MSG_REGISTER_CLIENT = 1;
 	static final int MSG_UNREGISTER_CLIENT = 2;
 	static final int MSG_SET_VALUE = 3;
 	
-	private boolean mIsCalled = false;
+	
+	private GeofenceServiceListener mGeofenceListener;
 
 	public class LocalBinder extends Binder
 	{
@@ -57,6 +54,12 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 		super(name);
 	}
 	
+	public void registerServiceListener(GeofenceServiceListener listener)
+	{
+		Log.i(TAG, listener.toString());
+		this.mGeofenceListener = listener;
+	}
+
 
 	@Override
 	public IBinder onBind(Intent intent)
@@ -74,7 +77,12 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	protected void onHandleIntent(Intent intent)
 	{
 		Log.i(TAG, "onHandleIntent");
-		
+		Log.i(TAG, mGeofenceListener.toString());
+		parseGeofence(intent);
+	}
+	
+	private void parseGeofence(Intent intent)
+	{
 		if (LocationClient.hasError(intent))
 		{
 			int errorCode = LocationClient.getErrorCode(intent);
@@ -92,26 +100,22 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 				List<Geofence> triggerList = LocationClient
 						.getTriggeringGeofences(intent);
 			
-				//Check if there is geofece
+				//Check if there is Geofence
 				if(!triggerList.isEmpty())
-					mIsCalled = true;
 				
 				//Set Geofence Ids
 				triggerIds = new String[triggerList.size()];
-				
 
 				for (int i = 0; i < triggerIds.length; i++)
 				{
 					triggerIds[i] = triggerList.get(i).getRequestId();
 				}
-				
-				Log.i(TAG, String.valueOf(mIsCalled));
-				
-				Log.i(TAG, triggerIds[0]);
 
+				//Send Event Id 
+				sendEventId(triggerIds);
+				
 				String ids = TextUtils.join(GEOFENCE_ID_DELIMITER, triggerIds);
 				String transitionStringType = getTransitionString(transitionType);
-			
 
 				sendNotification(transitionStringType, ids);
 
@@ -124,7 +128,22 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 			}
 		}
 	}
+
+	private void sendEventId(String[] triggerIds)
+	{
+		String[] eventId = (triggerIds == null) ? new String[0] :
+			triggerIds;
 	
+		if(mGeofenceListener == null)
+		{
+			Log.i(TAG, "GeofenceListener is null");
+		}
+		else
+		{
+			mGeofenceListener.sendEventId(eventId);
+		}
+	}
+
 	public String[] getEventIds()
 	{
 		if(triggerIds == null)
@@ -132,11 +151,6 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 		
 		return (triggerIds == null) ? triggerIds = new String[0] :
 					triggerIds;
-	}
-	
-	public boolean getIsServiceCalled()
-	{
-		return this.mIsCalled;
 	}
 
 	private void sendNotification(String transitionStringType, String ids)
@@ -186,6 +200,11 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 			return "User Unknown action";
 
 		}
+	}
+	
+	public interface GeofenceServiceListener
+	{
+		void sendEventId(String[] eventIds);
 	}
 
 }
