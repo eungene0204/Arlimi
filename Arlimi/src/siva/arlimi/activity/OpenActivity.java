@@ -160,7 +160,6 @@ public class OpenActivity extends FragmentActivity
         catch (NoSuchAlgorithmException e) 
         {
         }
-
     }
 	
 	private void onSessionStateChange(Session session, SessionState state, Exception exception)

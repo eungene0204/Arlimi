@@ -60,13 +60,11 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 		this.mGeofenceListener = listener;
 	}
 
-
 	@Override
 	public IBinder onBind(Intent intent)
 	{
 		Log.i(TAG, "OnBind");
 		return mBinder;
-		//return mMessenger.getBinder();
 	}
 
 	private final IBinder mBinder = new LocalBinder();
@@ -77,7 +75,6 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	protected void onHandleIntent(Intent intent)
 	{
 		Log.i(TAG, "onHandleIntent");
-		Log.i(TAG, mGeofenceListener.toString());
 		parseGeofence(intent);
 	}
 	

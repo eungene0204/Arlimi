@@ -39,12 +39,6 @@ public class EventListFragment extends Fragment
 	public static final String TAG = "EventListFragment";
 	
 	private GeofenceManager mGeofenceManager;
-	
-	public EventListFragment()
-	{
-			
-	
-	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,6 +52,7 @@ public class EventListFragment extends Fragment
 		mGeofenceManager.readGeofenceFromDB();
 		mGeofenceManager.addGeofence();
 		mGeofenceManager.getBinder().doBindService();
+		EventList eventList = mGeofenceManager.readEventListById();
 		
 	    //addEventList(root, eventList);
 		return  root;
@@ -93,7 +88,15 @@ public class EventListFragment extends Fragment
 	public void onStop()
 	{
 		super.onStop();
+		Log.i(TAG, "onStop");
+	}
+	
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
 		mGeofenceManager.getBinder().doUnbindService();
+		Log.i(TAG, "onDestroy");
 	}
 
 }

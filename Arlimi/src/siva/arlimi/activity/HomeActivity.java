@@ -190,7 +190,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 					@Override
 					public void onCompleted(GraphUser user, Response response)
 					{
-						Log.i(TAG, "onCompleted");
+						Log.i(TAG, "facebook onCompleted");
 						// If the response is successful
 						if (session == Session.getActiveSession())
 						{
@@ -310,6 +310,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	@Override
 	protected void onStop()
 	{
+		Log.i(TAG, "onStop");
 		/*
 		 * if(mLocationClient.isConnected()) {
 		 * mLocationClient.removeLocationUpdates(); }
@@ -327,6 +328,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		Log.i(TAG, "onDestroy");
 		mUihelper.onStop();
 	}
 

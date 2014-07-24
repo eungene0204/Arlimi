@@ -51,8 +51,10 @@ public class GeofenceManager implements
 	private boolean mInProgress;
 		
 	private List<Geofence> mGeofenceList;
-	
 	private GeofenceServiceBinder mBinder;
+	
+	private String[] mEventIds;
+
 
 	public GeofenceManager(FragmentActivity context)
 	{
@@ -70,8 +72,28 @@ public class GeofenceManager implements
 	public GeofenceServiceBinder getBinder()
 	{
 		return mBinder;
+		
 	}
 	
+	public EventList readEventListByID()
+	{
+		String[] eventIds = mBinder.getEventIds();
+		EventList eventList = new EventList();
+		if(eventIds.length != 0)
+		{
+		ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
+		conn.setURL(NetworkURL.READ_EVENT_BY_ID);
+		conn.setEventIds(mBinder.getEventIds());
+		conn.execute();
+		
+		return eventList;
+		}
+		else
+		{
+			return eventList;
+		}
+	}
+
 	public void readGeofenceFromDB()
 	{
 		ReadEventListConnection conn = new ReadEventListConnection();
@@ -103,12 +125,14 @@ public class GeofenceManager implements
                         		Geofence.GEOFENCE_TRANSITION_EXIT);
                         
                         addGeofenceList(geofence.toGeofence());
-              
+                        
+                        /*
                         Log.i(TAG, id);
                         Log.i(TAG, email);
                         Log.i(TAG, contents); 
                         Log.i(TAG, "Latitude: " + latitude);
-                        Log.i(TAG, "Longitude: " + longitude);
+                        Log.i(TAG, "Longitude: " + longitude); */
+                 
                         
                  }
 		} 

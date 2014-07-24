@@ -35,7 +35,6 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service)
 		{
-
 			LocalBinder binder = (LocalBinder)service;
 			mBoundService = binder.getService();
 			
@@ -101,7 +100,6 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 		Log.i(TAG, eventIds[0]);
 		
 		this.mIsBound = true;
-		
 		setEventIds(eventIds);
 	}
 

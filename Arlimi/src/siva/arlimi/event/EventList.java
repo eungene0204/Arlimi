@@ -20,5 +20,11 @@ public class EventList
 	{
 		return this.mEventList;
 	}
+	
+	
+	public boolean isEmpty()
+	{
+		return mEventList.isEmpty();
+	}
 
 }
