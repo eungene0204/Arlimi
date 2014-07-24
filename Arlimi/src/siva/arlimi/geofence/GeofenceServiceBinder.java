@@ -29,6 +29,7 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 		public void onServiceDisconnected(ComponentName name)
 		{
 			mBoundService = null;
+			Log.i(TAG, "onServiceDisconnected");
 		}
 
 		@Override
