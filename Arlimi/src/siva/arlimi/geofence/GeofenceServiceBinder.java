@@ -22,6 +22,7 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 	private boolean mIsBound = false;
 	private boolean mIsCalled = false;
 	
+	private EventListener mGeofenceManager;
 
 	private ServiceConnection mConnection = new ServiceConnection()
 	{
@@ -51,6 +52,11 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 	private GeofenceServiceBinder getThis()
 	{
 		return this;
+	}
+	
+	public void registerEventListener(EventListener manager)
+	{
+		this.mGeofenceManager = manager;
 	}
 	
 	public void doBindService()
@@ -83,25 +89,26 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 	{
 		return mEventIds;
 	}
-	
-	private void setEventIds(String[] eventIds)
-	{
-		this.mEventIds = eventIds;
-	}
-	
+
 	public boolean isCalled()
 	{
 		return this.mIsCalled;
 	}
+
 	
 	@Override
 	public void sendEventId(String[] eventIds)
 	{
-		Log.i(TAG, eventIds[0]);
-		
-		this.mIsBound = true;
-		setEventIds(eventIds);
+		Log.i(TAG, "Event Id is " + eventIds[0]);
+		mGeofenceManager.onNewEvent(eventIds);
 	}
+
+	//Interface Pattern
+	public interface EventListener
+	{
+		void onNewEvent(String[] eventIds);
+	}
+	
 
 	
 

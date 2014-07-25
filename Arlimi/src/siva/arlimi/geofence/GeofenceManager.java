@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import siva.arlimi.event.EventList;
 import siva.arlimi.event.EventUtil;
+import siva.arlimi.geofence.GeofenceServiceBinder.EventListener;
 import siva.arlimi.networktask.NetworkURL;
 import siva.arlimi.networktask.ReadEventListByIDConnection;
 import siva.arlimi.networktask.ReadEventListConnection;
@@ -34,7 +35,8 @@ import com.google.android.gms.location.LocationStatusCodes;
 public class GeofenceManager implements 
 							ConnectionCallbacks,
 							OnConnectionFailedListener,
-							OnAddGeofencesResultListener
+							OnAddGeofencesResultListener,
+							EventListener
 							
 {
 	public static final String TAG = "GeofenceManager";
@@ -62,6 +64,7 @@ public class GeofenceManager implements
 		mInProgress = false;
 		mGeofenceList = new ArrayList<Geofence>();
 		mBinder = new GeofenceServiceBinder(context);
+		mBinder.registerEventListener(this);
 	}
 	
 	public void addGeofenceList(Geofence geofence)
@@ -72,26 +75,6 @@ public class GeofenceManager implements
 	public GeofenceServiceBinder getBinder()
 	{
 		return mBinder;
-		
-	}
-	
-	public EventList readEventListByID()
-	{
-		String[] eventIds = mBinder.getEventIds();
-		EventList eventList = new EventList();
-		if(eventIds.length != 0)
-		{
-		ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
-		conn.setURL(NetworkURL.READ_EVENT_BY_ID);
-		conn.setEventIds(mBinder.getEventIds());
-		conn.execute();
-		
-		return eventList;
-		}
-		else
-		{
-			return eventList;
-		}
 	}
 
 	public void readGeofenceFromDB()
@@ -319,13 +302,26 @@ public class GeofenceManager implements
 	public EventList readEventListById()
 	{
 		EventList eventList = new EventList();
+		
+		if(mEventIds == null)
+			return eventList;
 	
 		ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
 		conn.setURL(NetworkURL.READ_EVENT_BY_ID);
-		conn.setEventIds(mBinder.getEventIds());
+		conn.setEventIds(mEventIds);
 		conn.execute();
 		
+		Log.i(TAG, "readEventListById");
+
 		return eventList;
+	}
+	
+
+	@Override
+	public void onNewEvent(String[] eventIds)
+	{
+		Log.i(TAG, "New Event!!");
+		mEventIds = eventIds;
 	}
 
 }

@@ -47,16 +47,14 @@ public class ReadEventListByIDConnection extends NetworkConnection
 	
 	public void sendEventID(HttpURLConnection conn)
 	{
-		JSONArray jsonArray = new JSONArray();
+		//JSONArray jsonArray = new JSONArray();
 		
 		String id;
 		int len = mEventIds.length;
-		JSONObject lengthJson = new JSONObject();
+		JSONObject json = new JSONObject();
 		try
 		{
-			lengthJson.put("ID_SIZE", String.valueOf(len));
-			jsonArray.put(lengthJson);
-
+			json.put("ID_SIZE", String.valueOf(len));
 		}
 		catch (JSONException e)
 		{
@@ -65,12 +63,10 @@ public class ReadEventListByIDConnection extends NetworkConnection
 		
 		for(int i = 0; i < len; i++)
 		{
-			JSONObject json = new JSONObject();
 			id = mEventIds[i];
 			try
 			{
 				json.put(String.valueOf(i), id);
-				jsonArray.put(json);
 				
 			} catch (JSONException e)
 			{
@@ -86,7 +82,7 @@ public class ReadEventListByIDConnection extends NetworkConnection
 		try
 		{
 			out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
-			out.write(jsonArray.toString());
+			out.write(json.toString());
 			out.flush();
 			out.close();
 			

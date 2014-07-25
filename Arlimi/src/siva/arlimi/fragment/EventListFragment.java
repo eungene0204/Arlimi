@@ -1,6 +1,7 @@
 package siva.arlimi.fragment;
 
 import java.util.ArrayList;
+
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
@@ -13,6 +14,7 @@ import siva.arlimi.event.EventList;
 import siva.arlimi.event.EventUtil;
 import siva.arlimi.geofence.ArlimiGeofence;
 import siva.arlimi.geofence.GeofenceManager;
+import siva.arlimi.geofence.GeofenceServiceBinder.EventListener;
 import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService;
 import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService.LocalBinder;
 import siva.arlimi.networktask.NetworkURL;
@@ -34,7 +36,7 @@ import android.widget.ScrollView;
 
 import com.google.android.gms.location.Geofence;
 
-public class EventListFragment extends Fragment
+public class EventListFragment extends Fragment 
 {
 	public static final String TAG = "EventListFragment";
 	
@@ -52,7 +54,6 @@ public class EventListFragment extends Fragment
 		mGeofenceManager.readGeofenceFromDB();
 		mGeofenceManager.addGeofence();
 		mGeofenceManager.getBinder().doBindService();
-		EventList eventList = mGeofenceManager.readEventListById();
 		
 	    //addEventList(root, eventList);
 		return  root;
@@ -82,6 +83,8 @@ public class EventListFragment extends Fragment
 	{
 		super.onResume();
 		Log.i(TAG, "onResume");
+		mGeofenceManager.readEventListById();
+		
 	}
 	
 	@Override
@@ -98,5 +101,6 @@ public class EventListFragment extends Fragment
 		mGeofenceManager.getBinder().doUnbindService();
 		Log.i(TAG, "onDestroy");
 	}
+
 
 }
