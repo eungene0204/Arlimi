@@ -1,6 +1,7 @@
 package siva.arlimi.geofence;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -8,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import siva.arlimi.event.Event;
 import siva.arlimi.event.EventList;
 import siva.arlimi.event.EventUtil;
 import siva.arlimi.geofence.GeofenceServiceBinder.EventListener;
@@ -275,6 +277,62 @@ public class GeofenceManager implements
 		mLocationClient = null;
 	}
 	
+
+	public EventList readEventListById()
+	{
+		if(mEventIds == null)
+			return new EventList();
+		
+		EventList eventList = null;
+	
+		ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
+		conn.setURL(NetworkURL.READ_EVENT_BY_ID);
+		conn.setEventIds(mEventIds);
+		try
+		{
+			final String result = (String) conn.execute().get();
+			Log.i(TAG, "Result is " + result);
+			JSONArray jsonResult = parseStringtoJSON(result);
+			
+			eventList = EventUtil.parseJSONArrayToEventList(jsonResult);
+			
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		} catch (ExecutionException e)
+		{
+			e.printStackTrace();
+		} catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
+
+		Log.i(TAG, "readEventListById");
+
+		if(null == eventList)
+			return  new EventList();
+		
+		return eventList;
+	}
+
+	private static JSONArray parseStringtoJSON(String str) throws JSONException
+	{
+		if(str == null)
+			new JSONArray();
+		
+		JSONArray jsonArray = new JSONArray(str); 
+		
+		return jsonArray;
+	}
+	
+
+	@Override
+	public void onNewEvent(String[] eventIds)
+	{
+		Log.i(TAG, "New Event!!");
+		mEventIds = eventIds;
+	}
+	
 	public static class ErrorDialogFragment extends DialogFragment
 	{
 		private Dialog mDialog;
@@ -299,29 +357,5 @@ public class GeofenceManager implements
 		
 	} // end of errordialog class
 
-	public EventList readEventListById()
-	{
-		EventList eventList = new EventList();
-		
-		if(mEventIds == null)
-			return eventList;
-	
-		ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
-		conn.setURL(NetworkURL.READ_EVENT_BY_ID);
-		conn.setEventIds(mEventIds);
-		conn.execute();
-		
-		Log.i(TAG, "readEventListById");
-
-		return eventList;
-	}
-	
-
-	@Override
-	public void onNewEvent(String[] eventIds)
-	{
-		Log.i(TAG, "New Event!!");
-		mEventIds = eventIds;
-	}
 
 }

@@ -20,10 +20,10 @@ public class Event implements Serializable
 	private EventDate mEventEndDate;
 	private EventRadius mEventRadius;
 
-	private String mContents;
-	private String mBusinessName;
-	private String mLatitude;
-	private String mLongitude; 
+	private String mContents = "";
+	private String mBusinessName = "" ;
+	private String mLatitude = "";
+	private String mLongitude = ""; 
 
 	private Owner mOwner;
 	private ArlimiGeofence mGeofence;
