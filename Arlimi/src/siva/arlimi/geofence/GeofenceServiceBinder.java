@@ -100,13 +100,13 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 	public void sendEventId(String[] eventIds)
 	{
 		Log.i(TAG, "Event Id is " + eventIds[0]);
-		mGeofenceManager.onNewEvent(eventIds);
+		mGeofenceManager.onNewEventIDs(eventIds);
 	}
 
 	//Interface Pattern
 	public interface EventListener
 	{
-		void onNewEvent(String[] eventIds);
+		void onNewEventIDs(String[] eventIds);
 	}
 	
 

@@ -58,7 +58,8 @@ public class GeofenceManager implements
 	private GeofenceServiceBinder mBinder;
 	
 	private String[] mEventIds;
-
+	
+	private EventListListener mEventListListener;
 
 	public GeofenceManager(FragmentActivity context)
 	{
@@ -67,6 +68,11 @@ public class GeofenceManager implements
 		mGeofenceList = new ArrayList<Geofence>();
 		mBinder = new GeofenceServiceBinder(context);
 		mBinder.registerEventListener(this);
+	}
+	
+	public void registerEventListListener(EventListListener listener)
+	{
+		this.mEventListListener = listener;
 	}
 	
 	public void addGeofenceList(Geofence geofence)
@@ -126,11 +132,9 @@ public class GeofenceManager implements
 			e.printStackTrace();
 		} catch (InterruptedException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
@@ -283,7 +287,7 @@ public class GeofenceManager implements
 		if(mEventIds == null)
 			return new EventList();
 		
-		EventList eventList = null;
+		EventList eventList = new EventList();
 	
 		ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
 		conn.setURL(NetworkURL.READ_EVENT_BY_ID);
@@ -294,7 +298,7 @@ public class GeofenceManager implements
 			Log.i(TAG, "Result is " + result);
 			JSONArray jsonResult = parseStringtoJSON(result);
 			
-			eventList = EventUtil.parseJSONArrayToEventList(jsonResult);
+			eventList = parseJSONArrayToEventList(jsonResult);
 			
 		} catch (InterruptedException e)
 		{
@@ -309,11 +313,42 @@ public class GeofenceManager implements
 
 		Log.i(TAG, "readEventListById");
 
-		if(null == eventList)
-			return  new EventList();
 		
 		return eventList;
 	}
+	
+	private static EventList parseJSONArrayToEventList(final JSONArray array) throws JSONException
+	{
+		EventList eventList = new EventList();
+		
+		if(null == array)
+			return eventList;
+		
+		final int length = array.length();
+		
+		for(int i = 0; i < length; i++)
+		{
+			JSONObject json = array.getJSONObject(i);
+			final String id = json.getString(EventUtil.EVENT_ID);
+			final String contents = json.getString(EventUtil.EVENT_CONTENTS);
+			final String email = json.getString(EventUtil.EMAIL);
+			final String latitude = json.getString(EventUtil.EVENT_LATITUDE);
+			final String longitude = json.getString(EventUtil.EVENT_LONGITUDE);
+			
+			Event event = new Event();
+			event.setEmail(email);
+			event.setContents(contents);
+			event.setId(id);
+			event.setLatitude(latitude);
+			event.setLongitude(longitude);
+			
+			eventList.addEvent(event);
+		}
+		
+		return eventList;
+	}
+
+	
 
 	private static JSONArray parseStringtoJSON(String str) throws JSONException
 	{
@@ -327,10 +362,17 @@ public class GeofenceManager implements
 	
 
 	@Override
-	public void onNewEvent(String[] eventIds)
+	public void onNewEventIDs(String[] eventIds)
 	{
 		Log.i(TAG, "New Event!!");
 		mEventIds = eventIds;
+		EventList eventList = readEventListById();
+		mEventListListener.onNewEventList(eventList);
+	}
+	
+	public interface EventListListener
+	{
+		void onNewEventList(EventList eventList);
 	}
 	
 	public static class ErrorDialogFragment extends DialogFragment

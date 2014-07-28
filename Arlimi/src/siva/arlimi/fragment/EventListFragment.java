@@ -1,7 +1,6 @@
 package siva.arlimi.fragment;
 
 import java.util.ArrayList;
-
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
@@ -14,6 +13,7 @@ import siva.arlimi.event.EventList;
 import siva.arlimi.event.EventUtil;
 import siva.arlimi.geofence.ArlimiGeofence;
 import siva.arlimi.geofence.GeofenceManager;
+import siva.arlimi.geofence.GeofenceManager.EventListListener;
 import siva.arlimi.geofence.GeofenceServiceBinder.EventListener;
 import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService;
 import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService.LocalBinder;
@@ -36,11 +36,13 @@ import android.widget.ScrollView;
 
 import com.google.android.gms.location.Geofence;
 
-public class EventListFragment extends Fragment 
+public class EventListFragment extends Fragment implements EventListListener
 {
 	public static final String TAG = "EventListFragment";
 	
 	private GeofenceManager mGeofenceManager;
+	private EventList mEventList;
+	private View mRoot;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,22 +51,27 @@ public class EventListFragment extends Fragment
 		Log.i(TAG, "onCreateView");
 		
 		View root = inflater.inflate(R.layout.fragment_event_list, container, false);
+		mRoot = root;
 		
 		mGeofenceManager = new GeofenceManager(getActivity());
+		mGeofenceManager.registerEventListListener(this);
 		mGeofenceManager.readGeofenceFromDB();
 		mGeofenceManager.addGeofence();
 		mGeofenceManager.getBinder().doBindService();
 		
-	    //addEventList(root, eventList);
 		return  root;
 	}
-
 	
 	private void addEventList(View view, EventList eventList)
 	{
+		ArrayList<Event> List = eventList.getList();
+	
+		//Nothing to add
+		if( 0 == List.size())
+			return;
+		
 		ScrollView scrollView = (ScrollView)view.findViewById(R.id.eventList_scrollView);
 		EventCardList eventCardList = new EventCardList(getActivity());
-		ArrayList<Event> List = eventList.getList();
 		
 		for(Event event: List )
 		{
@@ -74,7 +81,8 @@ public class EventListFragment extends Fragment
 			
 			eventCardList.addView(eventCard);
 		}
-		
+
+		scrollView.removeAllViews();
 		scrollView.addView(eventCardList);
 	}
 	
@@ -83,8 +91,6 @@ public class EventListFragment extends Fragment
 	{
 		super.onResume();
 		Log.i(TAG, "onResume");
-		mGeofenceManager.readEventListById();
-		
 	}
 	
 	@Override
@@ -102,5 +108,20 @@ public class EventListFragment extends Fragment
 		Log.i(TAG, "onDestroy");
 	}
 
+
+	@Override
+	public void onNewEventList(final EventList eventList)
+	{
+		getActivity().runOnUiThread(new Runnable()
+		{
+			
+			@Override
+			public void run()
+			{
+				addEventList(mRoot, eventList);
+			}
+		});
+		
+	}
 
 }

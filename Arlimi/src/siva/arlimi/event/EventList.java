@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class EventList
 {
-	private ArrayList<Event> mEventList;
+	private final ArrayList<Event> mEventList;
 	
 	public EventList()
 	{
@@ -20,7 +20,6 @@ public class EventList
 	{
 		return this.mEventList;
 	}
-	
 	
 	public boolean isEmpty()
 	{
