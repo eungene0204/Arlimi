@@ -4,6 +4,7 @@ import siva.arlimi.activity.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,37 +13,40 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class EventCardHeader extends LinearLayout implements OnTouchListener
+public class EventCardHeader extends LinearLayout 
 {
 	public static final String TAG = "EventCardHeader";
 	
 	private TextView mBusinessNameTextView;
+	private ImageView mPlusImg;
 	
 	public EventCardHeader(Context context)
 	{
 		super(context);
 	}
 	
-	public EventCardHeader(Context context, AttributeSet attrs, int defStyle)
+	public EventCardHeader(Context context, AttributeSet attrs, int defStyle,OnTouchListener listener )
 	{
 		super(context,attrs,defStyle);
-		init(context,defStyle);
+		init(context,defStyle, listener);
 	}
 
-	private void init(Context context, int defStyle)
+	private void init(Context context, int defStyle, OnTouchListener listener)
 	{
 		setOrientation(LinearLayout.HORIZONTAL);
 		setLayoutParams(getParams());
+		setGravity(Gravity.RIGHT);
 	
 		mBusinessNameTextView = new TextView(context, null, defStyle);
 		mBusinessNameTextView.setTextAppearance(context, defStyle);
-		ImageView plusImg = new ImageView(context);
-		plusImg.setImageResource(R.drawable.plus);
-		plusImg.setClickable(true);
-		plusImg.setOnTouchListener(this);
 		
+		mPlusImg = new ImageView(context);
+		mPlusImg.setImageResource(R.drawable.plus);
+		mPlusImg.setClickable(true);
+		mPlusImg.setOnTouchListener(listener);
+	
 		addView(mBusinessNameTextView,getParams());
-		addView(plusImg,getParams());
+		addView(mPlusImg,getParams());
 	}
 	
 	public LinearLayout.LayoutParams getParams()
@@ -64,23 +68,5 @@ public class EventCardHeader extends LinearLayout implements OnTouchListener
 		return mBusinessNameTextView.getText().toString();
 	}
 
-	@Override
-	public boolean onTouch(View v, MotionEvent event)
-	{
-		// TODO Auto-generated method stub
-		switch(event.getAction() )
-		{
-		case MotionEvent.ACTION_DOWN:
-			Log.i(TAG, "Plus touch");
-			return true;
-			
-			default:
-				break;
-		}
-		
-		return false;
-	}
-	
-	
 
 }

@@ -1,32 +1,18 @@
 package siva.arlimi.fragment;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import siva.arlimi.activity.HomeActivity;
+import siva.arlimi.activity.HomeActivity.ActionTabListener;
 import siva.arlimi.activity.R;
 import siva.arlimi.event.Event;
 import siva.arlimi.event.EventList;
-import siva.arlimi.event.EventUtil;
-import siva.arlimi.geofence.ArlimiGeofence;
 import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.geofence.GeofenceManager.EventListListener;
-import siva.arlimi.geofence.GeofenceServiceBinder.EventListener;
-import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService;
-import siva.arlimi.geofence.ReceiveArlimiTransitionIntentService.LocalBinder;
-import siva.arlimi.networktask.NetworkURL;
-import siva.arlimi.networktask.ReadEventListByIDConnection;
-import siva.arlimi.networktask.ReadEventListConnection;
 import siva.arlimi.widget.EventCardList;
 import siva.arlimi.widget.EventCardWidget;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.ServiceConnection;
+import android.app.Activity;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,15 +20,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 
-import com.google.android.gms.location.Geofence;
-
-public class EventListFragment extends Fragment implements EventListListener
+public class EventListFragment extends Fragment implements EventListListener,
+										ActionTabListener
 {
 	public static final String TAG = "EventListFragment";
 	
 	private GeofenceManager mGeofenceManager;
 	private EventList mEventList;
 	private View mRoot;
+	
+	private HomeActivity mHomeActivity;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +46,9 @@ public class EventListFragment extends Fragment implements EventListListener
 		mGeofenceManager.addGeofence();
 		mGeofenceManager.getBinder().doBindService();
 		
+		mHomeActivity = (HomeActivity) getActivity();
+		mHomeActivity.registerActionTabListener(this);
+		
 		return  root;
 	}
 	
@@ -70,7 +60,9 @@ public class EventListFragment extends Fragment implements EventListListener
 		if( 0 == List.size())
 			return;
 		
-		ScrollView scrollView = (ScrollView)view.findViewById(R.id.eventList_scrollView);
+		ScrollView scrollView =
+				(ScrollView)view.findViewById(R.id.eventList_scrollView);
+		
 		EventCardList eventCardList = new EventCardList(getActivity());
 		
 		for(Event event: List )
@@ -85,7 +77,7 @@ public class EventListFragment extends Fragment implements EventListListener
 		scrollView.removeAllViews();
 		scrollView.addView(eventCardList);
 	}
-	
+
 	@Override
 	public void onResume()
 	{
@@ -108,10 +100,14 @@ public class EventListFragment extends Fragment implements EventListListener
 		Log.i(TAG, "onDestroy");
 	}
 
-
 	@Override
 	public void onNewEventList(final EventList eventList)
 	{
+		Log.i(TAG, "New EvetList");
+		
+		mEventList = eventList;
+		
+		/*
 		getActivity().runOnUiThread(new Runnable()
 		{
 			
@@ -120,8 +116,40 @@ public class EventListFragment extends Fragment implements EventListListener
 			{
 				addEventList(mRoot, eventList);
 			}
-		});
-		
+		}); */
 	}
 
+	@Override
+	public void onRefreshClicked()
+	{
+		if(null == mEventList)
+			mEventList = new EventList();
+		
+		addEventList(mRoot, mEventList);
+	}
+	
+	private OnFavoriteButtonSelectedListener mCallback;
+	
+	public interface OnFavoriteButtonSelectedListener
+	{
+		Event onFavoriteButtonSelected(Event event);
+		void setEvent(Event event);
+	}
+	
+	@Override
+	public void onAttach(Activity activity)
+	{
+		super.onAttach(activity);
+	
+		try
+		{
+			mCallback = (OnFavoriteButtonSelectedListener) activity;
+		} 
+		catch(ClassCastException e)
+		{
+			throw new ClassCastException(activity.toString()+
+					"must implement OnFavorieteButtonSelectedListener");
+		}
+		
+	}
 }

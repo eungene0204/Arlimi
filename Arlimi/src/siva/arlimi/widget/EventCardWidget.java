@@ -1,12 +1,18 @@
 package siva.arlimi.widget;
 
 import siva.arlimi.activity.R;
+import siva.arlimi.event.Event;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 
-public class EventCardWidget extends LinearLayout
+public class EventCardWidget extends LinearLayout implements OnTouchListener
 {
+	public static final String TAG = "EventCardWidget";
+	
 	private EventCardHeader mCardHeader;
 	private EventCardBody mCardBody;
 	
@@ -22,14 +28,14 @@ public class EventCardWidget extends LinearLayout
 		setOrientation(LinearLayout.VERTICAL);
 		setBackgroundResource(R.drawable.search_bg_shadow);
 				
-		mCardHeader = new EventCardHeader(context, null, R.style.card_header);
+		mCardHeader = new EventCardHeader(context, null, R.style.card_header, this);
 		mCardBody = new EventCardBody(context, null, R.style.card_body);
 	
 		addView(mCardHeader,getParams());
 		addView(mCardBody, getParams());
 	}
 	
-	public LinearLayout.LayoutParams getParams()
+	public LayoutParams getParams()
 	{
 		LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT,
 				LayoutParams.WRAP_CONTENT);
@@ -48,7 +54,23 @@ public class EventCardWidget extends LinearLayout
 	{
 		mCardBody.setContents(contents);
 	}
-	
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event)
+	{
+		switch(event.getAction() )
+		{
+		
+		case MotionEvent.ACTION_DOWN:
+			Log.i(TAG, "Plus touch");
+			return true;
+			
+			default:
+				break;
+		}
+		
+		return false;
+	}
 	
 
 }

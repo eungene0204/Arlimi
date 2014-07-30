@@ -1,7 +1,5 @@
 package siva.arlimi.ui;
 
-import siva.arlimi.actionbar.ActionBarManager;
-import siva.arlimi.viewpager.ViewPagerManager;
 import android.app.ActionBar;
 import android.support.v4.app.FragmentActivity;
 

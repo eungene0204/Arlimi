@@ -44,6 +44,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	private UIManager mUIManager;
 	private GcmManager mGcmManager;
 	
+	private ActionTabListener mActionTabListener;
+	
 	//private Event mEvent;
 	private Owner mPersonInfo;
 	
@@ -231,23 +233,38 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 * Listener for ActionBar Menu
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
 		switch (item.getItemId())
 		{
+		
+		case R.id.action_refresh:
+			refreshEventListFragment();
+			return true;
+			
 		case R.id.action_search:
-			break;
-		case R.id.main_action_setting:
+			return true;
+			
+		case R.id.action_setting:
 			SettingPopUp popup = new SettingPopUp(this, "hello");
-			View view = this.findViewById(R.id.main_action_setting);
+			View view = this.findViewById(R.id.action_setting);
 			popup.show(view);
-			break;
+			return true;
+			
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
 
-		return super.onOptionsItemSelected(item);
+	private void refreshEventListFragment()
+	{
+		mActionTabListener.onRefreshClicked();
 	}
 
 	@Override
@@ -377,8 +394,16 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft)
 	{
-		// TODO Auto-generated method stub
-
+	}
+	
+	public void registerActionTabListener(ActionTabListener listener)
+	{
+		this.mActionTabListener = listener;
+	}
+	
+	public interface ActionTabListener
+	{
+		void onRefreshClicked();
 	}
 
 }

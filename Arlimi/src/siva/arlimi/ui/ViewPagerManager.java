@@ -1,4 +1,4 @@
-package siva.arlimi.viewpager;
+package siva.arlimi.ui;
 
 import siva.arlimi.activity.R;
 
