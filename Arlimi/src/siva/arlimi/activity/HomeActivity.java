@@ -1,7 +1,9 @@
 package siva.arlimi.activity;
 
 import siva.arlimi.adapter.TabPagerAdapter;
+import siva.arlimi.event.Event;
 import siva.arlimi.fragment.ErrorDialogFragment;
+import siva.arlimi.fragment.EventListFragment.OnFavoriteButtonSelectedListener;
 import siva.arlimi.gcm.GcmManager;
 import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.location.AddressManager;
@@ -36,7 +38,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class HomeActivity extends FragmentActivity implements OnClickListener,
-		ActionBar.TabListener
+		ActionBar.TabListener, OnFavoriteButtonSelectedListener
 {
 	private static final String TAG = "HomeActivity";
 	public static final String EXTRA_MESSAGE = "message";
@@ -404,6 +406,20 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	public interface ActionTabListener
 	{
 		void onRefreshClicked();
+	}
+
+	@Override
+	public Event onFavoriteButtonSelected(Event event)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setEvent(Event event)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -24,6 +24,7 @@ public class Event implements Serializable
 	private String mBusinessName = "" ;
 	private String mLatitude = "";
 	private String mLongitude = ""; 
+	private int mIcon;
 
 	private Owner mOwner;
 	private ArlimiGeofence mGeofence;
@@ -41,7 +42,16 @@ public class Event implements Serializable
 		this.mContext = context;
 		mOwner = new Owner();
 		mGeofence = new ArlimiGeofence();
-		
+	}
+	
+	public void setIcon(int icon)
+	{
+		this.mIcon = icon;
+	}
+	
+	public int getIcon()
+	{
+		return this.mIcon;
 	}
 	
 	public void setId(String id)

@@ -13,6 +13,7 @@ public class EventList
 	
 	public void addEvent(Event event)
 	{
+		if(event)
 		mEventList.add(event);
 	}
 	
