@@ -2,12 +2,14 @@ package siva.arlimi.fragment;
 
 import java.util.ArrayList;
 
+
+
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.activity.HomeActivity.ActionTabListener;
 import siva.arlimi.activity.R;
 import siva.arlimi.event.Event;
-import siva.arlimi.event.EventAdapter;
 import siva.arlimi.event.EventList;
+import siva.arlimi.event.adapter.EventAdapter;
 import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.geofence.GeofenceManager.EventListListener;
 import siva.arlimi.widget.EventCardList;
@@ -20,7 +22,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.ScrollView;
 
 public class EventListFragment extends Fragment implements EventListListener,
 										ActionTabListener
@@ -44,6 +45,8 @@ public class EventListFragment extends Fragment implements EventListListener,
 		
 		View root = inflater.inflate(R.layout.fragment_event_listview,
 				container, false);
+		
+		/*
 		mRoot = root;
 
 		mGeofenceManager = new GeofenceManager(getActivity());
@@ -54,9 +57,24 @@ public class EventListFragment extends Fragment implements EventListListener,
 		
 		mHomeActivity = (HomeActivity) getActivity();
 		mHomeActivity.registerActionTabListener(this);
+		*/
+		ArrayList<Event> list = new ArrayList<Event>();
+	
+		for(int i = 0; i < 10; i++)
+		{
+			Event event = new Event();
+			event.setBusinessName("Shop Number: " + String.valueOf(i));
+			event.setContents("Very Good Event");
+			
+			list.add(event);
+		}
+				
+		EventAdapter eventAdapter = new EventAdapter(getActivity(),
+				R.layout.main_card, list);
 		
-		mListView = (ListView)root.findViewById(R.id.event_listview);
-		
+		mListView = (ListView)root.findViewById(R.id.event_listview); 
+		mListView.setAdapter(eventAdapter);
+	
 		return  root;
 	}
 	
@@ -67,10 +85,6 @@ public class EventListFragment extends Fragment implements EventListListener,
 		if( 0 == eventList.size())
 			return;
 	
-		mEventAdapter = new EventAdapter(getActivity(),
-				R.layout.main_card, eventList);
-		
-		mListView.setAdapter(mEventAdapter);
 	} 
 	
 	@Override
@@ -106,6 +120,13 @@ public class EventListFragment extends Fragment implements EventListListener,
 	@Override
 	public void onRefreshClicked()
 	{
+		
+		mEventList = mGeofenceManager.readEventListById();
+				
+		mEventAdapter = new EventAdapter(getActivity(),
+				R.layout.main_card, mEventList.getList());
+		
+		mListView.setAdapter(mEventAdapter);
 	
 	}
 	

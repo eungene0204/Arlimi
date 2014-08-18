@@ -34,7 +34,7 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	static final int MSG_SET_VALUE = 3;
 	
 	
-	private GeofenceServiceListener mGeofenceListener;
+	private GeofenceServiceListener mGeofenceServiceListener;
 
 	public class LocalBinder extends Binder
 	{
@@ -57,7 +57,7 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	public void registerServiceListener(GeofenceServiceListener listener)
 	{
 		Log.i(TAG, listener.toString());
-		this.mGeofenceListener = listener;
+		this.mGeofenceServiceListener = listener;
 	}
 
 	@Override
@@ -119,8 +119,7 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 			}
 			else
 			{
-				Log.e(TAG,
-						"Geofence transition Error: "
+				Log.e(TAG, "Geofence transition Error: "
 								+ Integer.toString(transitionType));
 			}
 		}
@@ -131,14 +130,10 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 		String[] eventId = (triggerIds == null) ? new String[0] :
 			triggerIds;
 	
-		if(mGeofenceListener == null)
-		{
-			Log.i(TAG, "GeofenceListener is null");
-		}
+		if(mGeofenceServiceListener == null)
+			throw new NullPointerException("GeofenceListener is null");
 		else
-		{
-			mGeofenceListener.sendEventId(eventId);
-		}
+			mGeofenceServiceListener.setEventId(eventId);
 	}
 
 	public String[] getEventIds()
@@ -201,7 +196,7 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	
 	public interface GeofenceServiceListener
 	{
-		void sendEventId(String[] eventIds);
+		void setEventId(String[] eventIds);
 	}
 
 }

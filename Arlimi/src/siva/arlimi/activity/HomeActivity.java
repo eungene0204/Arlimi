@@ -1,30 +1,34 @@
 package siva.arlimi.activity;
 
+import java.util.zip.Inflater;
+
 import siva.arlimi.adapter.TabPagerAdapter;
 import siva.arlimi.event.Event;
 import siva.arlimi.fragment.ErrorDialogFragment;
 import siva.arlimi.fragment.EventListFragment.OnFavoriteButtonSelectedListener;
 import siva.arlimi.gcm.GcmManager;
-import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.location.AddressManager;
 import siva.arlimi.location.ArlimiLocationClient;
 import siva.arlimi.owner.Owner;
-import siva.arlimi.quickaction.SettingPopUp;
 import siva.arlimi.ui.UIManager;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Dialog;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -57,6 +61,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 
 	private ArlimiLocationClient mLocationClient;
 	
+	private Menu mMenu;
+	
 	private UiLifecycleHelper mUihelper;
 	private Session.StatusCallback callback = new StatusCallback()
 	{
@@ -78,6 +84,7 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 			Log.i(TAG, "google play is available");
 		else
 			Log.i(TAG, "google play is not available");
+		
 
 		// UI
 		mUIManager = new UIManager(this, getActionBar());
@@ -92,6 +99,9 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 		
 		//Owner
 		mPersonInfo = new Owner();
+		
+		//Get overflow layout
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		//Geofence
 		//mGeofenceManager = new GeofenceManager(this);
@@ -129,6 +139,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 		 * }
 		 */
 	}
+	
+	
 
 	private boolean googleServiceConnected()
 	{
@@ -230,6 +242,8 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
+		mMenu = menu;
+		
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.home_activity_actions, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -254,14 +268,49 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 			return true;
 			
 		case R.id.action_setting:
-			SettingPopUp popup = new SettingPopUp(this, "hello");
-			View view = this.findViewById(R.id.action_setting);
-			popup.show(view);
-			return true;
+			
+			View myView = findViewById(R.id.action_setting);
+			
+			showPopupMenu(myView);
+			return true; 
 			
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+	
+	private void showPopupMenu(View actionView)
+	{
+		if(null == actionView)
+			return;
+		
+		PopupMenu popup = new PopupMenu(this, actionView);
+		MenuInflater inflater = popup.getMenuInflater();
+		Menu menu = popup.getMenu();
+		inflater.inflate(R.menu.overflow_menu, menu);
+		
+		popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+		{
+			
+			@Override
+			public boolean onMenuItemClick(MenuItem item)
+			{
+				switch(item.getItemId())
+				{
+				
+				case R.id.overflow_setting:
+					Log.i(TAG, "Hi this is Setting!!!!!");
+					break;
+					
+				default:
+					break;
+				}
+				return false;
+			}
+		});
+		
+		popup.show();
+		
 	}
 
 	private void refreshEventListFragment()
@@ -372,9 +421,13 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 			addMng.setProgressBarVisibility(View.VISIBLE);
 			addMng.execute(location);
 
-		} else if (v.getId() == R.id.geofence_add_btn)
+		}
+		else if (v.getId() == R.id.geofence_add_btn)
 		{
-			//mGeofenceManager.registerGeofence();
+		} 
+		else if(v.getId() == R.id.overflow_icon_image)
+		{
+			
 		}
 
 	}

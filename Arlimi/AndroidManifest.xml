@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="17"
+        android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -42,7 +42,15 @@
         >
        
         <!--  Google play service -->
-        <meta-data android:name="com.google.android.gms.version"
+        <activity android:name="MainActivity" 
+            android:theme="@style/TrasnparentActionBarTheme"
+            >
+            
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity><meta-data android:name="com.google.android.gms.version"
            android:value="@integer/google_play_services_version" />
         
         <meta-data android:value="@string/facebook_app_id" android:name="com.facebook.sdk.ApplicationId"/>
@@ -75,10 +83,7 @@
             android:name="siva.arlimi.activity.OpenActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+          
         </activity>
         
         <activity
@@ -87,6 +92,14 @@
              >
             
         </activity>
+        
+        <activity 
+            android:name="siva.arlimi.activity.LoginActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            >
+            
+        </activity>
+        
         
         <activity android:name="siva.arlimi.owner.OwnerManagementActivity" >
         </activity>
@@ -106,9 +119,11 @@
         <activity android:name="siva.arlimi.owner.InputMenuActivty"></activity>
         <activity android:name="com.facebook.LoginActivity"></activity>
         <activity android:name="siva.arlimi.owner.RegisterEvent"></activity>
-        <activity android:name="siva.arlimi.activity.LoginActivity"></activity>
         <activity android:name="RegisterEventActivity"></activity>
         <activity android:name="BusinessRegistration"></activity>
+        
+        
+        
         
     </application>
 

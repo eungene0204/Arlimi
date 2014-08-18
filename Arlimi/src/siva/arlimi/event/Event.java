@@ -107,6 +107,7 @@ public class Event implements Serializable
 		return mContents;
 	}
 
+	//Need to take this out 
 	public void showTimePicker()
 	{
 		if (mIsStart)
@@ -153,7 +154,6 @@ public class Event implements Serializable
 	public Owner getOwner()
 	{
 		return this.mOwner;
-		
 	}
 
 	public void showDatePicker()
@@ -168,5 +168,15 @@ public class Event implements Serializable
 			mEventEndDate.showDialog("End Date");
 		}
 		
+	}
+	
+	public static Event newNull()
+	{
+		return new NullEvent();
+	}
+	
+	public boolean isNull()
+	{
+		return false;
 	}
 }

@@ -17,6 +17,7 @@ import com.facebook.Session;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.widget.LoginButton;
 
 
 public class LoginActivity extends Activity
@@ -50,17 +51,18 @@ public class LoginActivity extends Activity
 		
 		printHashKey();
 
-		//LoginButton authButton = (LoginButton)findViewById(R.id.facebook_login_btn);
+		LoginButton authButton = (LoginButton)findViewById(R.id.facebook_login_btn);
+		authButton.setText("hihi");
 		//authButton.setReadPermissions(Arrays.asList("basic_info", "email"));
 		
 	}
-	
-        private void onSessionStateChane(Session session, SessionState state,
-                        Exception exception)
-        {
-                // TODO Auto-generated method stub
-                
-        }
+
+	private void onSessionStateChane(Session session, SessionState state,
+			Exception exception)
+	{
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
 	protected void onResume()
@@ -82,8 +84,6 @@ public class LoginActivity extends Activity
 			 else
 			 {
 				 Log.i(TAG, session.toString());
-				 
-				 
 			 }
 		 }
 		 else
@@ -96,10 +96,11 @@ public class LoginActivity extends Activity
 	private void showHomeActivity()
 	{
 		Intent intent = new Intent(this, HomeActivity.class);
+		
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
 				Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(intent);
 		
+		startActivity(intent);
 	}
 
 	@Override
@@ -109,7 +110,6 @@ public class LoginActivity extends Activity
 		
 		super.onActivityResult(requestCode, resultCode, data);
 		uiHelper.onActivityResult(requestCode, resultCode, data);
-		
 	}
 	
 	@Override

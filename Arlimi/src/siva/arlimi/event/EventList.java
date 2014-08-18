@@ -13,8 +13,10 @@ public class EventList
 	
 	public void addEvent(Event event)
 	{
-		if(event)
-		mEventList.add(event);
+		if(event.isNull())
+			mEventList.add(Event.newNull());
+		else
+			mEventList.add(event);
 	}
 	
 	public ArrayList<Event> getList()
@@ -25,6 +27,16 @@ public class EventList
 	public boolean isEmpty()
 	{
 		return mEventList.isEmpty();
+	}
+	
+	public boolean isNull()
+	{
+		return false;
+	}
+	
+	public static EventList newNull()
+	{
+		return new NullEventList();
 	}
 
 }

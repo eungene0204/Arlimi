@@ -285,13 +285,14 @@ public class GeofenceManager implements
 	public EventList readEventListById()
 	{
 		if(mEventIds == null)
-			return new EventList();
+			return EventList.newNull();
 		
 		EventList eventList = new EventList();
 	
 		ReadEventListByIDConnection conn = new ReadEventListByIDConnection();
 		conn.setURL(NetworkURL.READ_EVENT_BY_ID);
 		conn.setEventIds(mEventIds);
+		
 		try
 		{
 			final String result = (String) conn.execute().get();

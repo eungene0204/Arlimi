@@ -23,6 +23,7 @@
     <string name="account">계정</string>
     
     <string name="facebook_app_id">469231553178214</string>
+    <string name="login_with_facebook">페이북으로 로그인</string>
     <string name="logout">로그아웃</string>
     
     <!--  Acivity recognition -->
@@ -32,7 +33,17 @@
     <string name="still">still</string>
     <string name="activity_unknown">unknown</string>
     <string name="tilting">tilting</string>
-   
+    
+    <!--  Overflow menu itmes -->
+    <string name="first_item">first</string>
+    
+    <!-- Nav Drawer Menu Items  -->
+    <string-array name="nav_drawer_items">
+       	<item>설정</item> 
+       	<item>의견 보내기</item>
+       	<item>공유</item>
+    </string-array>
+       
 
     <!-- Messages -->
     <string name="add_geofences_result_success">

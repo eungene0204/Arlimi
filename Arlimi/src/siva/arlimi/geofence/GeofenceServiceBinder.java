@@ -23,6 +23,8 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 	private boolean mIsCalled = false;
 	
 	private EventListener mGeofenceManager;
+	
+	private final GeofenceServiceBinder mThis = this;
 
 	private ServiceConnection mConnection = new ServiceConnection()
 	{
@@ -39,7 +41,9 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 			LocalBinder binder = (LocalBinder)service;
 			mBoundService = binder.getService();
 			
-			mBoundService.registerServiceListener(getThis());
+			if(null != mBoundService)
+				mBoundService.registerServiceListener(mThis);
+			
 			Log.i(TAG, "onServiceConnected");
 		}
 	};
@@ -49,10 +53,6 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 		this.mContext = (FragmentActivity)context;
 	}
 
-	private GeofenceServiceBinder getThis()
-	{
-		return this;
-	}
 	
 	public void registerEventListener(EventListener manager)
 	{
@@ -65,15 +65,17 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 				new Intent(mContext, ReceiveArlimiTransitionIntentService.class);
 
 		if(mContext.bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+
 		{
 			Log.i(TAG, "binding successed");
+			mIsBound = true;
+			
 		}
 		else
 		{
 			Log.i(TAG, "fail to connect to the service");
 		}
 
-		mIsBound = true;
 	}
 
 	public void doUnbindService()
@@ -97,13 +99,12 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 
 	
 	@Override
-	public void sendEventId(String[] eventIds)
+	public void setEventId(String[] eventIds)
 	{
 		Log.i(TAG, "Event Id is " + eventIds[0]);
 		mGeofenceManager.onNewEventIDs(eventIds);
 	}
 
-	//Interface Pattern
 	public interface EventListener
 	{
 		void onNewEventIDs(String[] eventIds);
