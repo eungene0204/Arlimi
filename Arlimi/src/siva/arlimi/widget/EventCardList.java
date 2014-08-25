@@ -24,9 +24,4 @@ public class EventCardList extends LinearLayout
 		setOrientation(LinearLayout.VERTICAL);
 	}
 
-	public void addEventCard(EventCardWidget eventCard)
-	{
-		addView(eventCard);
-	}
-
 }

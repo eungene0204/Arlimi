@@ -9,14 +9,5 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <!-- API 11 theme customizations can go here. -->
     </style>
-     
-    <!-- ActionBar Theme -->
-   	<style name="TrasnparentActionBarTheme"
-   	     parent="@android:style/Theme.Holo.Light" >
-   	    
-   	    <item name="android:windowActionBarOverlay"
-   	        tools:ignore="11">true</item>
-   	    
-   	</style> 
 
 </resources>

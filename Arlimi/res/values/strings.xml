@@ -38,12 +38,22 @@
     <string name="first_item">first</string>
     
     <!-- Nav Drawer Menu Items  -->
-    <string-array name="nav_drawer_items">
-       	<item>설정</item> 
-       	<item>의견 보내기</item>
-       	<item>공유</item>
+    <string name="login">로그인</string>
+    
+    <string-array name="drawer_list_event_items">
+        <item>현재위치 </item>
+        <item>단골집</item>
+        <item>전체보기</item>
     </string-array>
-       
+    
+    <string-array name="drawer_list_tool">
+        <item>설정</item>
+        <item>의견 보내기</item>
+       	<item>공유</item>
+     </string-array>
+
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
 
     <!-- Messages -->
     <string name="add_geofences_result_success">

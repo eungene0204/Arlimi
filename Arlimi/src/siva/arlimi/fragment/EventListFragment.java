@@ -3,8 +3,6 @@ package siva.arlimi.fragment;
 import java.util.ArrayList;
 
 
-
-import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.activity.HomeActivity.ActionTabListener;
 import siva.arlimi.activity.R;
 import siva.arlimi.event.Event;
@@ -12,8 +10,6 @@ import siva.arlimi.event.EventList;
 import siva.arlimi.event.adapter.EventAdapter;
 import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.geofence.GeofenceManager.EventListListener;
-import siva.arlimi.widget.EventCardList;
-import siva.arlimi.widget.EventCardWidget;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,8 +28,6 @@ public class EventListFragment extends Fragment implements EventListListener,
 	private EventList mEventList;
 	private View mRoot;
 	
-	private HomeActivity mHomeActivity;
-	
 	private EventAdapter mEventAdapter;
 	private ListView mListView;
 
@@ -43,7 +37,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 	{
 		Log.i(TAG, "onCreateView");
 		
-		View root = inflater.inflate(R.layout.fragment_event_listview,
+		View root = inflater.inflate(R.layout.fragment_eventlist_listview,
 				container, false);
 		
 		/*
@@ -58,6 +52,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 		mHomeActivity = (HomeActivity) getActivity();
 		mHomeActivity.registerActionTabListener(this);
 		*/
+		
 		ArrayList<Event> list = new ArrayList<Event>();
 	
 		for(int i = 0; i < 10; i++)
@@ -70,9 +65,9 @@ public class EventListFragment extends Fragment implements EventListListener,
 		}
 				
 		EventAdapter eventAdapter = new EventAdapter(getActivity(),
-				R.layout.main_card, list);
+				R.layout.listview_item, list);
 		
-		mListView = (ListView)root.findViewById(R.id.event_listview); 
+		mListView = (ListView)root.findViewById(R.id.eventlist_listview); 
 		mListView.setAdapter(eventAdapter);
 	
 		return  root;
@@ -80,11 +75,9 @@ public class EventListFragment extends Fragment implements EventListListener,
 	
 	private void addEventList(final View view, final ArrayList<Event> eventList)
 	{
-		
 		//Nothing to add
 		if( 0 == eventList.size())
 			return;
-	
 	} 
 	
 	@Override
@@ -104,9 +97,11 @@ public class EventListFragment extends Fragment implements EventListListener,
 	@Override
 	public void onDestroy()
 	{
-		super.onDestroy();
-		mGeofenceManager.getBinder().doUnbindService();
 		Log.i(TAG, "onDestroy");
+		super.onDestroy();
+		
+		if(null != mGeofenceManager)
+			mGeofenceManager.getBinder().doUnbindService();
 	}
 
 	@Override
@@ -115,6 +110,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 		Log.i(TAG, "New EvetList");
 		
 		mEventList = eventList;
+	
 	}
 
 	@Override
@@ -124,7 +120,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 		mEventList = mGeofenceManager.readEventListById();
 				
 		mEventAdapter = new EventAdapter(getActivity(),
-				R.layout.main_card, mEventList.getList());
+				R.layout.listview_item, mEventList.getList());
 		
 		mListView.setAdapter(mEventAdapter);
 	
@@ -142,6 +138,8 @@ public class EventListFragment extends Fragment implements EventListListener,
 	public void onAttach(Activity activity)
 	{
 		super.onAttach(activity);
+		
+		/*
 	
 		try
 		{
@@ -151,7 +149,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 		{
 			throw new ClassCastException(activity.toString()+
 					"must implement OnFavorieteButtonSelectedListener");
-		}
+		} */
 		
 	}
 }

@@ -2,6 +2,7 @@ package siva.arlimi.activity;
 
 import java.util.zip.Inflater;
 
+
 import siva.arlimi.adapter.TabPagerAdapter;
 import siva.arlimi.event.Event;
 import siva.arlimi.fragment.ErrorDialogFragment;
@@ -287,7 +288,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 		PopupMenu popup = new PopupMenu(this, actionView);
 		MenuInflater inflater = popup.getMenuInflater();
 		Menu menu = popup.getMenu();
-		inflater.inflate(R.menu.overflow_menu, menu);
 		
 		popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
 		{
@@ -298,10 +298,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 				switch(item.getItemId())
 				{
 				
-				case R.id.overflow_setting:
-					Log.i(TAG, "Hi this is Setting!!!!!");
-					break;
-					
 				default:
 					break;
 				}
@@ -425,10 +421,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 		else if (v.getId() == R.id.geofence_add_btn)
 		{
 		} 
-		else if(v.getId() == R.id.overflow_icon_image)
-		{
-			
-		}
 
 	}
 
