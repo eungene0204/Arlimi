@@ -3,11 +3,14 @@
     
     <string name="siva">SIVA</string>
     <string name="algorithm">ALGORITHM</string>
-    
+   
+    <string name="event">이벤트</string>
     <string name="event_start_date">이벤트 시작 날짜</string>
     <string name="event_end_date">이벤트 종료 날짜</string>
     <string name="event_start_time">이벤트 시작 시간</string>
     <string name="event_end_time">이벤트 종료 시간</string>
+    
+    <string name="tool">도구</string>
 
     <string name="app_name">Arlimi</string>
     <string name="action_setting">설정</string>

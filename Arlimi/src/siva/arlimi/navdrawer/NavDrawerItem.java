@@ -1,42 +1,22 @@
 package siva.arlimi.navdrawer;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-public class NavDrawerItem
+public class NavDrawerItem 
 {
 	private String mTitle;
-	private String mLogin;
+	private final int mItemType;
+	private final int mId;
 	
-	private String[]  mEventItems;
-	private String[] mToolItem;
+	public NavDrawerItem(final int type, final int id)
+	{
+		mItemType = type;
+		mId = id;
+	}
 
-	public NavDrawerItem()
+	public int getItemType() 
 	{
+		return this.mItemType;
 	}
-	
-	public void addEventItem(String[] item)
-	{
-		if(null == item)
-			item = new String[0];
-		
-		mEventItems = item;
-	}
-	
-	public void addToolItem(String[] item)
-	{
-		if(null == item)
-			item = new String[0];
-		
-		mToolItem = item;
-	}
-	
-	public void setLogin(String login)
-	{
-		this.mLogin = login;
-	}
-	
-	
+
 	public void setTitle(String title)
 	{
 		mTitle = title;
@@ -46,4 +26,5 @@ public class NavDrawerItem
 	{
 		return mTitle;
 	}
+	
 }

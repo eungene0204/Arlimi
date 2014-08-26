@@ -85,5 +85,10 @@
         <item name="android:background">@android:color/darker_gray</item>
     </style>
     
+    <style name="drawer_list_item_style">
+       <item name="android:layout_width">match_parent</item> 
+       <item name="android:layout_height">wrap_content</item>
+    </style>
+    
    
 </resources>

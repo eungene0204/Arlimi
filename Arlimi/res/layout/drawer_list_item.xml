@@ -8,9 +8,10 @@
         android:id="@+id/drawer_list_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="23sp"
-        android:padding="20dp"
+        android:textSize="21sp"
+        android:paddingLeft="32dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         />
-    
 
 </LinearLayout>

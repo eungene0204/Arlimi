@@ -6,6 +6,7 @@ import siva.arlimi.fragment.EventListFragment;
 import siva.arlimi.fragment.FeedbackFragment;
 import siva.arlimi.fragment.SettingFragment;
 import siva.arlimi.navdrawer.NavDrawerItem;
+import siva.arlimi.navdrawer.NavDrawerUtil;
 import siva.arlimi.navdrawer.adapter.NavDrawerListAdapter;
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
@@ -37,9 +38,6 @@ public class MainActivity extends FragmentActivity
 	private ArrayList<NavDrawerItem> mNavDrawerItems;
 	private NavDrawerListAdapter mDrawerAdapter;
 	
-	private CharSequence mDrawerTitle;
-	private CharSequence mTitle;
-	
 	private ActionBar mActionBar;
 	
 	@Override
@@ -52,8 +50,6 @@ public class MainActivity extends FragmentActivity
 				new EventListFragment()).commit();
 		
 		mActionBar = getActionBar();
-		
-		mTitle = mDrawerTitle = getTitle();
 
 		setNavigationDrawer();
 		setActionBarOption();
@@ -84,27 +80,16 @@ public class MainActivity extends FragmentActivity
 	
 	private void setNavigationDrawer()
 	{
-		String login = getResources().getString(R.string.login);
-		String[] eventItems =  
-				getResources().getStringArray(R.array.drawer_list_event_items);
-		String[] toolItems =
-				getResources().getStringArray(R.array.drawer_list_tool);
-		
-	
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.drawer_listview);
 		mDrawerList.setBackgroundColor(Color.WHITE);
 	
-		NavDrawerItem  items = new NavDrawerItem();
-		items.setLogin(login);
-		items.addEventItem(eventItems);
-		items.addToolItem(toolItems);
-		
 		mNavDrawerItems = new ArrayList<NavDrawerItem>();
+		
+		addItems(mNavDrawerItems);
 	
 		mDrawerAdapter = new NavDrawerListAdapter(this, mNavDrawerItems);
 		mDrawerList.setAdapter(mDrawerAdapter);
-		//mDrawerList.setOnItemClickListener(new NavDrawerClickListener());
 		mDrawerList.setOnItemClickListener(new ItemClickListener());
 		
 		mDrawerToggle = new ActionBarDrawerToggle (this, mDrawerLayout,
@@ -115,14 +100,12 @@ public class MainActivity extends FragmentActivity
 			public void onDrawerClosed(View drawerView)
 			{
 				Log.i(TAG, "drawer closed");
-				//getActionBar().setTitle(mTitle);
 				invalidateOptionsMenu();
 			}
 			
 			public void onDrawerOpened(View drawerView)
 			{
 				Log.i(TAG, "drawer open");
-				//getActionBar().setTitle(mDrawerTitle);
 				invalidateOptionsMenu();
 			}
 		};
@@ -130,13 +113,81 @@ public class MainActivity extends FragmentActivity
 	
 	} 
 	
+	private void addItems(ArrayList<NavDrawerItem> list)
+	{
+
+		String login = getResources().getString(R.string.login);
+		String event = getResources().getString(R.string.event);
+		String tool = getResources().getString(R.string.tool);
+		String[] eventItems = getResources().getStringArray(
+				R.array.drawer_list_event_items);
+		String[] toolItems = getResources().getStringArray(
+				R.array.drawer_list_tool);
+		
+		int[] eventItemIds = {NavDrawerUtil.CURRENT_REGION_ITEM, 
+								NavDrawerUtil.FAVORITE_ITEM,
+								NavDrawerUtil.EVERY_EVENT_ITEM};
+		int[] toolItemIDs = {NavDrawerUtil.SETTING_ITEM,
+							NavDrawerUtil.FEEDBACK_ITEM,
+							NavDrawerUtil.SHARE_ITEM };
+		
+
+		// Add Login Item 
+		NavDrawerItem loginItem =
+				new NavDrawerItem(NavDrawerUtil.ITEM_LIST_LOGIN, NavDrawerUtil.LOGIN_ITEM);
+		loginItem.setTitle(login);
+		list.add(loginItem);
+		
+		//Add Divider
+		NavDrawerItem divider = 
+				new NavDrawerItem(NavDrawerUtil.ITEM_LIST_DIVIDER, -1);
+		list.add(divider);
+		
+		//Add Event Section Title
+		NavDrawerItem eventSectionTitle = 
+				new NavDrawerItem(NavDrawerUtil.ITEM_LIST_SECTION_TITLE, -1);
+		eventSectionTitle.setTitle(event);
+		list.add(eventSectionTitle);
+		
+		// Add event Items 
+		for(int i = 0; i < eventItems.length; i++)
+		{
+			NavDrawerItem item =
+					new NavDrawerItem(NavDrawerUtil.ITEM_LIST_ITEM, eventItemIds[i]);
+			item.setTitle(eventItems[i]);
+			
+			list.add(item);
+		}
+		
+		//Add Divider
+		list.add(divider);
+		
+		//Add Tool Section Title
+		NavDrawerItem toolSectionTitle = 
+				new NavDrawerItem(NavDrawerUtil.ITEM_LIST_SECTION_TITLE, -1);
+		toolSectionTitle.setTitle(tool);
+		list.add(toolSectionTitle);
+	
+		//Add Tool Items;
+		for(int i = 0; i < toolItems.length; i++)
+		{
+			NavDrawerItem item = 
+					new NavDrawerItem(NavDrawerUtil.ITEM_LIST_ITEM, toolItemIDs[i]);
+			item.setTitle(toolItems[i]);
+		
+			list.add(item);
+		}
+		
+	}
+
 	private class ItemClickListener implements AdapterView.OnItemClickListener
 	{
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id)
 		{
-			displayFragmentView(position);
+		//	displayFragmentView(position);
+			Log.i(TAG, "view: " + view);
 		}
 
 		private void displayFragmentView(int position)

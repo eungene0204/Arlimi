@@ -676,13 +676,13 @@ containing a value of this type.
         public static final int textfield_default=0x7f020075;
     }
     public static final class id {
-        public static final int action_refresh=0x7f08008c;
-        public static final int action_search=0x7f08008d;
-        public static final int action_setting=0x7f08008e;
-        public static final int actionbar_item_overflow=0x7f08008b;
+        public static final int action_refresh=0x7f08008f;
+        public static final int action_search=0x7f080090;
+        public static final int action_setting=0x7f080091;
+        public static final int actionbar_item_overflow=0x7f08008e;
         public static final int address_progress=0x7f080024;
-        public static final int arrow_down=0x7f080086;
-        public static final int arrow_up=0x7f080082;
+        public static final int arrow_down=0x7f080089;
+        public static final int arrow_up=0x7f080085;
         public static final int book_now=0x7f080010;
         public static final int btn_currentMonth=0x7f080029;
         public static final int btn_find_address=0x7f080049;
@@ -724,9 +724,12 @@ containing a value of this type.
         public static final int com_facebook_usersettingsfragment_login_button=0x7f080071;
         public static final int com_facebook_usersettingsfragment_logo_image=0x7f08006f;
         public static final int com_facebook_usersettingsfragment_profile_name=0x7f080070;
-        public static final int drawer_content_frame=0x7f080073;
+        public static final int drawer_content_frame=0x7f080076;
         public static final int drawer_layout=0x7f080018;
-        public static final int drawer_list_item_title=0x7f080072;
+        public static final int drawer_list_divider=0x7f080072;
+        public static final int drawer_list_item_login=0x7f080074;
+        public static final int drawer_list_item_title=0x7f080073;
+        public static final int drawer_list_section_title_textview=0x7f080075;
         public static final int drawer_listview=0x7f08001a;
         public static final int edittext_event_contents=0x7f080055;
         public static final int edittext_id=0x7f080039;
@@ -742,24 +745,24 @@ containing a value of this type.
         public static final int edittext_new_restaurant_name=0x7f080046;
         public static final int edittext_pass=0x7f08003b;
         public static final int edittext_search_address=0x7f08002f;
-        public static final int eventList_scrollView=0x7f080074;
+        public static final int eventList_scrollView=0x7f080077;
         public static final int event_end_date_btn=0x7f080058;
         public static final int event_end_time_btn=0x7f080059;
-        public static final int event_register_btn=0x7f080078;
+        public static final int event_register_btn=0x7f08007b;
         public static final int event_send_btn=0x7f08005c;
         public static final int event_start_date_btn=0x7f080056;
         public static final int event_start_time_btn=0x7f080057;
-        public static final int eventlist_listview=0x7f080075;
-        public static final int facebook_fragment_login_btn=0x7f08007a;
+        public static final int eventlist_listview=0x7f080078;
+        public static final int facebook_fragment_login_btn=0x7f08007d;
         public static final int facebook_login_btn=0x7f080025;
-        public static final int facebook_profile_pic=0x7f080076;
-        public static final int facebook_user_name=0x7f080077;
-        public static final int footer=0x7f080085;
+        public static final int facebook_profile_pic=0x7f080079;
+        public static final int facebook_user_name=0x7f08007a;
+        public static final int footer=0x7f080088;
         public static final int frame_container=0x7f080019;
         public static final int geofence_add_btn=0x7f080023;
         public static final int grayscale=0x7f080012;
         public static final int grindview_calendar=0x7f08002c;
-        public static final int header2=0x7f080081;
+        public static final int header2=0x7f080084;
         public static final int holo_dark=0x7f080005;
         public static final int holo_light=0x7f080006;
         public static final int hybrid=0x7f080004;
@@ -769,9 +772,9 @@ containing a value of this type.
         public static final int iv_icon=0x7f080016;
         public static final int large=0x7f080015;
         public static final int linear_map=0x7f080032;
-        public static final int listview_item_img=0x7f08007c;
-        public static final int listview_item_layout=0x7f08007b;
-        public static final int listview_item_shop_name=0x7f08007d;
+        public static final int listview_item_img=0x7f08007f;
+        public static final int listview_item_layout=0x7f08007e;
+        public static final int listview_item_shop_name=0x7f080080;
         public static final int location_text_edittext=0x7f080021;
         public static final int map=0x7f080033;
         public static final int match_parent=0x7f08000c;
@@ -782,23 +785,23 @@ containing a value of this type.
         public static final int pager=0x7f080026;
         public static final int past_menu_btn=0x7f080054;
         public static final int picker_subtitle=0x7f08006c;
-        public static final int popup_text=0x7f08007f;
+        public static final int popup_text=0x7f080082;
         public static final int production=0x7f080007;
         public static final int radius_seekbar=0x7f08005a;
         public static final int radius_textview=0x7f08005b;
         public static final int relaytiveLayout_address=0x7f08002d;
         public static final int sandbox=0x7f080008;
         public static final int satellite=0x7f080002;
-        public static final int scroll=0x7f080083;
+        public static final int scroll=0x7f080086;
         public static final int search_menu_btn=0x7f080053;
         public static final int selectionDetails=0x7f08000b;
         public static final int show_location_btn=0x7f080022;
-        public static final int siva_arrow_down=0x7f080080;
-        public static final int siva_arrow_up=0x7f08007e;
+        public static final int siva_arrow_down=0x7f080083;
+        public static final int siva_arrow_up=0x7f080081;
         public static final int small=0x7f080014;
         public static final int strict_sandbox=0x7f080009;
         public static final int terrain=0x7f080003;
-        public static final int testCard=0x7f080087;
+        public static final int testCard=0x7f08008a;
         public static final int textview_current_address=0x7f080031;
         public static final int textview_id=0x7f080038;
         public static final int textview_new_address=0x7f080047;
@@ -812,12 +815,12 @@ containing a value of this type.
         public static final int textview_new_restaurant_name=0x7f080045;
         public static final int textview_pass=0x7f08003a;
         public static final int textview_search_address=0x7f08002e;
-        public static final int tracks=0x7f080084;
+        public static final int tracks=0x7f080087;
         public static final int tv_title=0x7f080017;
-        public static final int txtView=0x7f08008a;
-        public static final int txtView_body=0x7f080089;
-        public static final int txtView_header=0x7f080088;
-        public static final int user_logout_btn=0x7f080079;
+        public static final int txtView=0x7f08008d;
+        public static final int txtView_body=0x7f08008c;
+        public static final int txtView_header=0x7f08008b;
+        public static final int user_logout_btn=0x7f08007c;
         public static final int wrap_content=0x7f08000d;
     }
     public static final class integer {
@@ -856,37 +859,40 @@ containing a value of this type.
         public static final int com_facebook_placepickerfragment_list_row=0x7f03001c;
         public static final int com_facebook_search_bar_layout=0x7f03001d;
         public static final int com_facebook_usersettingsfragment=0x7f03001e;
-        public static final int drawer_list_item=0x7f03001f;
-        public static final int drawerlayout_nav_menu=0x7f030020;
-        public static final int fragment_event_list=0x7f030021;
-        public static final int fragment_eventlist_listview=0x7f030022;
-        public static final int fragment_facebook_user_info=0x7f030023;
-        public static final int fragment_favorite_list=0x7f030024;
-        public static final int fragment_feedback=0x7f030025;
-        public static final int fragment_more_list=0x7f030026;
-        public static final int fragment_mypage=0x7f030027;
-        public static final int fragment_open=0x7f030028;
-        public static final int fragment_setting=0x7f030029;
-        public static final int listview_item=0x7f03002a;
-        public static final int popup=0x7f03002b;
-        public static final int quickaction=0x7f03002c;
-        public static final int test_card=0x7f03002d;
+        public static final int drawer_list_divider=0x7f03001f;
+        public static final int drawer_list_item=0x7f030020;
+        public static final int drawer_list_login=0x7f030021;
+        public static final int drawer_list_section_title=0x7f030022;
+        public static final int drawerlayout_nav_menu=0x7f030023;
+        public static final int fragment_event_list=0x7f030024;
+        public static final int fragment_eventlist_listview=0x7f030025;
+        public static final int fragment_facebook_user_info=0x7f030026;
+        public static final int fragment_favorite_list=0x7f030027;
+        public static final int fragment_feedback=0x7f030028;
+        public static final int fragment_more_list=0x7f030029;
+        public static final int fragment_mypage=0x7f03002a;
+        public static final int fragment_open=0x7f03002b;
+        public static final int fragment_setting=0x7f03002c;
+        public static final int listview_item=0x7f03002d;
+        public static final int popup=0x7f03002e;
+        public static final int quickaction=0x7f03002f;
+        public static final int test_card=0x7f030030;
     }
     public static final class menu {
         public static final int actionbar_menu=0x7f0c0000;
         public static final int home_activity_actions=0x7f0c0001;
     }
     public static final class string {
-        public static final int account=0x7f070050;
-        public static final int action_setting=0x7f070048;
-        public static final int activity_unknown=0x7f070058;
-        public static final int add_geofences_already_requested_error=0x7f070060;
-        public static final int add_geofences_result_failure=0x7f07005f;
+        public static final int account=0x7f070052;
+        public static final int action_setting=0x7f07004a;
+        public static final int activity_unknown=0x7f07005a;
+        public static final int add_geofences_already_requested_error=0x7f070062;
+        public static final int add_geofences_result_failure=0x7f070061;
         /**  Messages 
          */
-        public static final int add_geofences_result_success=0x7f07005e;
+        public static final int add_geofences_result_success=0x7f070060;
         public static final int algorithm=0x7f070042;
-        public static final int app_name=0x7f070047;
+        public static final int app_name=0x7f070049;
         public static final int com_facebook_choose_friends=0x7f070029;
         public static final int com_facebook_dialogloginactivity_ok_button=0x7f07001a;
         public static final int com_facebook_internet_permission_error_message=0x7f07002d;
@@ -1001,7 +1007,7 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f070018;
-        public static final int connected=0x7f070061;
+        public static final int connected=0x7f070063;
         public static final int connection_error_code=0x7f070033;
         public static final int connection_error_disabled=0x7f070034;
         public static final int connection_error_internal=0x7f070035;
@@ -1016,75 +1022,77 @@ containing a value of this type.
         public static final int connection_error_outdated=0x7f07003e;
         public static final int connection_error_sign_in_required=0x7f07003f;
         public static final int connection_error_unknown=0x7f070040;
-        public static final int connection_failed=0x7f070062;
-        public static final int disconnected=0x7f070063;
-        public static final int drawer_close=0x7f07005d;
-        public static final int drawer_open=0x7f07005c;
-        public static final int event_end_date=0x7f070044;
-        public static final int event_end_time=0x7f070046;
-        public static final int event_start_date=0x7f070043;
-        public static final int event_start_time=0x7f070045;
-        public static final int facebook_app_id=0x7f070051;
+        public static final int connection_failed=0x7f070064;
+        public static final int disconnected=0x7f070065;
+        public static final int drawer_close=0x7f07005f;
+        public static final int drawer_open=0x7f07005e;
+        public static final int event=0x7f070043;
+        public static final int event_end_date=0x7f070045;
+        public static final int event_end_time=0x7f070047;
+        public static final int event_start_date=0x7f070044;
+        public static final int event_start_time=0x7f070046;
+        public static final int facebook_app_id=0x7f070053;
         /**   Overflow menu itmes 
          */
-        public static final int first_item=0x7f07005a;
-        public static final int geofence_input_error_latitude_invalid=0x7f070065;
-        public static final int geofence_input_error_longitude_invalid=0x7f070066;
-        public static final int geofence_input_error_missing=0x7f070064;
-        public static final int geofence_input_error_radius_invalid=0x7f070067;
-        public static final int geofence_transition_entered=0x7f070068;
-        public static final int geofence_transition_error_detail=0x7f070069;
-        public static final int geofence_transition_exited=0x7f07006a;
-        public static final int geofence_transition_invalid_type=0x7f07006b;
-        public static final int geofence_transition_notification_text=0x7f07006c;
-        public static final int geofence_transition_notification_title=0x7f07006d;
-        public static final int geofence_transition_unknown=0x7f07006e;
-        public static final int hello_world=0x7f070049;
+        public static final int first_item=0x7f07005c;
+        public static final int geofence_input_error_latitude_invalid=0x7f070067;
+        public static final int geofence_input_error_longitude_invalid=0x7f070068;
+        public static final int geofence_input_error_missing=0x7f070066;
+        public static final int geofence_input_error_radius_invalid=0x7f070069;
+        public static final int geofence_transition_entered=0x7f07006a;
+        public static final int geofence_transition_error_detail=0x7f07006b;
+        public static final int geofence_transition_exited=0x7f07006c;
+        public static final int geofence_transition_invalid_type=0x7f07006d;
+        public static final int geofence_transition_notification_text=0x7f07006e;
+        public static final int geofence_transition_notification_title=0x7f07006f;
+        public static final int geofence_transition_unknown=0x7f070070;
+        public static final int hello_world=0x7f07004b;
         /**   Acivity recognition 
          */
-        public static final int in_vehicle=0x7f070054;
-        public static final int invalid_action=0x7f07006f;
-        public static final int invalid_action_detail=0x7f070070;
-        public static final int invalid_integer_id=0x7f070071;
-        public static final int key_updates_on=0x7f07004b;
+        public static final int in_vehicle=0x7f070056;
+        public static final int invalid_action=0x7f070071;
+        public static final int invalid_action_detail=0x7f070072;
+        public static final int invalid_integer_id=0x7f070073;
+        public static final int key_updates_on=0x7f07004d;
         /**  Number patterns 
          */
-        public static final int lat_lng_pattern=0x7f070085;
-        public static final int latitude_error_message=0x7f070072;
+        public static final int lat_lng_pattern=0x7f070087;
+        public static final int latitude_error_message=0x7f070074;
         /**  Nav Drawer Menu Items  
          */
-        public static final int login=0x7f07005b;
-        public static final int login_with_facebook=0x7f070052;
-        public static final int logout=0x7f070053;
-        public static final int longitude_error_message=0x7f070073;
-        public static final int no_resolution=0x7f070074;
-        public static final int on_bicyle=0x7f070055;
-        public static final int on_foot=0x7f070056;
-        public static final int play_services_available=0x7f070075;
-        public static final int radius_error_message=0x7f070076;
-        public static final int radius_pattern=0x7f070086;
-        public static final int register_geofence=0x7f070077;
-        public static final int remove_geofences_already_requested_error=0x7f070079;
-        public static final int remove_geofences_id_failure=0x7f070078;
-        public static final int remove_geofences_id_success=0x7f07007a;
-        public static final int remove_geofences_intent_failure=0x7f07007b;
-        public static final int remove_geofences_intent_success=0x7f07007c;
-        public static final int search=0x7f07004c;
-        public static final int sharedPreference=0x7f07004a;
+        public static final int login=0x7f07005d;
+        public static final int login_with_facebook=0x7f070054;
+        public static final int logout=0x7f070055;
+        public static final int longitude_error_message=0x7f070075;
+        public static final int no_resolution=0x7f070076;
+        public static final int on_bicyle=0x7f070057;
+        public static final int on_foot=0x7f070058;
+        public static final int play_services_available=0x7f070077;
+        public static final int radius_error_message=0x7f070078;
+        public static final int radius_pattern=0x7f070088;
+        public static final int register_geofence=0x7f070079;
+        public static final int remove_geofences_already_requested_error=0x7f07007b;
+        public static final int remove_geofences_id_failure=0x7f07007a;
+        public static final int remove_geofences_id_success=0x7f07007c;
+        public static final int remove_geofences_intent_failure=0x7f07007d;
+        public static final int remove_geofences_intent_success=0x7f07007e;
+        public static final int search=0x7f07004e;
+        public static final int sharedPreference=0x7f07004c;
         public static final int siva=0x7f070041;
-        public static final int sort_by_category=0x7f07004f;
-        public static final int sort_by_distance=0x7f07004e;
-        public static final int sort_by_time=0x7f07004d;
-        public static final int still=0x7f070057;
-        public static final int tilting=0x7f070059;
-        public static final int transition_entered=0x7f07007d;
-        public static final int transition_exited=0x7f07007e;
-        public static final int transition_unknown=0x7f07007f;
-        public static final int unknown=0x7f070080;
-        public static final int unknown_activity_request_code=0x7f070081;
-        public static final int unregister_geofence=0x7f070082;
-        public static final int unregister_geofence1=0x7f070083;
-        public static final int unregister_geofence2=0x7f070084;
+        public static final int sort_by_category=0x7f070051;
+        public static final int sort_by_distance=0x7f070050;
+        public static final int sort_by_time=0x7f07004f;
+        public static final int still=0x7f070059;
+        public static final int tilting=0x7f07005b;
+        public static final int tool=0x7f070048;
+        public static final int transition_entered=0x7f07007f;
+        public static final int transition_exited=0x7f070080;
+        public static final int transition_unknown=0x7f070081;
+        public static final int unknown=0x7f070082;
+        public static final int unknown_activity_request_code=0x7f070083;
+        public static final int unregister_geofence=0x7f070084;
+        public static final int unregister_geofence1=0x7f070085;
+        public static final int unregister_geofence2=0x7f070086;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
@@ -1119,12 +1127,12 @@ containing a value of this type.
         public static final int AppTheme=0x7f050008;
         public static final int ChromeStylePopup=0x7f05000e;
         public static final int Divider=0x7f05000f;
-        public static final int EventActionBarTheme=0x7f050011;
+        public static final int EventActionBarTheme=0x7f050012;
         /**   Action bar styles 
          */
-        public static final int MyActionBar=0x7f050012;
-        public static final int MyActionBarTabText=0x7f050014;
-        public static final int MyActionBarTitleText=0x7f050013;
+        public static final int MyActionBar=0x7f050013;
+        public static final int MyActionBarTabText=0x7f050015;
+        public static final int MyActionBarTitleText=0x7f050014;
         public static final int Theme_IAPTheme=0x7f050000;
         public static final int WalletFragmentDefaultButtonTextAppearance=0x7f050003;
         public static final int WalletFragmentDefaultDetailsHeaderTextAppearance=0x7f050002;
@@ -1142,12 +1150,13 @@ containing a value of this type.
    	      
          */
         public static final int actionbaroverlay=0x7f050009;
-        public static final int calendar_event_style=0x7f050010;
+        public static final int calendar_event_style=0x7f050011;
         public static final int card_body=0x7f05000d;
         public static final int card_header=0x7f05000c;
         public static final int card_wrap=0x7f05000b;
         public static final int com_facebook_loginview_default_style=0x7f050005;
         public static final int com_facebook_loginview_silver_style=0x7f050006;
+        public static final int drawer_list_item_style=0x7f050010;
         public static final int nowCardStyle=0x7f05000a;
     }
     public static final class styleable {
