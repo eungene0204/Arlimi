@@ -1,11 +1,10 @@
 package siva.arlimi.location;
 
-import siva.arlimi.activity.R;
-
-import com.google.android.gms.common.ConnectionResult;
-
+import siva.arlimi.main.R;
 import android.content.Context;
 import android.content.res.Resources;
+
+import com.google.android.gms.common.ConnectionResult;
 
 public class LocationServiceErrorMessges
 {

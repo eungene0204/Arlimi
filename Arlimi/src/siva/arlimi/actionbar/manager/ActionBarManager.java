@@ -1,7 +1,6 @@
 package siva.arlimi.actionbar.manager;
 
-import siva.arlimi.activity.R;
-
+import siva.arlimi.main.R;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;

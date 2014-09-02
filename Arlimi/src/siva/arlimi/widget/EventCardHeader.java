@@ -1,14 +1,9 @@
 package siva.arlimi.widget;
 
-import siva.arlimi.activity.R;
+import siva.arlimi.main.R;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;

@@ -1,10 +1,7 @@
 package siva.arlimi.owner;
 
-import siva.arlimi.activity.R;
-import siva.arlimi.activity.R.id;
-import siva.arlimi.activity.R.layout;
+import siva.arlimi.main.R;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;

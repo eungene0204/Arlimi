@@ -2,12 +2,12 @@ package siva.arlimi.navdrawer.adapter;
 
 import java.util.ArrayList;
 
-import siva.arlimi.activity.R;
+import siva.arlimi.main.R;
 import siva.arlimi.navdrawer.NavDrawerItem;
 import siva.arlimi.navdrawer.NavDrawerUtil;
+import siva.arlimi.navdrawer.ViewHolder;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +33,16 @@ public class NavDrawerListAdapter extends BaseAdapter
 
 	}
 	
+	@Override
+	public boolean isEnabled(int position)
+	{
+		NavDrawerItem item = mItemList.get(position);
+		
+		return (item.getItemType() == NavDrawerUtil.ITEM_LIST_SECTION_TITLE
+				|| item.getItemType() == NavDrawerUtil.ITEM_LIST_DIVIDER)?
+				false : true;
+	}
+
 	@Override
 	public int getItemViewType(int position)
 	{
@@ -114,15 +124,12 @@ public class NavDrawerListAdapter extends BaseAdapter
 			viewHolder.mItemTextView.
 				setText(mItemList.get(position).getTitle());
 		}
+		
+		//Set Id
+		viewHolder.mId = mItemList.get(position).getId();
 	
 		return convertView;
 	}
 	
-	static class ViewHolder
-	{
-		public TextView mItemTextView;
-		public int mId;
-		
-	}
 
 }

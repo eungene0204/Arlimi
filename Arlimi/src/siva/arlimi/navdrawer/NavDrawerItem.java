@@ -27,4 +27,9 @@ public class NavDrawerItem
 		return mTitle;
 	}
 	
+	public int getId()
+	{
+		return this.mId;
+	}
+	
 }

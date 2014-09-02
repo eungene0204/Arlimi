@@ -2,21 +2,23 @@ package siva.arlimi.fragment;
 
 import java.util.ArrayList;
 
-
 import siva.arlimi.activity.HomeActivity.ActionTabListener;
-import siva.arlimi.activity.R;
 import siva.arlimi.event.Event;
 import siva.arlimi.event.EventList;
+import siva.arlimi.event.activity.EventDetail;
 import siva.arlimi.event.adapter.EventAdapter;
 import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.geofence.GeofenceManager.EventListListener;
+import siva.arlimi.main.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class EventListFragment extends Fragment implements EventListListener,
@@ -69,6 +71,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 		
 		mListView = (ListView)root.findViewById(R.id.eventlist_listview); 
 		mListView.setAdapter(eventAdapter);
+		mListView.setOnItemClickListener(new ItemClickListener());
 	
 		return  root;
 	}
@@ -126,14 +129,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 	
 	}
 	
-	private OnFavoriteButtonSelectedListener mCallback;
-	
-	public interface OnFavoriteButtonSelectedListener
-	{
-		Event onFavoriteButtonSelected(Event event);
-		void setEvent(Event event);
-	}
-	
+
 	@Override
 	public void onAttach(Activity activity)
 	{
@@ -152,4 +148,20 @@ public class EventListFragment extends Fragment implements EventListListener,
 		} */
 		
 	}
+	
+
+	private class ItemClickListener implements AdapterView.OnItemClickListener
+	{
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id)
+		{
+			Intent intent = new Intent(getActivity(), EventDetail.class);
+			startActivity(intent);
+			
+		}
+		
+	}
+	
 }

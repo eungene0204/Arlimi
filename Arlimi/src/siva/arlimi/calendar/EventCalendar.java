@@ -2,14 +2,12 @@ package siva.arlimi.calendar;
 
 import java.util.Calendar;
 
-import siva.arlimi.activity.R;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.util.Log;
-import android.util.MonthDisplayHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;

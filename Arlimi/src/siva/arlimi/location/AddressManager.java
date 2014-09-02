@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-import siva.arlimi.activity.R;
+import siva.arlimi.main.R;
 import android.app.Activity;
 import android.content.Context;
 import android.location.Address;

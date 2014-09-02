@@ -1,8 +1,6 @@
 package siva.arlimi.location;
 
-import siva.arlimi.activity.R;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.Toast;

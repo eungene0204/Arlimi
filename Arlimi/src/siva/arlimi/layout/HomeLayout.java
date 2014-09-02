@@ -1,7 +1,6 @@
 package siva.arlimi.layout;
 
-import siva.arlimi.activity.R;
-import siva.arlimi.activity.R.anim;
+import siva.arlimi.main.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;

@@ -8,6 +8,8 @@
         android:id="@+id/drawer_list_section_title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clickable="false"
+        android:focusable="false"
         android:textSize="21sp"
         android:paddingLeft="20dp" 
         android:paddingTop="10dp"

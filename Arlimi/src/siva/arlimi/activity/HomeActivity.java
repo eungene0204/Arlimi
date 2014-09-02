@@ -1,17 +1,11 @@
 package siva.arlimi.activity;
 
-import java.util.zip.Inflater;
-
-
-import siva.arlimi.adapter.TabPagerAdapter;
-import siva.arlimi.event.Event;
 import siva.arlimi.fragment.ErrorDialogFragment;
-import siva.arlimi.fragment.EventListFragment.OnFavoriteButtonSelectedListener;
 import siva.arlimi.gcm.GcmManager;
 import siva.arlimi.location.AddressManager;
 import siva.arlimi.location.ArlimiLocationClient;
+import siva.arlimi.main.R;
 import siva.arlimi.owner.Owner;
-import siva.arlimi.ui.UIManager;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Dialog;
@@ -28,7 +22,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 
 import com.facebook.Request;
@@ -43,12 +36,12 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 public class HomeActivity extends FragmentActivity implements OnClickListener,
-		ActionBar.TabListener, OnFavoriteButtonSelectedListener
+		ActionBar.TabListener 
 {
 	private static final String TAG = "HomeActivity";
 	public static final String EXTRA_MESSAGE = "message";
 
-	private UIManager mUIManager;
+//	private UIManager mUIManager;
 	private GcmManager mGcmManager;
 	
 	private ActionTabListener mActionTabListener;
@@ -88,10 +81,11 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 		
 
 		// UI
+		/*
 		mUIManager = new UIManager(this, getActionBar());
 		mUIManager.setActionBar();
 		mUIManager.addTab(TabPagerAdapter.TAB_COUNT);
-		mUIManager.viewPagerPageChangerListener();
+		mUIManager.viewPagerPageChangerListener(); */
 		
 		//Facebook
 		mUihelper = new UiLifecycleHelper(this, callback);
@@ -451,20 +445,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 	public interface ActionTabListener
 	{
 		void onRefreshClicked();
-	}
-
-	@Override
-	public Event onFavoriteButtonSelected(Event event)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setEvent(Event event)
-	{
-		// TODO Auto-generated method stub
-		
 	}
 
 }

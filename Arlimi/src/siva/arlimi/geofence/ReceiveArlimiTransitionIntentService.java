@@ -1,21 +1,16 @@
 package siva.arlimi.geofence;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import siva.arlimi.activity.HomeActivity;
-import siva.arlimi.activity.R;
+import siva.arlimi.main.R;
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;

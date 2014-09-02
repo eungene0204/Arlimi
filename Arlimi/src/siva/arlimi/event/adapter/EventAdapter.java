@@ -2,12 +2,10 @@ package siva.arlimi.event.adapter;
 
 import java.util.ArrayList;
 
-import siva.arlimi.activity.R;
 import siva.arlimi.event.Event;
+import siva.arlimi.main.R;
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;

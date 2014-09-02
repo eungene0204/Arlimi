@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import siva.arlimi.event.EventUtil;
+import siva.arlimi.main.R;
 import siva.arlimi.owner.Owner;
 import android.app.Activity;
 import android.os.Bundle;

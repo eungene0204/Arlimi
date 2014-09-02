@@ -2,15 +2,13 @@ package siva.arlimi.activity;
 
 
 
-import java.io.UnsupportedEncodingException;
-
-import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import siva.arlimi.event.Event;
 import siva.arlimi.event.EventRadius;
 import siva.arlimi.event.EventUtil;
+import siva.arlimi.main.R;
 import siva.arlimi.networktask.NetworkConnection;
 import siva.arlimi.networktask.NetworkURL;
 import siva.arlimi.owner.Owner;

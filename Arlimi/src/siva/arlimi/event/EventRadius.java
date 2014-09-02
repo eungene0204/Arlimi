@@ -2,10 +2,9 @@ package siva.arlimi.event;
 
 import java.io.Serializable;
 
-import siva.arlimi.activity.R;
+import siva.arlimi.main.R;
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
