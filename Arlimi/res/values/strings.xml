@@ -11,6 +11,11 @@
     <string name="event_end_time">이벤트 종료 시간</string>
     
     <string name="tool">도구</string>
+    
+    <string name="map">지도</string>
+    <string name="date">날짜</string>
+    <string name="call">전화하기</string>
+    <string name="share">공유</string>
 
     <string name="app_name">Arlimi</string>
     <string name="action_setting">설정</string>

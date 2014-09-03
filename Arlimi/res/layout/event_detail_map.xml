@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:id="@+id/event_detail_map_container"
+    android:background="@android:color/holo_green_light"
+    android:layout_margin="15dp"
+    >
+    
+   <TextView 
+        android:id="@+id/evet_detail_desc_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/map"
+        android:padding="15dp"
+        />
+    
+    <View 
+       	style="@style/Divider" 
+       	android:padding="15dp"
+        />
+    
+    <fragment 
+          android:id="@+id/event_detail_map"
+          android:layout_width="match_parent"
+          android:layout_height="300dp"
+          android:name="com.google.android.gms.maps.MapFragment"
+          />
+   
+</LinearLayout>

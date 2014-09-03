@@ -1,10 +1,11 @@
 package siva.arlimi.navdrawer;
 
+import siva.arlimi.navdrawer.util.ITEM_ID;
 import android.widget.TextView;
 
 public class ViewHolder
 {
 	public TextView mItemTextView;
-	public int mId;
+	public ITEM_ID mId;
 	
 }

@@ -41,9 +41,7 @@
         android:theme="@style/AppTheme"
         >
        
-        <!--  Google play service -->
-       
-        <meta-data android:name="com.google.android.gms.version"
+        <!--  Google play service --><meta-data android:name="com.google.android.gms.version"
            android:value="@integer/google_play_services_version" />
         
         <meta-data android:value="@string/facebook_app_id" android:name="com.facebook.sdk.ApplicationId"/>
@@ -111,19 +109,19 @@
         <activity android:name="siva.arlimi.owner.RegisterEvent"></activity>
         <activity android:name="RegisterEventActivity"></activity>
         <activity android:name="BusinessRegistration"></activity>
-           
-        <activity android:name="siva.arlimi.event.activity.EventDetail"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"></activity>
-        
          
         <activity
             android:name="siva.arlimi.main.MainActivity"
             android:theme="@android:style/Theme.Holo.Light" >
-            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+       
+        <activity android:name="siva.arlimi.event.activity.EventDetailActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen"
+            >
             
         </activity>
         

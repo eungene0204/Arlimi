@@ -1,8 +1,9 @@
 package siva.arlimi.viewpager.adapter;
 
-import siva.arlimi.fragment.AllListFragment;
-import siva.arlimi.fragment.EventListFragment;
-import siva.arlimi.fragment.FavoriteListFragment;
+import siva.arlimi.event.fragment.AllListFragment;
+import siva.arlimi.event.fragment.EventListFragment;
+import siva.arlimi.event.fragment.FavoriteListFragment;
+import siva.arlimi.navdrawer.util.ITEM_ID;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -25,7 +26,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 	public Fragment getItem(int index)
 	{
 		Fragment fragment = null;
-		
+	
 		switch(index)
 		{
 		case 0:
@@ -39,8 +40,9 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 		case 2:
 			fragment = new AllListFragment();
 			break;
-		}
-
+		} 
+		
+		
 		return fragment;
 
 	}

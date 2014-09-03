@@ -1,4 +1,4 @@
-package siva.arlimi.fragment;
+package siva.arlimi.event.detail.fragment;
 
 import siva.arlimi.main.R;
 import android.os.Bundle;
@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class FavoriteListFragment extends Fragment
+public class CallFragment extends Fragment
 {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		View root = inflater.inflate(R.layout.fragment_favorite_list, container, false);
+		View root = inflater.inflate(R.layout.event_detail_call, container, false);
 		
 		return root;
 	}

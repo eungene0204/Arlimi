@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@android:color/holo_green_light"
+    android:layout_margin="15dp"
+    >
+    
+    <TextView 
+        android:id="@+id/evet_detail_desc_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/event"
+        android:padding="15dp"
+        />
+    
+    <View 
+       	style="@style/Divider" 
+       	android:padding="15dp"
+        />
+    
+    <ImageView 
+        android:id="@+id/event_detail_desc_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        />
+    
+    <TextView 
+        android:id="@+id/event_detail_desc_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:padding="15dp"
+        />
+
+</LinearLayout>

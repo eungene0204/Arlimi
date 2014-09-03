@@ -1,18 +1,27 @@
 package siva.arlimi.navdrawer;
 
+import siva.arlimi.navdrawer.util.ITEM_ID;
+import siva.arlimi.navdrawer.util.ITEM_TYPE;
+
 public class NavDrawerItem 
 {
 	private String mTitle;
-	private final int mItemType;
-	private final int mId;
+	private final ITEM_TYPE mItemType;
+	private final ITEM_ID mId;
+
+	public NavDrawerItem(ITEM_TYPE type)
+	{
+		mItemType = type;
+		mId = ITEM_ID.DEFAULT;
+	}
 	
-	public NavDrawerItem(final int type, final int id)
+	public NavDrawerItem(ITEM_TYPE type, ITEM_ID id)
 	{
 		mItemType = type;
 		mId = id;
 	}
 
-	public int getItemType() 
+	public ITEM_TYPE getItemType() 
 	{
 		return this.mItemType;
 	}
@@ -27,7 +36,7 @@ public class NavDrawerItem
 		return mTitle;
 	}
 	
-	public int getId()
+	public ITEM_ID getId()
 	{
 		return this.mId;
 	}
