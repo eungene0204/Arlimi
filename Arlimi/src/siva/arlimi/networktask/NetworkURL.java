@@ -17,5 +17,15 @@ public abstract class NetworkURL
 	public static final String READ_EVENT_BY_ID =
 			"http://123.143.179.44:8080/event/readEventByID";
 	
+	public static final String HOME_EMAIL_USER_REGISTRATION =
+			"http://192.168.0.1:8888/user/reg/emailuser";
+		
+	public static final String FACEBOOK_USER_REGISTRATION =
+			"http://192.168.0.1:8888/user/reg/facebookuser";
+	
+	public static final String FACEBOOK_USER_LOGIN =
+			"http://192.168.0.1:8888/user/login/facebookuser";
+	
+	
 	
 }

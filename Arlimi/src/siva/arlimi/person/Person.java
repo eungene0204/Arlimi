@@ -13,27 +13,15 @@ public class Person implements Serializable
 	 */
 	private static final long serialVersionUID = 3956499962326088800L;
 	
-	private String mName;
-	private String mEmail;
-	private ImageView mProfileImg;
-	transient ProfilePictureView mFacebookProfilePic;
-	
-	
-	boolean mIsFacebookUser = false;
-	
-	public Person()
-	{
-	}
+	protected String mName;
+	protected String mEmail;
+	protected ImageView mProfileImg;
 	
 	public void setProfileImg(ImageView imageView)
 	{
 		mProfileImg = imageView;
 	}
 	
-	public void setFacebookProfileImg(ProfilePictureView profileImg)
-	{
-		mFacebookProfilePic = profileImg;
-	} 
 	
 	public ImageView getProfileImage()
 	{

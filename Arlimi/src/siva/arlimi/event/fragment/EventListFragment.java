@@ -159,6 +159,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 				long id)
 		{
 			Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+		
 			startActivity(intent);
 			
 		}

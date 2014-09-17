@@ -41,7 +41,9 @@
         android:theme="@style/AppTheme"
         >
        
-        <!--  Google play service --><meta-data android:name="com.google.android.gms.version"
+        <!--  Google play service -->
+        
+        <meta-data android:name="com.google.android.gms.version"
            android:value="@integer/google_play_services_version" />
         
         <meta-data android:value="@string/facebook_app_id" android:name="com.facebook.sdk.ApplicationId"/>
@@ -57,8 +59,17 @@
             </intent-filter>
         </receiver>
         
+        <!-- Services -->
+        <service
+            android:name="siva.arlimi.auth.service.NewEmailUserService"
+            android:enabled="true"
+            >
+            
+        </service>
+        
         <!--Geofence  Service  -->
-         <service android:name="siva.arlimi.geofence.ReceiveArlimiTransitionIntentService"
+         <service
+             android:name="siva.arlimi.geofence.ReceiveArlimiTransitionIntentService"
              android:exported="false"
              >
          </service>
@@ -82,7 +93,7 @@
         </activity>
         
         <activity 
-            android:name="siva.arlimi.activity.LoginActivity"
+            android:name="siva.arlimi.auth.activity.LoginActivity"
             android:theme="@android:style/Theme.Holo.Light.NoActionBar"
             >
             
@@ -125,6 +136,13 @@
             
         </activity>
         
+        <activity android:name="siva.arlimi.auth.activity.RegistrationActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar" >
+            <intent-filter></intent-filter>
+        </activity>
+        
+        <service android:name="siva.arlimi.auth.service.NewFacebookUserService"></service>
+        <service android:name="siva.arlimi.auth.service.FacebookLoginUserService"></service>
         
     </application>
 

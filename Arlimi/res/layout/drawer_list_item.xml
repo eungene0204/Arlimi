@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="21sp"
-        android:paddingLeft="32dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="0dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         />

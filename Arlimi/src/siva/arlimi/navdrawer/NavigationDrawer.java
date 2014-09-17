@@ -1,11 +1,15 @@
 package siva.arlimi.navdrawer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import siva.arlimi.auth.activity.LoginActivity;
+import siva.arlimi.main.MainActivity;
 import siva.arlimi.main.R;
 import siva.arlimi.navdrawer.adapter.NavDrawerListAdapter;
 import siva.arlimi.navdrawer.util.ITEM_ID;
 import siva.arlimi.navdrawer.util.ITEM_TYPE;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -22,7 +26,7 @@ public class NavigationDrawer
 {
 	public static final String TAG = "NavigationDrawer";
 			
-	private final FragmentActivity mContext;
+	private final MainActivity mContext;
 	
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -33,14 +37,13 @@ public class NavigationDrawer
 	private final ViewPager mViewPager;
 	
 
-	public NavigationDrawer(FragmentActivity context, ViewPager pager)
+	public NavigationDrawer(MainActivity context, ViewPager pager)
 	{
 		mContext = context;
 		mViewPager = pager;
 		
 		initNavigationDrawer(context);
 	}
-	
 		
 	private void initNavigationDrawer(final FragmentActivity context)
 	{
@@ -82,6 +85,7 @@ public class NavigationDrawer
 		String login = mContext.getResources().getString(R.string.login);
 		String event = mContext.getResources().getString(R.string.event);
 		String tool = mContext.getResources().getString(R.string.tool);
+		String registration = mContext.getResources().getString(R.string.registration);
 		String[] eventItems = mContext.getResources().getStringArray(
 				R.array.drawer_list_event_items);
 		String[] toolItems = mContext.getResources().getStringArray(
@@ -94,6 +98,16 @@ public class NavigationDrawer
 		ITEM_ID[] toolItemIDs = {ITEM_ID.SETTING,
 							ITEM_ID.FEEDBACK,
 							ITEM_ID.SHARE };
+		
+		//Add Login item
+		NavDrawerItem loginItem =
+				new NavDrawerItem(ITEM_TYPE.LOGIN, ITEM_ID.LOG_IN);
+		loginItem.setTitle(login);
+		list.add(loginItem);
+		
+		//Add Divider
+		NavDrawerItem divider = new NavDrawerItem(ITEM_TYPE.DIVIDER);
+		list.add(divider);
 		
 		
 		//Add Event Section Title
@@ -113,7 +127,6 @@ public class NavigationDrawer
 		}
 		
 		//Add Divider
-		NavDrawerItem divider = new NavDrawerItem(ITEM_TYPE.DIVIDER);
 		list.add(divider);
 		
 		//Add Tool Section Title
@@ -131,6 +144,15 @@ public class NavigationDrawer
 		
 			list.add(item);
 		}
+		
+		//Add Divider
+		list.add(divider);
+		
+		//Add registration
+		NavDrawerItem regItem = new NavDrawerItem(ITEM_TYPE.SECTIONTITLE,
+				ITEM_ID.REGISTRATION);
+		regItem.setTitle(registration);
+		list.add(regItem);
 		
 	}
 	
@@ -164,6 +186,10 @@ public class NavigationDrawer
 		{
 			switch(id)
 			{
+			case LOG_IN:
+				openLoginActivity();
+				break;
+				
 			case CURRENT_REGION:
 				mViewPager.setCurrentItem(0);
 				break;
@@ -175,13 +201,20 @@ public class NavigationDrawer
 			case ALL_EVENT:
 				mViewPager.setCurrentItem(2);
 				break;
+				
+			case REGISTRATION:
+				break;
 			}
 			
 			mDrawerLayout.closeDrawer(mDrawerList);
-			
+		}
+
+		private void openLoginActivity()
+		{
+			Intent intent = new Intent(mContext, LoginActivity.class );
+			mContext.startActivity(intent);
 		}
 
 	}
-
 
 }

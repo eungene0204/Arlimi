@@ -3,6 +3,7 @@ package siva.arlimi.activity;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import siva.arlimi.auth.activity.LoginActivity;
 import siva.arlimi.main.R;
 import android.content.Intent;
 import android.content.pm.PackageInfo;

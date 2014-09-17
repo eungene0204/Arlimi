@@ -1,5 +1,6 @@
 package siva.arlimi.main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 
@@ -31,8 +32,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-public class MainActivity extends FragmentActivity  
+public class MainActivity extends FragmentActivity 
 {
+
 	public static final String TAG = "MainActivity";
 	
 	private ImageView overflowIcon;

@@ -67,6 +67,13 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 		return result;
 	}
 	
+	@Override
+	protected void onPostExecute(String result)
+	{
+		Log.i(TAG, "result");
+		super.onPostExecute(result);
+	}
+	
 	protected HttpURLConnection getDefaultHttpConnection() throws IOException
 	{
 		
@@ -84,6 +91,7 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	
 	public void setData(Object data)
 	{
+		
 		this.mData = data;
 	}
 	
@@ -114,7 +122,7 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 			out.flush();
 			out.close();
 			
-		} catch (UnsupportedEncodingException e)
+		}catch (UnsupportedEncodingException e)
 		{
 			e.printStackTrace();
 		} catch (IOException e)
@@ -128,6 +136,10 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	{
 		
 		int length = conn.getContentLength();
+		
+		if(0 == length)
+			return "";
+		
 		StringBuilder stringBuilder = new StringBuilder(length);
 		
 		try

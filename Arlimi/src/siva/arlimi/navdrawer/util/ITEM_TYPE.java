@@ -2,7 +2,9 @@ package siva.arlimi.navdrawer.util;
 
 public enum ITEM_TYPE
 {
-	DIVIDER, SECTIONTITLE,
+	LOGIN,
+	DIVIDER, 
+	SECTIONTITLE,
 	ITEM, LOGO,
 	DEFAULT
 }

@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <TextView 
+   
+  <TextView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="50dp"
+        android:paddingTop="40dp"
         android:text= "@string/siva"
         android:layout_gravity="center"
         android:textSize="30sp"
@@ -17,7 +17,7 @@
     <TextView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="7dp"
+        android:paddingTop="5dp"
         android:text= "@string/algorithm"
         android:layout_gravity="center"
         android:textSize="30sp"
@@ -36,12 +36,64 @@
     <com.facebook.widget.LoginButton
        xmlns:fb="http://schemas.android.com/apk/res-auto" 
         android:id="@+id/facebook_login_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         fb:login_text="@string/login_with_facebook"
-        fb:logout_text=""
+        fb:logout_text="@string/logout"
         />
+    
+    <EditText 
+        android:id="@+id/login_email_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:hint="@string/email"
+        android:layout_gravity="center"
+        />
+    
+    <EditText 
+        android:id="@+id/login_password_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/password"
+        android:layout_gravity="center"
+        />
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+        
+        <Button 
+            android:id="@+id/registration_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_registration"
+            android:layout_weight="1.0"
+            />
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/login" 
+            android:layout_weight="1.0"
+            />
+        
+    </LinearLayout>
+    
     
 </LinearLayout>

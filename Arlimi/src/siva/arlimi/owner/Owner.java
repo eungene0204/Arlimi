@@ -1,7 +1,7 @@
 package siva.arlimi.owner;
 
 
-import siva.arlimi.facebook.FaceBookUserInfo;
+
 import siva.arlimi.person.Person;
 import android.content.Context;
 
@@ -22,19 +22,12 @@ public class Owner extends Person
 	private String mMobile;
 	private int mFacebookId;
 	
-	private FaceBookUserInfo mFaceBookUserInfo;
 	
 	public Owner()
 	{
 		super();
-		mFaceBookUserInfo = new FaceBookUserInfo();
 	}
 	
-	public void setFaceBookInfo(FaceBookUserInfo userInfo)
-	{
-		this.mFaceBookUserInfo = userInfo;
-		setmId(mFaceBookUserInfo.getEmail());
-	}
 	
 	public void setFacebookId(int id)
 	{

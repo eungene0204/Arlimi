@@ -213,7 +213,6 @@ public class HomeActivity extends FragmentActivity implements OnClickListener,
 								
 								mPersonInfo.setName(name);
 								mPersonInfo.setEmail(email);
-								mPersonInfo.setFacebookProfileImg(mFacebookUserPic);
 								mPersonInfo.setmId(user.getId());
 								Log.i(TAG, "User name " + mPersonInfo.getName());
 							}

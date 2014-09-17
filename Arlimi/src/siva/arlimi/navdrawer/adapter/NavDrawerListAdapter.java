@@ -88,7 +88,14 @@ public class NavDrawerListAdapter extends BaseAdapter
 		{
 			viewHolder = new ViewHolder();
 			
-			if(type == ITEM_TYPE.ITEM.ordinal())
+			if(type == ITEM_TYPE.LOGIN.ordinal())
+			{
+				convertView = 
+						mInflater.inflate(R.layout.drawer_list_login, null);
+				viewHolder.mItemTextView = (TextView) convertView
+						.findViewById(R.id.drawer_list_item_login);
+			}
+			else if(type == ITEM_TYPE.ITEM.ordinal())
 			{
 				convertView = mInflater
 						.inflate(R.layout.drawer_list_item, null);
@@ -149,6 +156,4 @@ public class NavDrawerListAdapter extends BaseAdapter
 	
 		return convertView;
 	}
-	
-
 }

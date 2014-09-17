@@ -3,7 +3,9 @@
     
     <string name="siva">SIVA</string>
     <string name="algorithm">ALGORITHM</string>
-   
+  
+   	<string name="main_activity">mainActivity</string> 
+    
     <string name="event">이벤트</string>
     <string name="event_start_date">이벤트 시작 날짜</string>
     <string name="event_end_date">이벤트 종료 날짜</string>
@@ -16,6 +18,9 @@
     <string name="date">날짜</string>
     <string name="call">전화하기</string>
     <string name="share">공유</string>
+    <string name="registration">업체등록</string>
+    
+    <string name="registration_by_email">이메일로 가입</string>
 
     <string name="app_name">Arlimi</string>
     <string name="action_setting">설정</string>
@@ -31,8 +36,16 @@
     <string name="account">계정</string>
     
     <string name="facebook_app_id">469231553178214</string>
-    <string name="login_with_facebook">페이북으로 로그인</string>
+    <string name="login_with_facebook">페이스북으로 로그인</string>
+    <string name="registration_with_facebook">페이스북으로 가입</string>
+    <string name="login">로그인</string>
     <string name="logout">로그아웃</string>
+    <string name="new_registration">가입하기</string>
+    <string name="complete_registration">가입완료</string>
+    
+    <string name="email">이메일 주소</string>
+    <string name="password">비밀번호</string>
+    <string name="name">이름</string>
     
     <!--  Acivity recognition -->
     <string name="in_vehicle">in_vehicle</string>
@@ -46,7 +59,6 @@
     <string name="first_item">first</string>
     
     <!-- Nav Drawer Menu Items  -->
-    <string name="login">로그인</string>
     
     <string-array name="drawer_list_event_items">
         <item>현재위치 </item>

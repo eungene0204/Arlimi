@@ -2,6 +2,7 @@ package siva.arlimi.event;
 
 import java.io.Serializable;
 
+
 import siva.arlimi.geofence.ArlimiGeofence;
 import siva.arlimi.owner.Owner;
 import android.content.Context;
