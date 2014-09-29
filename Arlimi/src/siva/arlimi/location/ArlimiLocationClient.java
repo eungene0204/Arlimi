@@ -1,5 +1,6 @@
 package siva.arlimi.location;
 
+import siva.arlimi.main.R;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,6 +11,12 @@ import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class ArlimiLocationClient implements 
 		GooglePlayServicesClient.ConnectionCallbacks,
@@ -26,13 +33,18 @@ public class ArlimiLocationClient implements
 	private static final long FASTEST_INTERVAL =
 			MILLISECONDS_PER_SECOND * FASTEST_INTERVAL_IN_SECONDS;
 	
-	private Context mContext;
+	private final Context mContext;
+	private final GoogleMap mGoogleMap;
 	private LocationClient mLocationClient;
 	private LocationRequest mLocationRequest;
 
 	boolean mUpdatesRequested = false;
 	
-	public ArlimiLocationClient(Context context)
+	private double mCurrentLat;
+	private double mCurrentLng;
+	
+	
+	public ArlimiLocationClient(Context context, GoogleMap map )
 	{
 		this.mContext = context;
 		this.mLocationClient = new LocationClient(mContext, this, this);
@@ -44,7 +56,20 @@ public class ArlimiLocationClient implements
 		
 		mUpdatesRequested = false;
 		
-
+		mGoogleMap = map;
+		
+	}
+	
+	public void setCurrentPosition(double latitude, double longitude )
+	{
+		mCurrentLat = latitude;
+		mCurrentLng = longitude;
+	}
+	
+	public LatLng getCurrentPosition()
+	{
+		return new LatLng(mCurrentLat, mCurrentLng);
+		
 	}
 	
 
@@ -88,18 +113,36 @@ public class ArlimiLocationClient implements
 	{
 		mLocationClient.removeLocationUpdates(this);
 	}
+	
+	public void moveCamera(LatLng position)
+	{
+		CameraPosition cameraPosition = CameraPosition.builder().target(
+				position).zoom(18).build();
+		
+		mGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+		addMarker(position);
+		
+	}
+	
+	public void addMarker(LatLng position)
+	{
+		MarkerOptions marker = new MarkerOptions().position(position);
+	
+		marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_action_place));
+		
+		mGoogleMap.addMarker(marker);
+		
+	}
 
 	@Override
-	public void onConnectionFailed(ConnectionResult result)
+	public void onConnectionFailed(ConnectionResult connectionResult)
 	{
-		
-		Toast.makeText(mContext, "Service fail", Toast.LENGTH_LONG).show();	
+	
 	}
 
 	@Override
 	public void onConnected(Bundle connectionHint)
 	{
-		Toast.makeText(mContext, "Service connected", Toast.LENGTH_SHORT).show();
 		
 		if(mUpdatesRequested)
 		{

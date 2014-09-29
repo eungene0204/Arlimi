@@ -3,9 +3,10 @@ package siva.arlimi.facebook;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import siva.arlimi.person.FacebookUser;
+import siva.arlimi.auth.interfaces.OnRegisterNewUserListener;
+import siva.arlimi.auth.interfaces.OnUserLoginListener;
+import siva.arlimi.user.FacebookUser;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -33,7 +34,7 @@ public class FaceBookManager
 	private final FacebookUser mFacebookUser;
 	
 	private OnRegisterNewUserListener mNewUserCallback;
-	private OnLoginUserListener mLoginUserCallback;
+	private OnUserLoginListener mLoginUserCallback;
 	
 	private boolean isNew = false;
 	
@@ -58,15 +59,14 @@ public class FaceBookManager
 	
 		try
 		{
-			mNewUserCallback = (OnRegisterNewUserListener) mContext;
-			mLoginUserCallback = (OnLoginUserListener) mContext;
+			mLoginUserCallback = (OnUserLoginListener) mContext;
 			
 		}
 		catch(ClassCastException e)
 		{
 			throw new ClassCastException(mContext.toString()
-					+ " must implement OnGetUserInfoListener" +
-					" and OnLoginUserListener ");
+					+ " must implement " +
+					" OnLoginUserListener ");
 		}
 		
 	}
@@ -75,6 +75,12 @@ public class FaceBookManager
 	{
 		return isNew;
 	}
+	
+	public void setRegistrationListener(OnRegisterNewUserListener listener)
+	{
+		this.mNewUserCallback = listener;
+	}
+	
 	
 	public void setIsNew(boolean isUser)
 	{
@@ -145,11 +151,11 @@ public class FaceBookManager
 						if (isNew)
 						{
 							Log.i(TAG, "call reg callback");
-							mNewUserCallback.registerNewUser(mFacebookUser);
+							mNewUserCallback.registerNewFacebookUser(mFacebookUser);
 						} else
 						{
 							Log.i(TAG, "call login callback");
-							mLoginUserCallback.loginUser(mFacebookUser);
+							mLoginUserCallback.facebookUserLogin(mFacebookUser);
 						}
 
 					}
@@ -225,14 +231,5 @@ public class FaceBookManager
 
     }
 	
-	public interface OnRegisterNewUserListener
-	{
-		void registerNewUser(FacebookUser user);
-	}
-	
-	public interface OnLoginUserListener
-	{
-		void loginUser(FacebookUser user);
-	}
-	
+
 }

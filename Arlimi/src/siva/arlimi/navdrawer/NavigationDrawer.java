@@ -9,6 +9,7 @@ import siva.arlimi.main.R;
 import siva.arlimi.navdrawer.adapter.NavDrawerListAdapter;
 import siva.arlimi.navdrawer.util.ITEM_ID;
 import siva.arlimi.navdrawer.util.ITEM_TYPE;
+import siva.arlimi.shop.activity.ShopRegistrationActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -149,7 +150,7 @@ public class NavigationDrawer
 		list.add(divider);
 		
 		//Add registration
-		NavDrawerItem regItem = new NavDrawerItem(ITEM_TYPE.SECTIONTITLE,
+		NavDrawerItem regItem = new NavDrawerItem(ITEM_TYPE.REGISTRATION,
 				ITEM_ID.REGISTRATION);
 		regItem.setTitle(registration);
 		list.add(regItem);
@@ -203,10 +204,17 @@ public class NavigationDrawer
 				break;
 				
 			case REGISTRATION:
+				openShopRegistrationActivity();
 				break;
 			}
 			
 			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+
+		private void openShopRegistrationActivity()
+		{
+			Intent intent = new Intent(mContext,ShopRegistrationActivity.class );
+			mContext.startActivity(intent);
 		}
 
 		private void openLoginActivity()

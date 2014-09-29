@@ -26,6 +26,11 @@ public abstract class NetworkURL
 	public static final String FACEBOOK_USER_LOGIN =
 			"http://192.168.0.1:8888/user/login/facebookuser";
 	
+	public static final String EMAIL_USER_LOGIN =
+			"http://192.168.0.1:8888/user/login/emailuser";
+	
+	public static final String SHOP_REGISTRATION =
+			"http://192/168.0.1:8888/shop/registration";
 	
 	
 }

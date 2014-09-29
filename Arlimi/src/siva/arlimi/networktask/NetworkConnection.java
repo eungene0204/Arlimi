@@ -1,6 +1,7 @@
 package siva.arlimi.networktask;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -24,6 +25,13 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	protected Object mData = null;
 	protected String mUrl;
 	
+	public enum Method
+	{
+		POST,GET
+	}
+
+	protected String mMethod = "POST";
+	
 	@Override
 	protected String doInBackground(String... params)
 	{
@@ -39,12 +47,17 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 
 			conn.connect();
 			
-			if( HttpURLConnection.HTTP_OK == conn.getResponseCode())
+			int resultCode = conn.getResponseCode();
+			Log.d(TAG, "Result Code: "  + resultCode);
+			
+			if( HttpURLConnection.HTTP_OK == resultCode)
 			{
 				Log.i(TAG, "HTTP_OK");
 				result = readData(conn);
-			}
-
+			} 
+			
+			
+		
 		} 
 		catch (MalformedURLException e)
 		{
@@ -81,7 +94,7 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		conn.setReadTimeout(TIME_LIMIT);
 		conn.setConnectTimeout(TIME_LIMIT);
-		conn.setRequestMethod("POST");
+		conn.setRequestMethod(mMethod);
 		conn.setDoOutput(true);
 		conn.setDoInput(true);
 		
@@ -134,6 +147,7 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	
 	public String readData(HttpURLConnection conn)
 	{
+		/*
 		
 		int length = conn.getContentLength();
 		
@@ -161,10 +175,11 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 			e.printStackTrace();
 		}
 		
-		return stringBuilder.toString();
+		return stringBuilder.toString(); */
 		
+	
+		StringBuilder result = new StringBuilder();
 		
-		/*
 		try
 		{
 			BufferedReader in;
@@ -188,7 +203,19 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 		return result.toString();  
 		
 	}
-	*/
+	
+	public void setMethod(Method method)
+	{
+		switch(method)
+		{
+		case POST:
+			this.mMethod = "POST";
+			break;
+			
+		case GET:
+			this.mMethod = "GET";
+			break;
+		}
 	}
 
 }

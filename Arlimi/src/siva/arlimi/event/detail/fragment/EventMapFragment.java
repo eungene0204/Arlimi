@@ -22,7 +22,6 @@ public class EventMapFragment extends Fragment
 	{
 		View root = inflater.inflate(R.layout.event_detail_map, container,false);
 		
-		
 		return root;
 	}
 

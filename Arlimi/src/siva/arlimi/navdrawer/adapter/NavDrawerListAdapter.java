@@ -116,6 +116,13 @@ public class NavDrawerListAdapter extends BaseAdapter
 			  .drawer_list_section_title_textview); 
 			 
 			}
+			else if(type == ITEM_TYPE.REGISTRATION.ordinal())
+			{
+					convertView = mInflater
+						.inflate(R.layout.drawer_shop_registration, null);
+				viewHolder.mItemTextView = (TextView) convertView
+						.findViewById(R.id.drawer_list_item_shop_registration);
+			}
 
 			/*
 			 * switch(type) {

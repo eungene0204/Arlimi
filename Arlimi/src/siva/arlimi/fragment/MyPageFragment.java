@@ -2,7 +2,7 @@ package siva.arlimi.fragment;
 
 import java.io.Serializable;
 
-import siva.arlimi.activity.BusinessRegistration;
+
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.activity.OpenActivity;
 import siva.arlimi.activity.RegisterEventActivity;
@@ -130,10 +130,11 @@ public class MyPageFragment extends Fragment implements OnClickListener
 
 	private void showBusinessRegistrationActivity()
 	{
+		/*
 		Intent intent = new Intent(getActivity(), BusinessRegistration.class);
 		intent.putExtra(Owner.TAG, (Serializable)mPerson);
 		
-		startActivity(intent);
+		startActivity(intent); */
 	}
 
 	private void showEventRegistratoinActivity()

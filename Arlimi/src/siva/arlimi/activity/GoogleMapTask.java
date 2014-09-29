@@ -65,7 +65,7 @@ GooglePlayServicesClient.OnConnectionFailedListener,LocationListener
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_owner_map);
+	//	setContentView(R.layout.activity_owner_map);
 
 		//Loading Map
 		initilizeMap();

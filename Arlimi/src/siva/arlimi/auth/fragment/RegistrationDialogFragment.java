@@ -1,11 +1,16 @@
 package siva.arlimi.auth.fragment;
 
-import siva.arlimi.auth.service.NewEmailUserService;
+import siva.arlimi.auth.interfaces.OnRegisterNewUserListener;
 import siva.arlimi.auth.util.AuthUtil;
 import siva.arlimi.facebook.FaceBookManager;
 import siva.arlimi.main.R;
+import siva.arlimi.user.EmailUser;
+import siva.arlimi.user.FacebookUser;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -13,13 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.facebook.widget.LoginButton;
 
-public class RegistrationDialogFragment extends DialogFragment implements OnClickListener
+public class RegistrationDialogFragment extends DialogFragment implements OnClickListener,
+							OnRegisterNewUserListener
 {
 	public static final String TAG = "RegistrationDialogFragment";
 	
@@ -29,13 +34,37 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 	private EditText mPasswrodEditText;
 	private EditText mUserName;
 	
+	private BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			onReceiveRegistrationResult(intent);
+			
+		}
+	};
+	
 	public RegistrationDialogFragment(FaceBookManager facebook)
 	{
 		this.mFaceBook = facebook;
 		mFaceBook.setIsNew(true);
+		mFaceBook.setRegistrationListener(this);
 	}
 	
 	
+	protected void onReceiveRegistrationResult(Intent intent)
+	{
+		final int result = intent.getIntExtra
+				(AuthUtil.KEY_LOGIN_RESULT, AuthUtil.RESULT_INVALID_USER);
+		
+		Log.i(TAG,"Facebook Registration result " + result);
+		
+		if(AuthUtil.RESULT_VALID_USER == result)
+			dismiss();
+		
+	}
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
@@ -76,7 +105,9 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 		Log.i(TAG, "onResume");
 		super.onResume();
 		mFaceBook.onResume();
-
+		
+		IntentFilter filter = new IntentFilter(AuthUtil.ACTION_REGISTRATION_RESULT);
+		getActivity().registerReceiver(mBroadCastReceiver, filter);
 	}
 	
 	@Override
@@ -93,6 +124,8 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 		Log.i(TAG, "onPause");
 		super.onPause();
 		mFaceBook.onPause();
+		
+		getActivity().unregisterReceiver(mBroadCastReceiver);
 	}
 	
 	@Override
@@ -140,28 +173,43 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 		String email = mEmailEditText.getText().toString();
 		String password = mPasswrodEditText.getText().toString();
 		String name = mUserName.getText().toString();
-		
-		Log.i(TAG, email);
-		Log.i(TAG, password);
-		Log.i(TAG, name);
 	
-		Intent intent = AuthUtil.getNewEmailUserIntent(getActivity()); 
-		Bundle bundle = new Bundle();
+		EmailUser user = new EmailUser(name, email, password);
+		
+		registerNewEmailUser(user);
 	
-		//Need to check string length
-		bundle.putString(AuthUtil.EMAIL, email);
-		bundle.putString(AuthUtil.PASSWORD, password);
-		bundle.putString(AuthUtil.NAME, name);
-		
-		intent.putExtras(bundle);
-		getActivity().startService(intent);
-		
 	}
 	
 	@Override
 	public String toString()
 	{
 		return getClass().getName();
+	}
+
+
+	@Override
+	public void registerNewFacebookUser(FacebookUser user)
+	{
+		Log.i(TAG, "registerNewfacebookUSer");
+		
+		if(user.isValid())
+		{
+			Intent intent = AuthUtil.getNewFaceBookUserIntent(getActivity());
+			intent.putExtra(AuthUtil.KEY_USER, user);
+			
+			getActivity().startService(intent);
+		}
+		
+	}
+
+	@Override
+	public void registerNewEmailUser(EmailUser user)
+	{
+		Intent intent = AuthUtil.getNewEmailUserIntent(getActivity()); 
+		intent.putExtra(AuthUtil.KEY_USER, user);
+		
+		getActivity().startService(intent);
+		
 	}
 	
 }

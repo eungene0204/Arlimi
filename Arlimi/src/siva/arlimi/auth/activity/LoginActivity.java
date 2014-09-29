@@ -2,13 +2,14 @@ package siva.arlimi.auth.activity;
 
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.auth.fragment.RegistrationDialogFragment;
+import siva.arlimi.auth.interfaces.OnUserLoginListener;
 import siva.arlimi.auth.util.AuthUtil;
 import siva.arlimi.facebook.FaceBookManager;
-import siva.arlimi.facebook.FaceBookManager.OnLoginUserListener;
-import siva.arlimi.facebook.FaceBookManager.OnRegisterNewUserListener;
 import siva.arlimi.main.R;
-import siva.arlimi.person.FacebookUser;
+import siva.arlimi.user.EmailUser;
+import siva.arlimi.user.FacebookUser;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -17,34 +18,33 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 public class LoginActivity extends FragmentActivity
-					implements OnClickListener , OnRegisterNewUserListener,
-								OnLoginUserListener 
+					implements OnClickListener ,OnUserLoginListener 
 {
 	public static final String TAG = "LoginActivity";
 	
 	private boolean mIsResume = false;
 	
 	private Button mRegistrationBtn;
+	private Button mLoginBtn;
+	
 	private RegistrationDialogFragment fragment;
 	private FaceBookManager mFacebookMng;
 	
-	private BroadcastReceiver mFacbookUserResult = new BroadcastReceiver()
+	private BroadcastReceiver mLoginResult = new BroadcastReceiver()
 	{
 		public void onReceive(android.content.Context context, Intent intent) 
 		{
-			int result =
-					intent.getIntExtra(AuthUtil.KEY_FACEBOOK_LOGIN_RESULT,
-							AuthUtil.RESULT_INVALID_UER);
-			
-			Log.i(TAG, "facebook result" + result);
+			onReceiveFacebookLoginResult(context, intent);
 		}
 		
 	};
 	
 	@Override
+
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -55,9 +55,23 @@ public class LoginActivity extends FragmentActivity
 		
 		mRegistrationBtn = (Button)
 				findViewById(R.id.registration_btn);
-		
 		mRegistrationBtn.setOnClickListener(this);
+		
+		mLoginBtn = (Button)
+				findViewById(R.id.login_btn);
+		mLoginBtn.setOnClickListener(this);
 	
+	}
+
+
+	protected void onReceiveFacebookLoginResult(Context context, Intent intent)
+	{
+		int result = intent.getIntExtra(AuthUtil.KEY_LOGIN_RESULT,
+							AuthUtil.RESULT_INVALID_USER);
+			
+			Log.i(TAG, "facebook result " + result);
+			
+			//finish();
 	}
 
 
@@ -69,9 +83,8 @@ public class LoginActivity extends FragmentActivity
 		 mIsResume = true;
 		 mFacebookMng.onResume();
 		 
-		 IntentFilter filter = new IntentFilter(AuthUtil.ACTION_FACEBOOK_LOGIN_RESULT);
-		 
-		 registerReceiver(mFacbookUserResult, filter);
+		 IntentFilter filter = new IntentFilter(AuthUtil.ACTION_LOGIN_RESULT);
+		 registerReceiver(mLoginResult, filter);
 	
 	}
 	
@@ -102,14 +115,13 @@ public class LoginActivity extends FragmentActivity
 		mIsResume = false;
 		mFacebookMng.onPause();
 		
-		unregisterReceiver(mFacbookUserResult);
+		unregisterReceiver(mLoginResult);
 	}
 	
 	@Override
 	protected void onDestroy()
 	{
 		Log.i(TAG, "onDestroy");
-		
 		super.onDestroy();
 	}
 	
@@ -132,7 +144,7 @@ public class LoginActivity extends FragmentActivity
 		break;
 		
 		case R.id.login_btn:
-			
+			getUserInfo();
 		break;
 		
 		default:
@@ -141,60 +153,58 @@ public class LoginActivity extends FragmentActivity
 		}
 	}
 
+	private void getUserInfo()
+	{
+		EditText emailEdit = (EditText)findViewById(R.id.login_email_et);
+		EditText passwordEdit = (EditText)findViewById(R.id.login_password_et);
+		
+		EmailUser user = new EmailUser("", emailEdit.getText().toString(),
+				passwordEdit.getText().toString());
+		
+		emailUserLogin(user);
+	
+	}
+
+
 	private void openRegistrationDialogFragment()
 	{
 		fragment = new RegistrationDialogFragment(mFacebookMng);
-	
 		fragment.show(getSupportFragmentManager(), "Dialog fragment");
 	}
 
+
 	@Override
-	public void registerNewUser(FacebookUser user)
+	public void facebookUserLogin(FacebookUser user)
 	{
-		Log.i(TAG, "requestCompleted");
-		
-		if(user.isValid())
-		{
-			Bundle bundle = new Bundle();
-			bundle.putString(AuthUtil.EMAIL, user.getEmail());
-			bundle.putString(AuthUtil.NAME, user.getName());
-		
-			Intent intent = AuthUtil.getNewFaceBookUserIntent(this);
-			intent.putExtras(bundle);
-			
-			startService(intent);
-			
-			if(null != fragment)
-				fragment.dismiss();
-			
-			//finish();
-			
-		}
-	}
-	
-	@Override
-	public void loginUser(FacebookUser user)
-	{
+		// TODO Auto-generated method stub
 		if(user.isValid())
 		{
 			Log.i(TAG, "login email" + user.getEmail());
 			
-			Bundle bundle = new Bundle();
-			bundle.putString(AuthUtil.EMAIL, user.getEmail());
-			
 			Intent intent = AuthUtil.getFacebookLoginIntent(this);
-			intent.putExtras(bundle);
+			intent.putExtra(AuthUtil.KEY_USER, user);
 			
 			startService(intent);
 			
 		}
 	}
-	
+
+
+	@Override
+	public void emailUserLogin(EmailUser user)
+	{
+		Intent intent = AuthUtil.getEmailLoginIntent(this);
+		intent.putExtra(AuthUtil.KEY_USER, user);
+
+		startService(intent);
+	}
+
 	@Override
 	public String toString()
 	{
 		return getClass().getName();
 	}
+
 	
 
 

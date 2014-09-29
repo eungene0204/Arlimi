@@ -2,10 +2,10 @@ package siva.arlimi.owner;
 
 
 
-import siva.arlimi.person.Person;
+import siva.arlimi.user.User;
 import android.content.Context;
 
-public class Owner extends Person 
+public class Owner extends User
 {
 
 	/**

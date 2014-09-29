@@ -1,5 +1,6 @@
 package siva.arlimi.auth.connection;
 
+import siva.arlimi.auth.interfaces.OnRegistrationResultListener;
 import siva.arlimi.auth.service.NewEmailUserService;
 import siva.arlimi.networktask.NetworkConnection;
 import android.content.Context;
@@ -11,9 +12,21 @@ public class NewEmailUserConnection extends NetworkConnection
 	public static String TAG = "NewEmailUserConnection";
 	
 	private final Context mContext;
+	private OnRegistrationResultListener mResultCallback;
+	
 	public NewEmailUserConnection(Context context)
 	{
 		mContext = context;
+		
+		try
+		{
+			mResultCallback = (OnRegistrationResultListener) mContext;
+			
+		}
+		catch(ClassCastException e)
+		{
+			e.printStackTrace();
+		}	
 	}
 	
 	@Override
@@ -23,6 +36,11 @@ public class NewEmailUserConnection extends NetworkConnection
 		super.onPostExecute(result);
 		
 		mContext.stopService(new Intent(mContext, NewEmailUserService.class));
+	
+		if(null != result)
+			mResultCallback.onRegistrationResult(result);
+		else
+			Log.i(TAG, "result is null");
 	
 	}
 

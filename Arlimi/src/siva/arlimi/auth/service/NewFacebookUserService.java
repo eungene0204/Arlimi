@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import siva.arlimi.auth.connection.NewFacebookUserConnection;
+import siva.arlimi.auth.interfaces.OnRegistrationResultListener;
 import siva.arlimi.auth.util.AuthUtil;
 import siva.arlimi.networktask.NetworkURL;
 
@@ -13,11 +14,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
-public class NewFacebookUserService extends Service
+public class NewFacebookUserService extends Service implements OnRegistrationResultListener
 {
-
-	@Override
+	public static final String TAG = "NewFacebookUserService";
+	
 	public IBinder onBind(Intent intent)
 	{
 		// TODO Auto-generated method stub
@@ -37,6 +39,23 @@ public class NewFacebookUserService extends Service
 		conn.execute();
 		
 		return START_REDELIVER_INTENT;
+	}
+
+	@Override
+	public void onRegistrationResult(String result)
+	{
+		sendResult(result);
+		
+	}
+
+	private void sendResult(String result)
+	{
+		Log.i(TAG, "result " + result);
+		
+		final Intent intent = 
+				AuthUtil.checkResult(result, AuthUtil.ResultType.REGISTRATION);
+		
+		sendBroadcast(intent);
 	}
 
 }
