@@ -5,7 +5,7 @@
     android:orientation="vertical" >
     
     <EditText 
-        android:id="@+id/shop_name"
+        android:id="@+id/shop_name_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -19,37 +19,53 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginLeft="30dp" 
+       	android:layout_marginRight="30dp"
+       	android:layout_marginTop="10dp"
+         >
         
        <TextView 
           	android:layout_width="wrap_content"
           	android:layout_height="wrap_content"
           	android:text="@string/shop_region" 
+          	android:textSize="20sp"
+          	android:layout_weight="1.0"
            /> 
 
         <EditText
-            android:id="@+id/shop_address"
-            android:layout_width="match_parent"
+            android:id="@+id/shop_dong_address_et"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/shop_address"
-            android:inputType="textPostalAddress" />
+            android:hint="@string/shop_dong"
+            android:inputType="textPostalAddress" 
+            android:layout_weight="1.0"
+            />
 
         <Button
             android:id="@+id/shop_search_address_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="@string/shop_find" />
+            android:text="@string/shop_find" 
+            android:layout_weight="1.0"
+            />
+        
 </LinearLayout>
     
-     
+      
      <EditText 
-        android:id="@+id/shop_detail_address"
+        android:id="@+id/shop_address_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:inputType="textPostalAddress"
+      	android:layout_marginLeft="30dp" 
+       	android:layout_marginRight="30dp"
+        android:hint="@string/shop_address"
+        />
+
+     <EditText 
+        android:id="@+id/shop_detail_address_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -86,7 +102,7 @@
       -->
     
      <EditText 
-        android:id="@+id/shop_phone_number"
+        android:id="@+id/shop_phone_number_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

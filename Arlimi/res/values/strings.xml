@@ -60,6 +60,7 @@
     <string name="find_address">현재위치로 주소검색</string>
     <string name="shop_find">찾기</string>
     <string name="shop_region">지역명</string>
+    <string name="shop_dong">동/읍/면/리/가</string>
     
     <!--  Acivity recognition -->
     <string name="in_vehicle">in_vehicle</string>

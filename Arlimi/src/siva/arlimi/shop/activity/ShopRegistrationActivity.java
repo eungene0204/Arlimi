@@ -1,15 +1,14 @@
 package siva.arlimi.shop.activity;
 
-import java.util.concurrent.ExecutionException;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import siva.arlimi.location.ArlimiLocationClient;
 import siva.arlimi.location.util.LocationUtil;
 import siva.arlimi.main.R;
-import siva.arlimi.shop.connection.SearchAddressConnection;
+import siva.arlimi.shop.adapter.ShopAddressAdapter;
 import siva.arlimi.shop.service.ShopRegistrationService;
+import siva.arlimi.shop.util.AddrNodeList;
+import siva.arlimi.shop.util.ShopUtils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -17,7 +16,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,31 +23,36 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-
 public class ShopRegistrationActivity extends Activity implements OnClickListener
 {
 	static public final String TAG = "ShopRegistrationActivity";
 	
-	private ArlimiLocationClient mLocationClient;
 	
-	private Button mFindButton;
 	private Button mFindAddressBtn;
 	
 	private Button mRegistrationBtn;
 	
 	private EditText mShopAddressEditText;
+	private EditText mShopSearchAddresEdiText;
 	private EditText mShopNameEditText;
 	private EditText mShopPhoneNumberEditText;
 	
 	private BroadcastReceiver mReciever  = new BroadcastReceiver()
 	{
-		
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
 			onReceiveResult(context, intent);
+		}
+	};
+	
+	private BroadcastReceiver mAddrResultReceiver = new BroadcastReceiver()
+	{
+		
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			onReceiveAddrResult(context,intent);
 		}
 	};
 	
@@ -66,12 +69,57 @@ public class ShopRegistrationActivity extends Activity implements OnClickListene
 		mRegistrationBtn.setOnClickListener(this);
 		
 		
-		mShopNameEditText = (EditText) findViewById(R.id.shop_name);
-		mShopAddressEditText = (EditText) findViewById(R.id.shop_address);
-		mShopPhoneNumberEditText = (EditText) findViewById(R.id.shop_phone_number);
+		mShopNameEditText = (EditText) findViewById(R.id.shop_name_et);
+		mShopAddressEditText = (EditText) findViewById(R.id.shop_address_et);
+		mShopPhoneNumberEditText = (EditText) findViewById(R.id.shop_phone_number_et);
+		mShopSearchAddresEdiText = (EditText) findViewById(R.id.shop_dong_address_et);
 		
 	}
 	
+	protected void onReceiveAddrResult(Context context, Intent intent)
+	{
+		String result =
+				intent.getStringExtra(ShopUtils.KEY_ADDRESS_SEARCH_RESULT);
+		
+		Log.d(TAG, "Addr result: " + result);
+		
+		AddrNodeList list = ShopUtils.parseXml(result);
+		
+		showAddrDialog(list);
+		
+		
+	}
+
+	private void showAddrDialog(AddrNodeList list)
+	{
+		
+		ShopAddressAdapter adapter = new ShopAddressAdapter(this, list);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getResources().getString(R.string.shop_address));
+		builder.setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				switch(which)
+				{
+				case 0:
+					break;
+					
+					default:
+						break;
+				}
+				
+			}
+		});
+		
+		AlertDialog dialog = builder.create();
+		dialog.show();
+		
+	}
+
 	protected void onReceiveResult(Context context, Intent intent)
 	{
 		Log.i(TAG, "onReceive");
@@ -122,7 +170,6 @@ public class ShopRegistrationActivity extends Activity implements OnClickListene
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
-						mLocationClient.moveCamera(mLocationClient.getCurrentPosition());
 					}
 				});
 		alertDialog.setNegativeButton(getResources().getString(R.string.manual_address),
@@ -146,8 +193,12 @@ public class ShopRegistrationActivity extends Activity implements OnClickListene
 	{
 		super.onResume();
 		
-		IntentFilter filter = new IntentFilter(LocationUtil.ACTION_REVERSE_GEOCODING);
-		registerReceiver(mReciever, filter);
+		IntentFilter geoCodinFilter = new IntentFilter(LocationUtil.ACTION_REVERSE_GEOCODING);
+		registerReceiver(mReciever, geoCodinFilter);
+		
+		IntentFilter addrResult = new IntentFilter(ShopUtils.ACTION_SEARCH_ADDRESS_RESULT);
+		registerReceiver(mAddrResultReceiver, addrResult);
+		
 	}
 	
 	@Override
@@ -155,6 +206,7 @@ public class ShopRegistrationActivity extends Activity implements OnClickListene
 	{
 		super.onPause();
 		unregisterReceiver(mReciever);
+		unregisterReceiver(mAddrResultReceiver);
 	}
 
 	@Override
@@ -193,50 +245,18 @@ public class ShopRegistrationActivity extends Activity implements OnClickListene
 
 	private void searchAddress() 
 	{
+		String dong = mShopSearchAddresEdiText.getText().toString();
 		
-		/*
-		String key =
-				"fz+D92GHcx2tw1sxIdqMifIhApHVJoNcrzbD6NYOqGyf5aVdMRJ7jw+uDPup3jjK8ntUjWptZarC9Hpt353G6Q==";
-		try
+		if(dong.isEmpty())
 		{
-			key = URLEncoder.encode(key, "UTF-8");
-		} catch (UnsupportedEncodingException e)
-		{
-			e.printStackTrace();
+			//Show dialog to ask input
+			return;
 		}
-		
-		String url =
-				"http://openapi.epost.go.kr/postal/retrieveLotNumberAdressService/retrieveLotNumberAdressService/getEupMyunDongList"
-		+ "?ServiceKey=";
-		
-		String params = "&emdCd=�ϻ絿";
-		
-		String addr = 
-				"http://openapi.epost.go.kr/postal/retrieveLotNumberAdressService/retrieveLotNumberAdressService/getDetailList?ServiceKey=fz%2BD92GHcx2tw1sxIdqMifIhApHVJoNcrzbD6NYOqGyf5aVdMRJ7jw%2BuDPup3jjK8ntUjWptZarC9Hpt353G6Q%3D%3D&searchSe=dong&srchwrd=%EC%95%94%EC%82%AC%EB%8F%99";
 	
-		ShopSearchAddressConnection conn = new ShopSearchAddressConnection();
-		conn.setURL(addr);
-		conn.setMethod(NetworkConnection.Method.GET);
+		Intent intent = ShopUtils.getSearchAddressServiceIntent(this);
+		intent.putExtra(ShopUtils.KEY_DONG, dong);
+		startService(intent);
 		
-		Log.d(TAG, addr);
-		
-		
-	
-		String result = "null";
-		try
-		{
-			result = conn.execute().get();
-		} catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} */
-		
-	
 	}
 
 	private void registerShop()
@@ -248,35 +268,5 @@ public class ShopRegistrationActivity extends Activity implements OnClickListene
 		String phone = mShopPhoneNumberEditText.getText().toString();
 	}
 
-	private void findAddress()
-	{
-		Log.d(TAG, "findAddress");
-		
-		Location location = mLocationClient.getLastLocation();
-		
-		double latitude = location.getLatitude();
-		double longitude = location.getLongitude();
-		mLocationClient.setCurrentPosition(latitude, longitude);
-		
-		try
-		{
-			String query = LocationUtil.getQuery(this,latitude, longitude);
-				
-			Intent service = LocationUtil.getReverseGeocodingIntent(this);
-			service.putExtra(LocationUtil.QUERY_REVERSE_GEOCODING, query.toString());
-			startService(service);
-			
-		} catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		} catch (ExecutionException e)
-		{
-			e.printStackTrace();
-		}
-	
-	}
-
-	
-	
 
 }
