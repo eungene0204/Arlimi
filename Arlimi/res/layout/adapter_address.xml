@@ -4,19 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
     
-   <CheckedTextView 
+   <TextView 
        android:id="@+id/addrs_zip"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        /> 
        
-   <CheckedTextView
+   <TextView
        android:id="@+id/addrs_dong"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:checkMark="?android:attr/listChoiceIndicatorSingle"
        />
-   
-    
 
 </LinearLayout>

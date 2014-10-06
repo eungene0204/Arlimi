@@ -28,6 +28,10 @@ public class ShopUtils
 	static public final String KEY_ADDRESS_SEARCH_RESULT =
 			"address_search_result";
 	
+	static public final String DIALOG_TAG_ADDRESS_RESULT =
+			"address_result_tag";
+	
+	
 	static public Intent getSearchAddressServiceIntent(Context context)
 	{
 		return new Intent(context,SearchAddressService.class);

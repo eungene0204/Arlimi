@@ -5,11 +5,10 @@ import org.json.JSONObject;
 
 import siva.arlimi.location.util.LocationUtil;
 import siva.arlimi.main.R;
-import siva.arlimi.shop.adapter.ShopAddressAdapter;
+import siva.arlimi.shop.fragment.ShowAddressDialogFragment;
+import siva.arlimi.shop.fragment.ShowAddressDialogFragment.SearchShopAddressListener;
 import siva.arlimi.shop.service.ShopRegistrationService;
-import siva.arlimi.shop.util.AddrNodeList;
 import siva.arlimi.shop.util.ShopUtils;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,13 +16,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class ShopRegistrationActivity extends Activity implements OnClickListener
+public class ShopRegistrationActivity extends FragmentActivity 
+		implements OnClickListener, SearchShopAddressListener
 {
 	static public final String TAG = "ShopRegistrationActivity";
 	
@@ -81,42 +84,31 @@ public class ShopRegistrationActivity extends Activity implements OnClickListene
 		String result =
 				intent.getStringExtra(ShopUtils.KEY_ADDRESS_SEARCH_RESULT);
 		
-		Log.d(TAG, "Addr result: " + result);
-		
-		AddrNodeList list = ShopUtils.parseXml(result);
-		
-		showAddrDialog(list);
-		
-		
+		showAddrDialog(result);
 	}
 
-	private void showAddrDialog(AddrNodeList list)
+	private void showAddrDialog(String result)
 	{
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment prev = getSupportFragmentManager()
+				.findFragmentByTag(ShopUtils.DIALOG_TAG_ADDRESS_RESULT);
+		if( null != prev)
+			ft.remove(prev);
 		
-		ShopAddressAdapter adapter = new ShopAddressAdapter(this, list);
+		ft.addToBackStack(null);
 		
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(getResources().getString(R.string.shop_address));
-		builder.setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener()
-		{
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				switch(which)
-				{
-				case 0:
-					break;
-					
-					default:
-						break;
-				}
-				
-			}
-		});
+	
+		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment(result);
+		dialog.show(ft, ShopUtils.DIALOG_TAG_ADDRESS_RESULT);
 		
-		AlertDialog dialog = builder.create();
-		dialog.show();
+		/*
+		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment();
+		
+		Bundle bundle = new Bundle();
+		bundle.putString(ShopUtils.KEY_ADDRESS_SEARCH_RESULT,
+				result);
+		dialog.setArguments(bundle);
+		dialog.show(getSupportFragmentManager(), null); */
 		
 	}
 
@@ -266,6 +258,12 @@ public class ShopRegistrationActivity extends Activity implements OnClickListene
 		String name = mShopNameEditText.getText().toString(); 
 		String address = mShopAddressEditText.getText().toString();
 		String phone = mShopPhoneNumberEditText.getText().toString();
+	}
+
+	@Override
+	public void onSearchShopAddress(String result)
+	{
+		
 	}
 
 
