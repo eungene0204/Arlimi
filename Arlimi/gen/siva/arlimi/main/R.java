@@ -592,7 +592,7 @@ containing a value of this type.
         public static final int com_facebook_list_section_header_background=0x7f020020;
         public static final int com_facebook_loginbutton_silver=0x7f020021;
         public static final int com_facebook_logo=0x7f020022;
-        public static final int com_facebook_picker_default_separator_color=0x7f020079;
+        public static final int com_facebook_picker_default_separator_color=0x7f02007a;
         public static final int com_facebook_picker_item_background=0x7f020023;
         public static final int com_facebook_picker_list_focused=0x7f020024;
         public static final int com_facebook_picker_list_longpressed=0x7f020025;
@@ -662,34 +662,35 @@ containing a value of this type.
         public static final int plus=0x7f020065;
         public static final int powered_by_google_dark=0x7f020066;
         public static final int powered_by_google_light=0x7f020067;
-        public static final int quickaction_arrow_down=0x7f020068;
-        public static final int quickaction_arrow_up=0x7f020069;
-        public static final int quickaction_bottom_frame=0x7f02006a;
-        public static final int quickaction_slider_background=0x7f02006b;
-        public static final int quickaction_slider_btn=0x7f02006c;
-        public static final int quickaction_slider_btn_normal=0x7f02006d;
-        public static final int quickaction_slider_btn_on=0x7f02006e;
-        public static final int quickaction_slider_btn_pressed=0x7f02006f;
-        public static final int quickaction_slider_btn_selected=0x7f020070;
-        public static final int quickaction_slider_grip_left=0x7f020071;
-        public static final int quickaction_slider_grip_right=0x7f020072;
-        public static final int quickaction_top_frame=0x7f020073;
-        public static final int quickcontact_drop_shadow=0x7f020074;
-        public static final int search_bg_shadow=0x7f020075;
-        public static final int siva_down_arrow=0x7f020076;
-        public static final int siva_up_arrow=0x7f020077;
-        public static final int textfield_default=0x7f020078;
+        public static final int progress=0x7f020068;
+        public static final int quickaction_arrow_down=0x7f020069;
+        public static final int quickaction_arrow_up=0x7f02006a;
+        public static final int quickaction_bottom_frame=0x7f02006b;
+        public static final int quickaction_slider_background=0x7f02006c;
+        public static final int quickaction_slider_btn=0x7f02006d;
+        public static final int quickaction_slider_btn_normal=0x7f02006e;
+        public static final int quickaction_slider_btn_on=0x7f02006f;
+        public static final int quickaction_slider_btn_pressed=0x7f020070;
+        public static final int quickaction_slider_btn_selected=0x7f020071;
+        public static final int quickaction_slider_grip_left=0x7f020072;
+        public static final int quickaction_slider_grip_right=0x7f020073;
+        public static final int quickaction_top_frame=0x7f020074;
+        public static final int quickcontact_drop_shadow=0x7f020075;
+        public static final int search_bg_shadow=0x7f020076;
+        public static final int siva_down_arrow=0x7f020077;
+        public static final int siva_up_arrow=0x7f020078;
+        public static final int textfield_default=0x7f020079;
     }
     public static final class id {
-        public static final int action_refresh=0x7f080099;
-        public static final int action_search=0x7f08009a;
-        public static final int action_setting=0x7f08009b;
-        public static final int actionbar_item_overflow=0x7f080098;
+        public static final int action_refresh=0x7f08009b;
+        public static final int action_search=0x7f08009c;
+        public static final int action_setting=0x7f08009d;
+        public static final int actionbar_item_overflow=0x7f08009a;
         public static final int address_progress=0x7f080021;
         public static final int addrs_dong=0x7f080051;
         public static final int addrs_zip=0x7f080050;
-        public static final int arrow_down=0x7f080093;
-        public static final int arrow_up=0x7f08008f;
+        public static final int arrow_down=0x7f080095;
+        public static final int arrow_up=0x7f080091;
         public static final int book_now=0x7f080010;
         public static final int btn_currentMonth=0x7f08002c;
         public static final int btn_input_menu=0x7f080038;
@@ -761,12 +762,12 @@ containing a value of this type.
         public static final int facebook_profile_pic=0x7f08007b;
         public static final int facebook_reg_btn=0x7f080027;
         public static final int facebook_user_name=0x7f08007c;
-        public static final int footer=0x7f080092;
+        public static final int footer=0x7f080094;
         public static final int frame_container=0x7f080019;
         public static final int geofence_add_btn=0x7f080020;
         public static final int grayscale=0x7f080012;
         public static final int grindview_calendar=0x7f08002f;
-        public static final int header2=0x7f08008e;
+        public static final int header2=0x7f080090;
         public static final int holo_dark=0x7f080005;
         public static final int holo_light=0x7f080006;
         public static final int hybrid=0x7f080004;
@@ -802,13 +803,15 @@ containing a value of this type.
         public static final int picker_subtitle=0x7f080061;
         public static final int popup_text=0x7f08008c;
         public static final int production=0x7f080007;
+        public static final int progressBar=0x7f08008f;
+        public static final int progress_container=0x7f08008e;
         public static final int radius_seekbar=0x7f080046;
         public static final int radius_textview=0x7f080047;
         public static final int registration_btn=0x7f080025;
         public static final int relaytiveLayout_address=0x7f080030;
         public static final int sandbox=0x7f080008;
         public static final int satellite=0x7f080002;
-        public static final int scroll=0x7f080090;
+        public static final int scroll=0x7f080092;
         public static final int search_menu_btn=0x7f08003f;
         public static final int selectionDetails=0x7f08000b;
         public static final int shop_address_et=0x7f08004c;
@@ -825,16 +828,16 @@ containing a value of this type.
         public static final int small=0x7f080014;
         public static final int strict_sandbox=0x7f080009;
         public static final int terrain=0x7f080003;
-        public static final int testCard=0x7f080094;
+        public static final int testCard=0x7f080096;
         public static final int textview_current_address=0x7f080034;
         public static final int textview_id=0x7f080039;
         public static final int textview_pass=0x7f08003b;
         public static final int textview_search_address=0x7f080031;
-        public static final int tracks=0x7f080091;
+        public static final int tracks=0x7f080093;
         public static final int tv_title=0x7f080017;
-        public static final int txtView=0x7f080097;
-        public static final int txtView_body=0x7f080096;
-        public static final int txtView_header=0x7f080095;
+        public static final int txtView=0x7f080099;
+        public static final int txtView_body=0x7f080098;
+        public static final int txtView_header=0x7f080097;
         public static final int user_logout_btn=0x7f08007f;
         public static final int wrap_content=0x7f08000d;
     }
@@ -901,8 +904,9 @@ containing a value of this type.
         public static final int fragment_user_registration=0x7f030037;
         public static final int listview_item=0x7f030038;
         public static final int popup=0x7f030039;
-        public static final int quickaction=0x7f03003a;
-        public static final int test_card=0x7f03003b;
+        public static final int progress_bar=0x7f03003a;
+        public static final int quickaction=0x7f03003b;
+        public static final int test_card=0x7f03003c;
     }
     public static final class menu {
         public static final int actionbar_menu=0x7f0c0000;
@@ -911,12 +915,12 @@ containing a value of this type.
     public static final class string {
         public static final int account=0x7f070059;
         public static final int action_setting=0x7f070051;
-        public static final int activity_unknown=0x7f070075;
-        public static final int add_geofences_already_requested_error=0x7f07007e;
-        public static final int add_geofences_result_failure=0x7f07007d;
+        public static final int activity_unknown=0x7f070076;
+        public static final int add_geofences_already_requested_error=0x7f07007f;
+        public static final int add_geofences_result_failure=0x7f07007e;
         /**  Messages 
          */
-        public static final int add_geofences_result_success=0x7f07007c;
+        public static final int add_geofences_result_success=0x7f07007d;
         public static final int address_confirm=0x7f070066;
         public static final int algorithm=0x7f070042;
         public static final int app_name=0x7f070050;
@@ -1038,7 +1042,7 @@ containing a value of this type.
         public static final int common_signin_button_text_long=0x7f070018;
         public static final int complete_registration=0x7f070060;
         public static final int confirm=0x7f070067;
-        public static final int connected=0x7f07007f;
+        public static final int connected=0x7f070080;
         public static final int connection_error_code=0x7f070033;
         public static final int connection_error_disabled=0x7f070034;
         public static final int connection_error_internal=0x7f070035;
@@ -1053,11 +1057,11 @@ containing a value of this type.
         public static final int connection_error_outdated=0x7f07003e;
         public static final int connection_error_sign_in_required=0x7f07003f;
         public static final int connection_error_unknown=0x7f070040;
-        public static final int connection_failed=0x7f070080;
+        public static final int connection_failed=0x7f070081;
         public static final int date=0x7f07004b;
-        public static final int disconnected=0x7f070081;
-        public static final int drawer_close=0x7f07007b;
-        public static final int drawer_open=0x7f07007a;
+        public static final int disconnected=0x7f070082;
+        public static final int drawer_close=0x7f07007c;
+        public static final int drawer_open=0x7f07007b;
         public static final int email=0x7f070061;
         public static final int event=0x7f070044;
         public static final int event_end_date=0x7f070046;
@@ -1065,94 +1069,95 @@ containing a value of this type.
         public static final int event_start_date=0x7f070045;
         public static final int event_start_time=0x7f070047;
         public static final int facebook_app_id=0x7f07005a;
-        public static final int find_address=0x7f07006d;
+        public static final int find_address=0x7f07006e;
         /**   Overflow menu itmes 
          */
-        public static final int first_item=0x7f070077;
-        public static final int geofence_input_error_latitude_invalid=0x7f070083;
-        public static final int geofence_input_error_longitude_invalid=0x7f070084;
-        public static final int geofence_input_error_missing=0x7f070082;
-        public static final int geofence_input_error_radius_invalid=0x7f070085;
-        public static final int geofence_transition_entered=0x7f070086;
-        public static final int geofence_transition_error_detail=0x7f070087;
-        public static final int geofence_transition_exited=0x7f070088;
-        public static final int geofence_transition_invalid_type=0x7f070089;
-        public static final int geofence_transition_notification_text=0x7f07008a;
-        public static final int geofence_transition_notification_title=0x7f07008b;
-        public static final int geofence_transition_unknown=0x7f07008c;
+        public static final int first_item=0x7f070078;
+        public static final int geofence_input_error_latitude_invalid=0x7f070084;
+        public static final int geofence_input_error_longitude_invalid=0x7f070085;
+        public static final int geofence_input_error_missing=0x7f070083;
+        public static final int geofence_input_error_radius_invalid=0x7f070086;
+        public static final int geofence_transition_entered=0x7f070087;
+        public static final int geofence_transition_error_detail=0x7f070088;
+        public static final int geofence_transition_exited=0x7f070089;
+        public static final int geofence_transition_invalid_type=0x7f07008a;
+        public static final int geofence_transition_notification_text=0x7f07008b;
+        public static final int geofence_transition_notification_title=0x7f07008c;
+        public static final int geofence_transition_unknown=0x7f07008d;
         /**  Google API KEY 
          */
-        public static final int google_api_key=0x7f070078;
+        public static final int google_api_key=0x7f070079;
         public static final int hello_world=0x7f070052;
         /**   Acivity recognition 
          */
-        public static final int in_vehicle=0x7f070071;
-        public static final int invalid_action=0x7f07008d;
-        public static final int invalid_action_detail=0x7f07008e;
-        public static final int invalid_integer_id=0x7f07008f;
+        public static final int in_vehicle=0x7f070072;
+        public static final int invalid_action=0x7f07008e;
+        public static final int invalid_action_detail=0x7f07008f;
+        public static final int invalid_integer_id=0x7f070090;
         public static final int key_updates_on=0x7f070054;
         /**  Number patterns 
          */
-        public static final int lat_lng_pattern=0x7f0700a3;
-        public static final int latitude_error_message=0x7f070090;
+        public static final int lat_lng_pattern=0x7f0700a4;
+        public static final int latitude_error_message=0x7f070091;
         public static final int login=0x7f07005d;
         public static final int login_with_facebook=0x7f07005b;
         public static final int logout=0x7f07005e;
-        public static final int longitude_error_message=0x7f070091;
+        public static final int longitude_error_message=0x7f070092;
         public static final int main_activity=0x7f070043;
         public static final int manual_address=0x7f070065;
         public static final int map=0x7f07004a;
         public static final int name=0x7f070063;
         public static final int new_registration=0x7f07005f;
-        public static final int no_resolution=0x7f070092;
-        public static final int on_bicyle=0x7f070072;
-        public static final int on_foot=0x7f070073;
+        public static final int no_resolution=0x7f070093;
+        public static final int notification=0x7f070069;
+        public static final int on_bicyle=0x7f070073;
+        public static final int on_foot=0x7f070074;
         public static final int password=0x7f070062;
-        public static final int play_services_available=0x7f070093;
-        public static final int radius_error_message=0x7f070094;
-        public static final int radius_pattern=0x7f0700a4;
-        public static final int register_geofence=0x7f070095;
+        public static final int play_services_available=0x7f070094;
+        public static final int radius_error_message=0x7f070095;
+        public static final int radius_pattern=0x7f0700a5;
+        public static final int register_geofence=0x7f070096;
         public static final int registration=0x7f07004e;
         public static final int registration_by_email=0x7f07004f;
         public static final int registration_with_facebook=0x7f07005c;
-        public static final int remove_geofences_already_requested_error=0x7f070097;
-        public static final int remove_geofences_id_failure=0x7f070096;
-        public static final int remove_geofences_id_success=0x7f070098;
-        public static final int remove_geofences_intent_failure=0x7f070099;
-        public static final int remove_geofences_intent_success=0x7f07009a;
+        public static final int remove_geofences_already_requested_error=0x7f070098;
+        public static final int remove_geofences_id_failure=0x7f070097;
+        public static final int remove_geofences_id_success=0x7f070099;
+        public static final int remove_geofences_intent_failure=0x7f07009a;
+        public static final int remove_geofences_intent_success=0x7f07009b;
         /**  Location 
          */
-        public static final int reverse_geocoding_query=0x7f070079;
+        public static final int reverse_geocoding_query=0x7f07007a;
         public static final int search=0x7f070055;
         /**  Dialog 
          */
         public static final int search_address_title=0x7f070064;
         public static final int share=0x7f07004d;
         public static final int sharedPreference=0x7f070053;
-        public static final int shop_address=0x7f07006a;
-        public static final int shop_detail_address=0x7f07006b;
-        public static final int shop_dong=0x7f070070;
-        public static final int shop_find=0x7f07006e;
+        public static final int shop_address=0x7f07006b;
+        public static final int shop_detail_address=0x7f07006c;
+        public static final int shop_dong=0x7f070071;
+        public static final int shop_find=0x7f07006f;
         /**  Shop Registration 
          */
-        public static final int shop_name=0x7f070069;
-        public static final int shop_phone_num=0x7f07006c;
-        public static final int shop_region=0x7f07006f;
+        public static final int shop_name=0x7f07006a;
+        public static final int shop_phone_num=0x7f07006d;
+        public static final int shop_region=0x7f070070;
         public static final int siva=0x7f070041;
         public static final int sort_by_category=0x7f070058;
         public static final int sort_by_distance=0x7f070057;
         public static final int sort_by_time=0x7f070056;
-        public static final int still=0x7f070074;
-        public static final int tilting=0x7f070076;
+        public static final int still=0x7f070075;
+        public static final int tilting=0x7f070077;
         public static final int tool=0x7f070049;
-        public static final int transition_entered=0x7f07009b;
-        public static final int transition_exited=0x7f07009c;
-        public static final int transition_unknown=0x7f07009d;
-        public static final int unknown=0x7f07009e;
-        public static final int unknown_activity_request_code=0x7f07009f;
-        public static final int unregister_geofence=0x7f0700a0;
-        public static final int unregister_geofence1=0x7f0700a1;
-        public static final int unregister_geofence2=0x7f0700a2;
+        public static final int transition_entered=0x7f07009c;
+        public static final int transition_exited=0x7f07009d;
+        public static final int transition_unknown=0x7f07009e;
+        public static final int unknown=0x7f07009f;
+        public static final int unknown_activity_request_code=0x7f0700a0;
+        public static final int unregister_geofence=0x7f0700a1;
+        public static final int unregister_geofence1=0x7f0700a2;
+        public static final int unregister_geofence2=0x7f0700a3;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */

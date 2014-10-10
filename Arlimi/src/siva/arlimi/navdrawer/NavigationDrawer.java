@@ -7,6 +7,7 @@ import siva.arlimi.auth.activity.LoginActivity;
 import siva.arlimi.main.MainActivity;
 import siva.arlimi.main.R;
 import siva.arlimi.navdrawer.adapter.NavDrawerListAdapter;
+import siva.arlimi.navdrawer.adapter.ViewHolder;
 import siva.arlimi.navdrawer.util.ITEM_ID;
 import siva.arlimi.navdrawer.util.ITEM_TYPE;
 import siva.arlimi.shop.activity.ShopRegistrationActivity;

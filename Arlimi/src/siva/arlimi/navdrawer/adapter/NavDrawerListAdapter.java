@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import siva.arlimi.main.R;
 import siva.arlimi.navdrawer.NavDrawerItem;
-import siva.arlimi.navdrawer.ViewHolder;
 import siva.arlimi.navdrawer.util.ITEM_TYPE;
 import android.app.Activity;
 import android.content.Context;

@@ -7,6 +7,7 @@ import siva.arlimi.location.util.LocationUtil;
 import siva.arlimi.main.R;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment.SearchShopAddressListener;
+import siva.arlimi.shop.progress.AddressSearchProgressBar;
 import siva.arlimi.shop.service.ShopRegistrationService;
 import siva.arlimi.shop.util.ShopUtils;
 import android.app.AlertDialog;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 public class ShopRegistrationActivity extends FragmentActivity 
 		implements OnClickListener, SearchShopAddressListener
@@ -89,6 +91,29 @@ public class ShopRegistrationActivity extends FragmentActivity
 
 	private void showAddrDialog(String result)
 	{
+		//epost server does not respond
+		if(result.equals("null"))
+		{
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(getResources().getString(R.string.notification));
+			builder.setMessage("주소서버 연결이 원활하지 않습니다.\n " +
+					"잠시 후 다시 시도해 주십시요.");
+			builder.setPositiveButton(getResources().getString(R.string.confirm),
+					new DialogInterface.OnClickListener()
+			{
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					// TODO Auto-generated method stub
+				}
+			});
+			AlertDialog dialog = builder.create();
+			dialog.show();
+			
+			return;
+		}
+		
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		Fragment prev = getSupportFragmentManager()
 				.findFragmentByTag(ShopUtils.DIALOG_TAG_ADDRESS_RESULT);
@@ -97,18 +122,18 @@ public class ShopRegistrationActivity extends FragmentActivity
 		
 		ft.addToBackStack(null);
 		
-	
-		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment(result);
-		dialog.show(ft, ShopUtils.DIALOG_TAG_ADDRESS_RESULT);
-		
+
 		/*
-		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment();
+		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment(result);
+		dialog.show(ft, ShopUtils.DIALOG_TAG_ADDRESS_RESULT); */
+		
+		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment(result);
 		
 		Bundle bundle = new Bundle();
 		bundle.putString(ShopUtils.KEY_ADDRESS_SEARCH_RESULT,
 				result);
 		dialog.setArguments(bundle);
-		dialog.show(getSupportFragmentManager(), null); */
+		dialog.show(getSupportFragmentManager(), null); 
 		
 	}
 
@@ -244,11 +269,17 @@ public class ShopRegistrationActivity extends FragmentActivity
 			//Show dialog to ask input
 			return;
 		}
-	
+
 		Intent intent = ShopUtils.getSearchAddressServiceIntent(this);
 		intent.putExtra(ShopUtils.KEY_DONG, dong);
-		startService(intent);
 		
+		View progressView = View.inflate(this, R.layout.progress_bar, null);
+
+		ProgressBar bar = (ProgressBar) progressView.findViewById(R.id.progressBar);
+		
+		AddressSearchProgressBar progressBar =
+				new AddressSearchProgressBar(this, intent, bar);
+		progressBar.executeAddressSearchProgressTask();
 	}
 
 	private void registerShop()

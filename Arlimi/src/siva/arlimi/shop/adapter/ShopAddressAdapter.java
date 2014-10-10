@@ -69,21 +69,39 @@ public class ShopAddressAdapter implements ListAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
+		ViewHolder viewHolder;
+		
 		if(convertView == null)
 		{
+			viewHolder = new ViewHolder();
+			
 			convertView =
 					mInflater.inflate(R.layout.adapter_address, null, false);
+			
+			viewHolder.mZipTextView = (TextView)
+					convertView.findViewById(R.id.addrs_zip);
+			viewHolder.mAddrTextView = (TextView)
+					convertView.findViewById(R.id.addrs_dong);
+			
+			convertView.setTag(viewHolder);
+			
+		}
+		else
+		{
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		
-		TextView zip = (TextView) convertView.findViewById(R.id.addrs_zip);
-		zip.setText(mList.getNode(position).getmZipNum());
-		
-		TextView addr = (TextView) convertView.findViewById(R.id.addrs_dong);
-		addr.setText(mList.getNode(position).getmAddress());
-		
-		
+		viewHolder.mZipTextView.setText(mList.getNode(position).getmZipNum());
+		viewHolder.mAddrTextView.setText(mList.getNode(position).getmAddress());
 		
 		return convertView;
+	}
+	
+	public class ViewHolder 
+	{
+		public TextView mZipTextView;
+		public TextView mAddrTextView;
+		
 	}
 
 	@Override

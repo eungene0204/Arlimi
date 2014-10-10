@@ -15,9 +15,14 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import siva.arlimi.main.R;
 import siva.arlimi.shop.service.SearchAddressService;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ProgressBar;
 
 public class ShopUtils
 {
@@ -89,5 +94,7 @@ public class ShopUtils
 		
 		return list;
 	}
+	
+
 
 }

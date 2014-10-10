@@ -23,10 +23,11 @@ public class SearchAddressService extends Service implements OnSearchAddressList
 		super.onStartCommand(intent, flags, startId);
 		
 		String dong = intent.getStringExtra(ShopUtils.KEY_DONG);
-		
+
 		SearchAddressConnection conn = new SearchAddressConnection(this);
 		conn.setDong(dong);
-		conn.execute();
+		conn.execute(); 
+		
 		
 		return START_REDELIVER_INTENT;
 	}

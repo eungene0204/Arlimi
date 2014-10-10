@@ -11,14 +11,17 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class ShowAddressDialogFragment extends DialogFragment implements android.view.View.OnClickListener
+public class ShowAddressDialogFragment extends DialogFragment 
 {
-	private final String mResult;
+	public static final String TAG = "ShowAddressDialogFragment";
+	
+	private String mResult;
 	private ShopAddressAdapter mAdapter;
 	
 	private SearchShopAddressListener mAddressLisentner;
@@ -40,10 +43,14 @@ public class ShowAddressDialogFragment extends DialogFragment implements android
 		return dialogFragment;
 	}
 	
+	public ShowAddressDialogFragment()
+	{
+		// TODO Auto-generated constructor stub
+	}
+	
 	public ShowAddressDialogFragment(String result)
 	{
 		this.mResult = result;
-		
 	}
 	
 	@Override
@@ -71,7 +78,36 @@ public class ShowAddressDialogFragment extends DialogFragment implements android
 		mAdapter = new ShopAddressAdapter(getActivity(), list);
 		
 	}
+
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) 
+	{
+		Bundle bundle = getArguments();
+		String result = bundle.getString(ShopUtils.KEY_ADDRESS_SEARCH_RESULT);
+		
+		ListView listView = (ListView)
+				getActivity().getLayoutInflater().inflate(R.layout.dialogfragment_search_address, null)
+				.findViewById(R.id.shop_address_listview);
 	
+		AddrNodeList list = ShopUtils.parseXml(result);
+		ShopAddressAdapter adapter = new ShopAddressAdapter(getActivity(), list);
+		listView.setAdapter(adapter);
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle( getActivity().getResources().getString(R.string.shop_address));
+		builder.setView(listView);
+		builder.setPositiveButton(getActivity().getResources().getString(R.string.confirm)
+				,positiveListener);
+		builder.setNegativeButton(getActivity().getResources().getString(R.string.cancel)
+				, null);
+		
+		AlertDialog dialog = builder.create();
+		
+		return dialog;
+		
+	} 
+
+	/*
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
@@ -83,10 +119,28 @@ public class ShowAddressDialogFragment extends DialogFragment implements android
 				root.findViewById(R.id.shop_address_listview);
 		
 		listView.setAdapter(mAdapter);
-		listView.setOnClickListener(this);
+		listView.setOnItemClickListener(itemListener);
+		
+		getDialog().setTitle(getResources().getString(R.string.search_address_title));
+		
+	
 		
 		return root;
-	}
+	} */
+	
+	private AdapterView.OnItemClickListener itemListener =
+			new OnItemClickListener()
+			{
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id)
+				{
+					Log.d(TAG, "item click!!");
+					
+				}
+			};
+	
 	
 	private OnClickListener positiveListener = new OnClickListener()
 	{
@@ -101,35 +155,6 @@ public class ShowAddressDialogFragment extends DialogFragment implements android
 		}
 	};
 
-	@Override
-	public void onClick(View v)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 
-	/*
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) 
-	{
-		Bundle bundle = getArguments();
-		String result = bundle.getString(ShopUtils.KEY_ADDRESS_SEARCH_RESULT);
-	
-		AddrNodeList list = ShopUtils.parseXml(result);
-		ShopAddressAdapter adapter = new ShopAddressAdapter(getActivity(), list);
-		
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle( getActivity().getResources().getString(R.string.shop_address));
-		builder.setSingleChoiceItems(adapter, -1, null);
-		builder.setPositiveButton(getActivity().getResources().getString(R.string.confirm)
-				,positiveListener);
-		builder.setNegativeButton(getActivity().getResources().getString(R.string.cancel)
-				, null);
-		
-		AlertDialog dialog = builder.create();
-		
-		return dialog;
-		
-	} */
 	
 }
