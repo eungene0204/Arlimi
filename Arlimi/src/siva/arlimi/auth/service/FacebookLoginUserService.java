@@ -42,13 +42,14 @@ public class FacebookLoginUserService extends Service implements OnLoginResultLi
 	}
 
 	@Override
-	public void OnLoginResult(String result)
+	public void OnLoginResult(final String result)
 	{
+		Log.d(TAG, "service result" + result);
 		sendResultToActivity(result);
 	}
 
 	
-	void sendResultToActivity(String result)
+	void sendResultToActivity(final String result)
 	{
 		final Intent intent = AuthUtil.checkResult(result, AuthUtil.ResultType.LOGIN); 
 		

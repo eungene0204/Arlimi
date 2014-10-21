@@ -3,8 +3,10 @@ package siva.arlimi.auth.activity;
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.auth.fragment.RegistrationDialogFragment;
 import siva.arlimi.auth.interfaces.OnUserLoginListener;
+import siva.arlimi.auth.session.SessionManager;
 import siva.arlimi.auth.util.AuthUtil;
 import siva.arlimi.facebook.FaceBookManager;
+import siva.arlimi.main.MainActivity;
 import siva.arlimi.main.R;
 import siva.arlimi.user.EmailUser;
 import siva.arlimi.user.FacebookUser;
@@ -43,8 +45,9 @@ public class LoginActivity extends FragmentActivity
 		
 	};
 	
+	private SessionManager session;
+	
 	@Override
-
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -52,6 +55,8 @@ public class LoginActivity extends FragmentActivity
 		
 		mFacebookMng = new FaceBookManager(this, savedInstanceState);
 		mFacebookMng.setIsNew(false);
+		
+		session = new SessionManager(getApplicationContext());
 		
 		mRegistrationBtn = (Button)
 				findViewById(R.id.registration_btn);
@@ -66,12 +71,28 @@ public class LoginActivity extends FragmentActivity
 
 	protected void onReceiveFacebookLoginResult(Context context, Intent intent)
 	{
-		int result = intent.getIntExtra(AuthUtil.KEY_LOGIN_RESULT,
-							AuthUtil.RESULT_INVALID_USER);
+		String result = intent.getStringExtra(AuthUtil.KEY_LOGIN_RESULT);
 			
-			Log.i(TAG, "facebook result " + result);
+		Log.i(TAG, "facebook result " + result);
+		if(result.equals(AuthUtil.VALID_USER))
+		{
+			FacebookUser user = mFacebookMng.getFacebookUser();
+			Log.d(TAG, user.getEmail());
 			
-			//finish();
+			//CreateSession
+			session.createLoginSession(user.getEmail(), user.getName());
+			
+			Intent i = new Intent(getApplicationContext(),MainActivity.class );
+			
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	
+			startActivity(i);
+			
+			finish();
+			
+		}
+		
 	}
 
 

@@ -1,5 +1,4 @@
-package siva.arlimi.auth.util;
-
+package siva.arlimi.auth.util; 
 import java.util.Set;
 
 import org.json.JSONException;
@@ -18,16 +17,14 @@ public class AuthUtil
 {
 	public static final String TAG = "AuthUtil";
 	
-	private static final String VALID_USER = "VALID";
+	public static final String VALID_USER = "VALID";	
+	public static final String INVALID_USER = "INVALID";
 
 	public static String ACTIVITY = "ACTIVITY";
 	public static String KEY_EMAIL = "EMAIL"; 
 	public static String KEY_NAME = "NAME";
 	public static String KEY_PASSWORD = "PASSWORD";
 	
-	
-	public static int RESULT_VALID_USER = 1;
-	public static int RESULT_INVALID_USER = 0;
 
 	public static String KEY_USER = "USER";
 	public static String KEY_EMAIL_USER = "EMAIL_USER";
@@ -62,8 +59,8 @@ public class AuthUtil
 	
 	public static Intent checkResult(final String result, final ResultType type)
 	{
-	
 		Intent intent = new Intent();
+		
 		
 		switch(type)
 		{
@@ -81,17 +78,15 @@ public class AuthUtil
 		
 		}
 		
-		if(result.equals(VALID_USER))
+		if(result.trim().equals(VALID_USER))
 		{
-			Log.i(TAG, "checkResult valid " + result);
 			intent.putExtra(AuthUtil.KEY_LOGIN_RESULT,
-					AuthUtil.RESULT_VALID_USER);
+					VALID_USER);
 		}
 		else 
 		{
-			Log.i(TAG, "checkResult invalid " + result);
 			intent.putExtra(AuthUtil.KEY_LOGIN_RESULT, 
-					AuthUtil.RESULT_INVALID_USER);
+					INVALID_USER);
 		}
 		
 		return intent;

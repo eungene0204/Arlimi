@@ -54,13 +54,14 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 	
 	protected void onReceiveRegistrationResult(Intent intent)
 	{
+		/*
 		final int result = intent.getIntExtra
 				(AuthUtil.KEY_LOGIN_RESULT, AuthUtil.RESULT_INVALID_USER);
 		
 		Log.i(TAG,"Facebook Registration result " + result);
 		
 		if(AuthUtil.RESULT_VALID_USER == result)
-			dismiss();
+			dismiss(); */
 		
 	}
 

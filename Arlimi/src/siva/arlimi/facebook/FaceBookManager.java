@@ -5,6 +5,8 @@ import java.security.NoSuchAlgorithmException;
 
 import siva.arlimi.auth.interfaces.OnRegisterNewUserListener;
 import siva.arlimi.auth.interfaces.OnUserLoginListener;
+import siva.arlimi.auth.session.SessionManager;
+import siva.arlimi.main.MainActivity;
 import siva.arlimi.user.FacebookUser;
 import android.app.Activity;
 import android.content.Intent;
@@ -38,6 +40,8 @@ public class FaceBookManager
 	
 	private boolean isNew = false;
 	
+	private final SessionManager mSession;
+	
 	private Session.StatusCallback callback = new StatusCallback()
 	{
 		@Override
@@ -51,6 +55,8 @@ public class FaceBookManager
 	{
 		//LoginActivity
 		mContext = context;
+		
+		mSession = new SessionManager(mContext.getApplicationContext());
 		
 		uiHelper = new UiLifecycleHelper((Activity) context, callback);
 		uiHelper.onCreate(savedInstanceState);
@@ -99,11 +105,29 @@ public class FaceBookManager
 		// TODO Auto-generated method stub
 		if(session != null)
 		{
+			Log.d(TAG, session.toString());
 			if(session.isOpened())
 			{
 				makeMeRequest(session);
 			}
+			else if(session.isClosed())
+			{
+				logout();
+			}
 		}
+	}
+
+	private void logout()
+	{
+		Log.d(TAG, "LogOut");
+		mSession.logoutUser();
+
+		Intent i = new Intent(mContext.getApplicationContext(), MainActivity.class);
+
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		mContext.startActivity(i);
 	}
 
 	private void makeMeRequest(final Session session)

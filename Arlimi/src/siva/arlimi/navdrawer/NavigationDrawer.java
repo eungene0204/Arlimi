@@ -1,9 +1,9 @@
 package siva.arlimi.navdrawer;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import siva.arlimi.auth.activity.LoginActivity;
+import siva.arlimi.auth.session.SessionManager;
 import siva.arlimi.main.MainActivity;
 import siva.arlimi.main.R;
 import siva.arlimi.navdrawer.adapter.NavDrawerListAdapter;
@@ -14,6 +14,7 @@ import siva.arlimi.shop.activity.ShopRegistrationActivity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -38,11 +39,15 @@ public class NavigationDrawer
 	
 	private final ViewPager mViewPager;
 	
+	private final SessionManager mSession;
+	
 
 	public NavigationDrawer(MainActivity context, ViewPager pager)
 	{
 		mContext = context;
 		mViewPager = pager;
+		
+		mSession = new SessionManager(mContext.getApplicationContext());
 		
 		initNavigationDrawer(context);
 	}
@@ -100,11 +105,25 @@ public class NavigationDrawer
 		ITEM_ID[] toolItemIDs = {ITEM_ID.SETTING,
 							ITEM_ID.FEEDBACK,
 							ITEM_ID.SHARE };
-		
+
 		//Add Login item
 		NavDrawerItem loginItem =
 				new NavDrawerItem(ITEM_TYPE.LOGIN, ITEM_ID.LOG_IN);
-		loginItem.setTitle(login);
+		
+		//Check if user is logged in
+		if(mSession.isLoggedIn())
+		{
+			Bundle user = mSession.getUserDetails();
+			
+			String name = user.getString(mSession.KEY_NAME);
+			loginItem.setTitle(name);
+					
+		}
+		else
+		{
+			loginItem.setTitle(login);
+		}
+
 		list.add(loginItem);
 		
 		//Add Divider
@@ -149,12 +168,15 @@ public class NavigationDrawer
 		
 		//Add Divider
 		list.add(divider);
-		
-		//Add registration
-		NavDrawerItem regItem = new NavDrawerItem(ITEM_TYPE.REGISTRATION,
-				ITEM_ID.REGISTRATION);
-		regItem.setTitle(registration);
-		list.add(regItem);
+	
+		if(mSession.isLoggedIn())
+		{
+			// Add registration
+			NavDrawerItem regItem = new NavDrawerItem(ITEM_TYPE.REGISTRATION,
+					ITEM_ID.REGISTRATION);
+			regItem.setTitle(registration);
+			list.add(regItem);
+		}
 		
 	}
 	
