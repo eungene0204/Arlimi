@@ -99,6 +99,7 @@ public class ShopAddressAdapter implements ListAdapter
 	
 	public class ViewHolder 
 	{
+		
 		public TextView mZipTextView;
 		public TextView mAddrTextView;
 		
@@ -136,7 +137,7 @@ public class ShopAddressAdapter implements ListAdapter
 	public boolean isEnabled(int position)
 	{
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 }

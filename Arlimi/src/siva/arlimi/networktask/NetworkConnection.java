@@ -104,7 +104,6 @@ public class NetworkConnection extends AsyncTask<String, String, String>
 	
 	public void setData(Object data)
 	{
-		
 		this.mData = data;
 	}
 	

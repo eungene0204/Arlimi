@@ -16,7 +16,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import siva.arlimi.main.R;
+import siva.arlimi.shop.service.GeoCondingService;
 import siva.arlimi.shop.service.SearchAddressService;
+import siva.arlimi.shop.service.ShopRegistrationService;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +28,17 @@ import android.widget.ProgressBar;
 
 public class ShopUtils
 {
+	static public final String KEY_NAME = "shop_name";
+	static public final String KEY_ZIP = "zip_number";
+	static public final String KEY_ADDRESS = "address";
+	static public final String KEY_DETAIL_ADDRESS = "detail_address";
+	static public final String KEY_PHONE = "shop_phone_number";
 	static public final String KEY_DONG = "dong";
+	static public final String KEY_LATITUDE = "shop_latitude";
+	static public final String KEY_LONGITUDE = "shop_longitude";
+	
+	static public final String RESULT_OK = "ok";
+	static public final String RESULT_FAIL = "fail"; 
 
 	static public final String ACTION_SEARCH_ADDRESS_RESULT = 
 			"siva_arlimi_search_address_result";
@@ -36,15 +48,30 @@ public class ShopUtils
 	static public final String DIALOG_TAG_ADDRESS_RESULT =
 			"address_result_tag";
 	
+	static public final String ACTION_GEOCODING =
+			"siva_arlimi_geocoding";
+	static public final String KEY_GEOCODING =
+			"geocoding";
+	
 	
 	static public Intent getSearchAddressServiceIntent(Context context)
 	{
 		return new Intent(context,SearchAddressService.class);
 	}
 	
+	static public Intent getGeoCodingServiceIntent(Context context)
+	{
+		return new Intent(context, GeoCondingService.class);
+	}
+	
+	static public Intent getShopRegistrationIntent(Context context)
+	{
+		return new Intent(context, ShopRegistrationService.class);
+	}
+	
+	
 	static public AddrNodeList parseXml(String result)
 	{
-		String xml = "";
 		AddrNodeList list = new AddrNodeList();
 		
 		try

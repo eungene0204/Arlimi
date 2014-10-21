@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import siva.arlimi.location.util.LocationUtil;
 import siva.arlimi.main.R;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment;
-import siva.arlimi.shop.fragment.ShowAddressDialogFragment.SearchShopAddressListener;
+import siva.arlimi.shop.fragment.ShowAddressDialogFragment.onSelectAddressListener;
 import siva.arlimi.shop.progress.AddressSearchProgressBar;
 import siva.arlimi.shop.service.ShopRegistrationService;
 import siva.arlimi.shop.util.ShopUtils;
@@ -26,9 +26,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class ShopRegistrationActivity extends FragmentActivity 
-		implements OnClickListener, SearchShopAddressListener
+		implements OnClickListener,onSelectAddressListener 
 {
 	static public final String TAG = "ShopRegistrationActivity";
 	
@@ -37,10 +38,15 @@ public class ShopRegistrationActivity extends FragmentActivity
 	
 	private Button mRegistrationBtn;
 	
-	private EditText mShopAddressEditText;
-	private EditText mShopSearchAddresEdiText;
-	private EditText mShopNameEditText;
-	private EditText mShopPhoneNumberEditText;
+	private TextView mShopAddressTv;
+	private TextView mShopZipTv;
+	private EditText mShopDetailAddressEt;
+	private EditText mShopSearchAddresEt;
+	private EditText mShopNameEt;
+	private EditText mShopPhoneNumberEt;
+	
+	private double mShopLatitude = 0.0;
+	private double mShopLongitude = 0.0;
 	
 	private BroadcastReceiver mReciever  = new BroadcastReceiver()
 	{
@@ -53,12 +59,23 @@ public class ShopRegistrationActivity extends FragmentActivity
 	
 	private BroadcastReceiver mAddrResultReceiver = new BroadcastReceiver()
 	{
-		
 		@Override
 		public void onReceive(Context context, Intent intent)
 		{
 			onReceiveAddrResult(context,intent);
 		}
+	};
+	
+	private BroadcastReceiver mGeoCodingReceiver = new BroadcastReceiver()
+	{
+		
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			onReceiveGeoCoding(context, intent);
+		}
+
+	
 	};
 	
 	@Override
@@ -73,18 +90,59 @@ public class ShopRegistrationActivity extends FragmentActivity
 		mRegistrationBtn = (Button)findViewById(R.id.shop_registration_btn);
 		mRegistrationBtn.setOnClickListener(this);
 		
-		
-		mShopNameEditText = (EditText) findViewById(R.id.shop_name_et);
-		mShopAddressEditText = (EditText) findViewById(R.id.shop_address_et);
-		mShopPhoneNumberEditText = (EditText) findViewById(R.id.shop_phone_number_et);
-		mShopSearchAddresEdiText = (EditText) findViewById(R.id.shop_dong_address_et);
+		mShopNameEt = (EditText) findViewById(R.id.shop_name_et);
+		mShopAddressTv = (TextView) findViewById(R.id.shop_address_tv);
+		mShopZipTv = (TextView) findViewById(R.id.shop_zip_tv);
+		mShopDetailAddressEt = (EditText) findViewById(R.id.shop_detail_address_et);
+		mShopPhoneNumberEt = (EditText) findViewById(R.id.shop_phone_number_et);
+		mShopSearchAddresEt = (EditText) findViewById(R.id.shop_dong_address_et);
+
+	}
+
+	private void onReceiveGeoCoding(Context context, Intent intent)
+	{
+		String result = intent.getStringExtra(ShopUtils.KEY_GEOCODING);
+		parseGeocodingResult(result);
 		
 	}
-	
+
+	private void parseGeocodingResult(String result)
+	{
+		try
+		{
+			JSONObject json = new JSONObject(result);
+			
+			//Check if result is ok
+			if(!json.getString("status").equals("OK"))
+			{
+				//Show alert dialog
+				return;
+			}
+			
+			JSONObject res = json.getJSONArray("results").getJSONObject(0);
+			JSONObject location = res.getJSONObject("geometry").getJSONObject("location");
+			double lat = location.getDouble("lat");
+			double lng = location.getDouble("lng");
+			
+			Log.d(TAG, "lat" + lat);
+			Log.d(TAG, "lng" + lng);
+			
+			mShopLatitude = lat;
+			mShopLongitude = lng;
+			
+		} catch (JSONException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
 	protected void onReceiveAddrResult(Context context, Intent intent)
 	{
-		String result =
-				intent.getStringExtra(ShopUtils.KEY_ADDRESS_SEARCH_RESULT);
+		String result =	intent.getStringExtra(ShopUtils.KEY_ADDRESS_SEARCH_RESULT);
+		
 		
 		showAddrDialog(result);
 	}
@@ -95,10 +153,10 @@ public class ShopRegistrationActivity extends FragmentActivity
 		if(result.equals("null"))
 		{
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(getResources().getString(R.string.notification));
+			builder.setTitle(getResources().getString(R.string.dialog_notification));
 			builder.setMessage("주소서버 연결이 원활하지 않습니다.\n " +
 					"잠시 후 다시 시도해 주십시요.");
-			builder.setPositiveButton(getResources().getString(R.string.confirm),
+			builder.setPositiveButton(getResources().getString(R.string.dialog_confirm),
 					new DialogInterface.OnClickListener()
 			{
 				
@@ -127,13 +185,13 @@ public class ShopRegistrationActivity extends FragmentActivity
 		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment(result);
 		dialog.show(ft, ShopUtils.DIALOG_TAG_ADDRESS_RESULT); */
 		
-		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment(result);
+		ShowAddressDialogFragment dialog = new ShowAddressDialogFragment(this);
 		
 		Bundle bundle = new Bundle();
 		bundle.putString(ShopUtils.KEY_ADDRESS_SEARCH_RESULT,
 				result);
 		dialog.setArguments(bundle);
-		dialog.show(getSupportFragmentManager(), null); 
+		dialog.show(getSupportFragmentManager(), ShopUtils.DIALOG_TAG_ADDRESS_RESULT); 
 		
 	}
 
@@ -175,12 +233,12 @@ public class ShopRegistrationActivity extends FragmentActivity
 	
 	private void onShowDialog(String address)
 	{
-		String title = getResources().getString(R.string.search_address_title);
+		String title = getResources().getString(R.string.dialog_search_address_title);
 		
 		AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
 		alertDialog.setTitle(title);
 		alertDialog.setMessage(address + "\n" +"\n" + "위의 주소로 등록 하시겠습니까?");
-		alertDialog.setPositiveButton(getResources().getString(R.string.address_confirm),
+		alertDialog.setPositiveButton(getResources().getString(R.string.dialog_address_confirm),
 				new DialogInterface.OnClickListener()
 				{
 					
@@ -189,7 +247,7 @@ public class ShopRegistrationActivity extends FragmentActivity
 					{
 					}
 				});
-		alertDialog.setNegativeButton(getResources().getString(R.string.manual_address),
+		alertDialog.setNegativeButton(getResources().getString(R.string.dialog_manual_address),
 				new DialogInterface.OnClickListener()
 				{
 					
@@ -209,12 +267,16 @@ public class ShopRegistrationActivity extends FragmentActivity
 	protected void onResume()
 	{
 		super.onResume();
+	
+		//Need to remove
+		IntentFilter reverseGeoCodinFilter = new IntentFilter(LocationUtil.ACTION_REVERSE_GEOCODING);
+		registerReceiver(mReciever, reverseGeoCodinFilter);
 		
-		IntentFilter geoCodinFilter = new IntentFilter(LocationUtil.ACTION_REVERSE_GEOCODING);
-		registerReceiver(mReciever, geoCodinFilter);
+		IntentFilter addrResultFilter = new IntentFilter(ShopUtils.ACTION_SEARCH_ADDRESS_RESULT);
+		registerReceiver(mAddrResultReceiver, addrResultFilter);
 		
-		IntentFilter addrResult = new IntentFilter(ShopUtils.ACTION_SEARCH_ADDRESS_RESULT);
-		registerReceiver(mAddrResultReceiver, addrResult);
+		IntentFilter geocodingFilter = new IntentFilter(ShopUtils.ACTION_GEOCODING);
+		registerReceiver(mGeoCodingReceiver, geocodingFilter);
 		
 	}
 	
@@ -224,6 +286,7 @@ public class ShopRegistrationActivity extends FragmentActivity
 		super.onPause();
 		unregisterReceiver(mReciever);
 		unregisterReceiver(mAddrResultReceiver);
+		unregisterReceiver(mGeoCodingReceiver);
 	}
 
 	@Override
@@ -262,7 +325,7 @@ public class ShopRegistrationActivity extends FragmentActivity
 
 	private void searchAddress() 
 	{
-		String dong = mShopSearchAddresEdiText.getText().toString();
+		String dong = mShopSearchAddresEt.getText().toString();
 		
 		if(dong.isEmpty())
 		{
@@ -284,18 +347,52 @@ public class ShopRegistrationActivity extends FragmentActivity
 
 	private void registerShop()
 	{
-		Intent intent = new Intent(this, ShopRegistrationService.class);
+		Intent intent = ShopUtils.getShopRegistrationIntent(this); 
 		
-		String name = mShopNameEditText.getText().toString(); 
-		String address = mShopAddressEditText.getText().toString();
-		String phone = mShopPhoneNumberEditText.getText().toString();
+		String name = mShopNameEt.getText().toString(); 
+		String address = mShopAddressTv.getText().toString();
+		String detailAddress = mShopDetailAddressEt.getText().toString();
+		String phone = mShopPhoneNumberEt.getText().toString();
+		String zip = mShopZipTv.getText().toString();
+	
+		intent.putExtra(ShopUtils.KEY_NAME, name);
+		intent.putExtra(ShopUtils.KEY_ADDRESS, address);
+		intent.putExtra(ShopUtils.KEY_DETAIL_ADDRESS, detailAddress);
+		intent.putExtra(ShopUtils.KEY_PHONE, phone);
+		intent.putExtra(ShopUtils.KEY_ZIP, zip);
+	
+		//Find latitude and longitude
+		findLatLng(address, detailAddress);
+		
+		intent.putExtra(ShopUtils.KEY_LATITUDE, mShopLatitude);
+		intent.putExtra(ShopUtils.KEY_LONGITUDE, mShopLongitude);
+		
+		//Send data to a database
+		startService(intent);
+		
 	}
+		
 
 	@Override
-	public void onSearchShopAddress(String result)
+	public void onSelectAddress(Bundle address)
 	{
+		String addr = address.getString(ShopUtils.KEY_ADDRESS);
+		String zip = address.getString(ShopUtils.KEY_ZIP);
+	
+		mShopAddressTv.setText(addr);
+		mShopZipTv.setText(zip);
 		
+	
 	}
 
-
+	private void findLatLng(String addr, String detail)
+	{
+		Intent intent = ShopUtils.getGeoCodingServiceIntent(this);
+		intent.putExtra(ShopUtils.KEY_ADDRESS, addr);
+		intent.putExtra(ShopUtils.KEY_DETAIL_ADDRESS, detail);
+		
+		startService(intent);
+		
+	}
+	
 }

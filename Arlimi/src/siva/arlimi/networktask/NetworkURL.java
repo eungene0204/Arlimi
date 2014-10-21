@@ -30,7 +30,7 @@ public abstract class NetworkURL
 			"http://192.168.0.1:8888/user/login/emailuser";
 	
 	public static final String SHOP_REGISTRATION =
-			"http://192/168.0.1:8888/shop/registration";
+			"http://192.168.0.1:8888/shop/registration";
 	
 	
 }
