@@ -153,6 +153,7 @@
         <service android:name="siva.arlimi.shop.service.ShopRegistrationService"></service>
         <service android:name="siva.arlimi.shop.service.SearchAddressService"></service>
         <service android:name="siva.arlimi.shop.service.GeoCondingService"></service>
+        <activity android:name="siva.arlimi.auth.activity.LoggedInActivity"></activity>
         
     </application>
 

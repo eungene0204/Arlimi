@@ -36,13 +36,28 @@ public class LoginActivity extends FragmentActivity
 	private RegistrationDialogFragment fragment;
 	private FaceBookManager mFacebookMng;
 	
+	private EmailUser mEmailUser;
+	
 	private BroadcastReceiver mLoginResult = new BroadcastReceiver()
 	{
 		public void onReceive(android.content.Context context, Intent intent) 
 		{
-			onReceiveFacebookLoginResult(context, intent);
+			onReceiveLoginResult(context, intent);
 		}
 		
+	};
+	
+	private BroadcastReceiver mRegistrationResult = new BroadcastReceiver()
+	{
+		
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			onReceiveRegistraionResult(context, intent);
+			
+		}
+
+	
 	};
 	
 	private SessionManager session;
@@ -55,6 +70,7 @@ public class LoginActivity extends FragmentActivity
 		
 		mFacebookMng = new FaceBookManager(this, savedInstanceState);
 		mFacebookMng.setIsNew(false);
+		mFacebookMng.setLoginResultListener(this);
 		
 		session = new SessionManager(getApplicationContext());
 		
@@ -65,23 +81,37 @@ public class LoginActivity extends FragmentActivity
 		mLoginBtn = (Button)
 				findViewById(R.id.login_btn);
 		mLoginBtn.setOnClickListener(this);
-	
+
 	}
 
+	private void onReceiveRegistraionResult(Context context, Intent intent)
+	{
+		
+	}
 
-	protected void onReceiveFacebookLoginResult(Context context, Intent intent)
+	protected void onReceiveLoginResult(Context context, Intent intent)
 	{
 		String result = intent.getStringExtra(AuthUtil.KEY_LOGIN_RESULT);
-			
-		Log.i(TAG, "facebook result " + result);
-		if(result.equals(AuthUtil.VALID_USER))
+		int type = intent.getIntExtra(AuthUtil.KEY_RESULT_TYPE, -1);
+
+		if (result.equals(AuthUtil.VALID_USER))
 		{
-			FacebookUser user = mFacebookMng.getFacebookUser();
-			Log.d(TAG, user.getEmail());
-			
-			//CreateSession
-			session.createLoginSession(user.getEmail(), user.getName());
-			
+			if (AuthUtil.ResultType.FACEBOOK_LOGIN.ordinal() == type)
+			{
+					
+				FacebookUser user = mFacebookMng.getFacebookUser();
+				Log.d(TAG, user.getEmail());
+
+				// CreateSession
+				session.createLoginSession(user.getEmail(), user.getName());
+		
+			}
+			else if(AuthUtil.ResultType.EMAIL_LOGIN.ordinal() == type)
+			{
+				String name = intent.getStringExtra(AuthUtil.KEY_NAME);
+				session.createLoginSession(null, name);
+			}
+		
 			Intent i = new Intent(getApplicationContext(),MainActivity.class );
 			
 			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -90,7 +120,10 @@ public class LoginActivity extends FragmentActivity
 			startActivity(i);
 			
 			finish();
-			
+		}
+		else
+		{
+			//Show invalid User alertDialog
 		}
 		
 	}
@@ -104,19 +137,13 @@ public class LoginActivity extends FragmentActivity
 		 mIsResume = true;
 		 mFacebookMng.onResume();
 		 
-		 IntentFilter filter = new IntentFilter(AuthUtil.ACTION_LOGIN_RESULT);
-		 registerReceiver(mLoginResult, filter);
+		 IntentFilter loginFilter = new IntentFilter(AuthUtil.ACTION_LOGIN_RESULT);
+		 IntentFilter regFilter = new IntentFilter(AuthUtil.ACTION_REGISTRATION_RESULT);
+		 
+		 registerReceiver(mLoginResult, loginFilter);
+		 registerReceiver(mRegistrationResult, regFilter);
+		 
 	
-	}
-	
-	private void showHomeActivity()
-	{
-		Intent intent = new Intent(this, HomeActivity.class);
-		
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-				Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		
-		startActivity(intent);
 	}
 
 	@Override
@@ -137,6 +164,7 @@ public class LoginActivity extends FragmentActivity
 		mFacebookMng.onPause();
 		
 		unregisterReceiver(mLoginResult);
+		unregisterReceiver(mRegistrationResult);
 	}
 	
 	@Override
@@ -179,10 +207,10 @@ public class LoginActivity extends FragmentActivity
 		EditText emailEdit = (EditText)findViewById(R.id.login_email_et);
 		EditText passwordEdit = (EditText)findViewById(R.id.login_password_et);
 		
-		EmailUser user = new EmailUser("", emailEdit.getText().toString(),
+		mEmailUser = new EmailUser("", emailEdit.getText().toString(),
 				passwordEdit.getText().toString());
 		
-		emailUserLogin(user);
+		emailUserLogin(mEmailUser);
 	
 	}
 

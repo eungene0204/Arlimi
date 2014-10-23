@@ -3,6 +3,7 @@ package siva.arlimi.facebook;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import siva.arlimi.auth.interfaces.OnLoginResultListener;
 import siva.arlimi.auth.interfaces.OnRegisterNewUserListener;
 import siva.arlimi.auth.interfaces.OnUserLoginListener;
 import siva.arlimi.auth.session.SessionManager;
@@ -51,6 +52,7 @@ public class FaceBookManager
 		}
 	};
 	
+	
 	public FaceBookManager(Activity context, Bundle savedInstanceState)
 	{
 		//LoginActivity
@@ -63,18 +65,6 @@ public class FaceBookManager
 		
 		mFacebookUser = new FacebookUser(mContext); 
 	
-		try
-		{
-			mLoginUserCallback = (OnUserLoginListener) mContext;
-			
-		}
-		catch(ClassCastException e)
-		{
-			throw new ClassCastException(mContext.toString()
-					+ " must implement " +
-					" OnLoginUserListener ");
-		}
-		
 	}
 	
 	public boolean isNew()
@@ -85,6 +75,11 @@ public class FaceBookManager
 	public void setRegistrationListener(OnRegisterNewUserListener listener)
 	{
 		this.mNewUserCallback = listener;
+	}
+	
+	public void setLoginResultListener(OnUserLoginListener listener)
+	{
+		mLoginUserCallback = listener;
 	}
 	
 	
@@ -121,13 +116,36 @@ public class FaceBookManager
 	{
 		Log.d(TAG, "LogOut");
 		mSession.logoutUser();
-
+		
+		closeAndClearTokenInformation();
+		
 		Intent i = new Intent(mContext.getApplicationContext(), MainActivity.class);
 
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		mContext.startActivity(i);
+	}
+	
+	public void closeAndClearTokenInformation()
+	{
+		Session session = Session.getActiveSession();
+		
+		if(null != null)
+		{
+			if(!session.isClosed())
+			{
+				session.closeAndClearTokenInformation();
+			}
+			
+		}
+		else
+		{
+			session = new Session(mContext);
+			Session.setActiveSession(session);
+			
+			session.closeAndClearTokenInformation();
+		}
 	}
 
 	private void makeMeRequest(final Session session)

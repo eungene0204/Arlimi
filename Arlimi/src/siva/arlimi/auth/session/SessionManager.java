@@ -2,7 +2,10 @@ package siva.arlimi.auth.session;
 
 import java.util.HashMap;
 
+import siva.arlimi.main.MainActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -57,6 +60,13 @@ public class SessionManager
 	{
 		mEditor.clear();
 		mEditor.commit();
+		
+		Intent i = new Intent(mContext.getApplicationContext(),MainActivity.class );
+		
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		mContext.startActivity(i);		
 	}
 	
 	public boolean isLoggedIn()

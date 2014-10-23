@@ -1,5 +1,7 @@
 package siva.arlimi.auth.service;
 
+import org.json.JSONException;
+
 import org.json.JSONObject;
 
 import siva.arlimi.auth.connection.EmailUserLoginConnection;
@@ -40,13 +42,23 @@ public class EmailUserLoginService extends Service implements OnLoginResultListe
 	{
 		sendBrodCastToActivity(result);
 	}
-
 	
-	private void sendBrodCastToActivity(String result)
+	private void sendBrodCastToActivity(final String result)
 	{
-		final Intent intent = AuthUtil.checkResult(result, AuthUtil.ResultType.LOGIN);
-		sendBroadcast(intent);
+		JSONObject user = null;
 		
+		try
+		{
+			user = new JSONObject(result.toString().trim());
+			
+		} catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
+		
+		final Intent intent = AuthUtil.checkResult(user, 
+				AuthUtil.ResultType.EMAIL_LOGIN);
+		sendBroadcast(intent);
 	}
 
 }

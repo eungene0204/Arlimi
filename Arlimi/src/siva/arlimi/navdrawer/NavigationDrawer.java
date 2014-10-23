@@ -2,6 +2,7 @@ package siva.arlimi.navdrawer;
 
 import java.util.ArrayList;
 
+import siva.arlimi.auth.activity.LoggedInActivity;
 import siva.arlimi.auth.activity.LoginActivity;
 import siva.arlimi.auth.session.SessionManager;
 import siva.arlimi.main.MainActivity;
@@ -211,7 +212,11 @@ public class NavigationDrawer
 			switch(id)
 			{
 			case LOG_IN:
-				openLoginActivity();
+				
+				if(mSession.isLoggedIn())
+					openLoggedInActivity();
+				else
+					openLoginActivity();
 				break;
 				
 			case CURRENT_REGION:
@@ -232,6 +237,12 @@ public class NavigationDrawer
 			}
 			
 			mDrawerLayout.closeDrawer(mDrawerList);
+		}
+
+		private void openLoggedInActivity()
+		{
+			Intent intent = new Intent(mContext, LoggedInActivity.class );
+			mContext.startActivity(intent);
 		}
 
 		private void openShopRegistrationActivity()

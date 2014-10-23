@@ -51,8 +51,7 @@ public class FacebookLoginUserService extends Service implements OnLoginResultLi
 	
 	void sendResultToActivity(final String result)
 	{
-		final Intent intent = AuthUtil.checkResult(result, AuthUtil.ResultType.LOGIN); 
-		
+		final Intent intent = AuthUtil.checkResult(result, AuthUtil.ResultType.FACEBOOK_LOGIN); 
 		sendBroadcast(intent);
 	}
 
