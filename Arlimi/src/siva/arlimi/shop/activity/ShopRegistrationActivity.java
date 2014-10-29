@@ -1,16 +1,20 @@
 package siva.arlimi.shop.activity;
 
+import java.util.ArrayList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.google.android.gms.internal.mc;
 
 import siva.arlimi.location.util.LocationUtil;
 import siva.arlimi.main.R;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment.onSelectAddressListener;
 import siva.arlimi.shop.progress.AddressSearchProgressBar;
-import siva.arlimi.shop.service.ShopRegistrationService;
 import siva.arlimi.shop.util.ShopUtils;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -347,6 +351,11 @@ public class ShopRegistrationActivity extends FragmentActivity
 
 	private void registerShop()
 	{
+		boolean isValidInput = false;
+		String empty = "";
+		
+		ArrayList<String> inputs = new ArrayList<String>();
+		
 		Intent intent = ShopUtils.getShopRegistrationIntent(this); 
 		
 		String name = mShopNameEt.getText().toString(); 
@@ -354,7 +363,27 @@ public class ShopRegistrationActivity extends FragmentActivity
 		String detailAddress = mShopDetailAddressEt.getText().toString();
 		String phone = mShopPhoneNumberEt.getText().toString();
 		String zip = mShopZipTv.getText().toString();
-	
+		
+		if(name.isEmpty())
+			empty = "이름";
+		else if(address.isEmpty())
+			empty = "주소";
+		else if(detailAddress.isEmpty())
+			empty = "상세주소";
+		else if(phone.isEmpty())
+			empty = "전화번호";
+		else if(zip.isEmpty())
+			empty = "우편번호";
+		else
+			isValidInput = true;
+		
+		if(!isValidInput)
+		{
+			showAlertDialog(empty);
+			
+			return;
+		}
+		
 		intent.putExtra(ShopUtils.KEY_NAME, name);
 		intent.putExtra(ShopUtils.KEY_ADDRESS, address);
 		intent.putExtra(ShopUtils.KEY_DETAIL_ADDRESS, detailAddress);
@@ -372,6 +401,32 @@ public class ShopRegistrationActivity extends FragmentActivity
 		
 	}
 		
+
+	private void showAlertDialog(String empty)
+	{
+		String message = empty + "를(을) 확인해주세요.";
+		
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
+		
+	}
+
+	private boolean isValidInput(ArrayList<String> inputs)
+	{
+		for(String item : inputs)
+		{
+			if( null == item || item.isEmpty())
+			{
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setTitle(getResources().getString(R.string.shop_registration));
+				
+				
+				return false;
+			}
+			
+		}
+		return true;
+	}
 
 	@Override
 	public void onSelectAddress(Bundle address)

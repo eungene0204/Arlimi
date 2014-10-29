@@ -111,6 +111,13 @@ public class FaceBookManager
 			}
 		}
 	}
+	
+	public boolean isOpended()
+	{
+		Session session = Session.getActiveSession();
+	
+		return (null != session) ? session.isOpened() : false;
+	}
 
 	private void logout()
 	{

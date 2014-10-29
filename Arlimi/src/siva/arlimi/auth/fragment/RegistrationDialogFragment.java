@@ -1,14 +1,23 @@
 package siva.arlimi.auth.fragment;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import siva.arlimi.auth.activity.LoginActivity;
 import siva.arlimi.auth.interfaces.OnRegisterNewUserListener;
+import siva.arlimi.auth.session.SessionManager;
 import siva.arlimi.auth.util.AuthUtil;
 import siva.arlimi.facebook.FaceBookManager;
+import siva.arlimi.main.MainActivity;
 import siva.arlimi.main.R;
 import siva.arlimi.user.EmailUser;
 import siva.arlimi.user.FacebookUser;
+import siva.arlimi.user.User;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -22,6 +31,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.facebook.widget.LoginButton;
+import com.google.android.gms.plus.model.people.Person;
 
 public class RegistrationDialogFragment extends DialogFragment implements OnClickListener,
 							OnRegisterNewUserListener
@@ -33,7 +43,10 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 	private EditText mEmailEditText;
 	private EditText mPasswrodEditText;
 	private EditText mUserName;
+	private SessionManager mSession;
 	
+	private enum Type {facebook, email};
+
 	private BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver()
 	{
 		@Override
@@ -49,16 +62,139 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 		this.mFaceBook = facebook;
 		mFaceBook.setIsNew(true);
 		mFaceBook.setRegistrationListener(this);
+		
 	}
 	
 	
 	protected void onReceiveRegistrationResult(final Intent intent)
 	{
 		final String result = intent.getStringExtra(AuthUtil.KEY_REGISTRATION_RESULT);
-		
+		Type type = null;
+		User user;
 		
 		Log.i(TAG,"Facebook Registration result " + result);
+	
+		if(result.trim().equals(AuthUtil.VALID_USER))
+		{
+			if (mFaceBook.isOpended())
+			{
+				type = Type.facebook;
+				user = (User) mFaceBook.getFacebookUser();
+			}
+			else
+			{
+				type = Type.email;
+				user = (User) getEmailUserInfo();
+			}
+
+			makeSession(user);
+			showMainActivity();
+			
+		} else if (result.trim().equals(AuthUtil.DUPLICATE_USER))
+		{
+			CharSequence message = "이미 등록된 이메일 주소입니다";
+			
+			if(mFaceBook.isOpended())
+				type = Type.facebook;
+			else
+				type = Type.email;
+			
+			showRegistrationDialog(message, type);
+			
+		}
+		else  // Invalid User
+		{
+			CharSequence message = "등록에 실패하였습니다.";
+			
+			if (mFaceBook.isOpended())
+				type = Type.facebook;
+			else
+				type = Type.email;
+
+			showRegistrationDialog(message, type);
+
+		}
 		
+	}
+	
+	private void showRegistrationDialog(final CharSequence message, final Type type)
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+		builder.setTitle(getResources().getString(R.string.dialog_registration));
+		builder.setMessage(message);
+		builder.setPositiveButton(
+				getResources().getString(R.string.dialog_confirm),
+				new DialogInterface.OnClickListener()
+				{
+
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						switch(type)
+						{
+						
+						case facebook:
+							mFaceBook.closeAndClearTokenInformation();
+							break;
+							
+						case email:
+							break;
+							
+							default:
+								break;
+						}
+
+					}
+				});
+
+		AlertDialog alert = builder.create();
+		alert.show();
+
+	}
+
+	private void showLoginActivity()
+	{
+		Intent intent = new Intent(getActivity(), LoginActivity.class);
+
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+		startActivity(intent);
+	}
+
+	public static boolean isEmailValid(String email)
+	{
+		boolean isValid = false;
+
+		String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+		CharSequence inputStr = email;
+
+		Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+	Matcher matcher = pattern.matcher(inputStr);
+		if (matcher.matches())
+		{
+			isValid = true;
+		}
+		return isValid;
+	}
+
+	private void makeSession(User user)
+	{
+		mSession = new SessionManager(getActivity().getApplicationContext());
+		
+		mSession.createLoginSession(user.getEmail(), user.getName());
+	}
+
+
+	private void showMainActivity()
+	{
+		Intent intent = new Intent(getActivity(), MainActivity.class);
+		
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		
+		startActivity(intent);
 		
 	}
 
@@ -156,7 +292,8 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 		switch(v.getId())
 		{
 		case R.id.new_user_btn:
-			getUserInfo();
+			EmailUser user = getEmailUserInfo();
+			registerNewEmailUser(user);
 			break;
 			
 			default:
@@ -166,7 +303,7 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 		
 	}
 
-	private void getUserInfo()
+	private EmailUser getEmailUserInfo()
 	{
 		String email = mEmailEditText.getText().toString();
 		String password = mPasswrodEditText.getText().toString();
@@ -174,7 +311,7 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 	
 		EmailUser user = new EmailUser(name, email, password);
 		
-		registerNewEmailUser(user);
+		return user;
 	
 	}
 	
@@ -203,6 +340,17 @@ public class RegistrationDialogFragment extends DialogFragment implements OnClic
 	@Override
 	public void registerNewEmailUser(EmailUser user)
 	{
+		String email = user.getEmail();
+		
+		if(!isEmailValid(email))
+		{
+			String message = "잘못된 이메일 입니다.";
+			showRegistrationDialog(message, Type.email);
+			
+			return;
+		}
+			
+			
 		Intent intent = AuthUtil.getNewEmailUserIntent(getActivity()); 
 		intent.putExtra(AuthUtil.KEY_USER, user);
 		

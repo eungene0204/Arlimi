@@ -93,7 +93,7 @@ public class NavigationDrawer
 		String login = mContext.getResources().getString(R.string.login);
 		String event = mContext.getResources().getString(R.string.event);
 		String tool = mContext.getResources().getString(R.string.tool);
-		String registration = mContext.getResources().getString(R.string.registration);
+		String registration = mContext.getResources().getString(R.string.shop_registration);
 		String[] eventItems = mContext.getResources().getStringArray(
 				R.array.drawer_list_event_items);
 		String[] toolItems = mContext.getResources().getStringArray(
