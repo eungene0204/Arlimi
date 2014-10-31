@@ -142,7 +142,6 @@ public class LoginActivity extends FragmentActivity
 		 
 		 registerReceiver(mLoginResult, loginFilter);
 		 registerReceiver(mRegistrationResult, regFilter);
-		 
 	
 	}
 

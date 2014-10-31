@@ -39,6 +39,12 @@ public class ShopUtils
 	
 	static public final String RESULT_OK = "ok";
 	static public final String RESULT_FAIL = "fail"; 
+	static public final String RESULT_DUPLICATE = "duplicate";
+
+	static public final String ACTION_REGISTRATION_RESULT =
+			"siva_arlimi_shop_registration_result";
+	static public final String KEY_REGISTRATION_RESULT =
+			"registration_result";
 
 	static public final String ACTION_SEARCH_ADDRESS_RESULT = 
 			"siva_arlimi_search_address_result";

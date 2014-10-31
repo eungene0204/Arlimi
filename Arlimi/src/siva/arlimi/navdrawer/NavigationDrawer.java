@@ -12,10 +12,10 @@ import siva.arlimi.navdrawer.adapter.ViewHolder;
 import siva.arlimi.navdrawer.util.ITEM_ID;
 import siva.arlimi.navdrawer.util.ITEM_TYPE;
 import siva.arlimi.shop.activity.ShopRegistrationActivity;
+import siva.arlimi.user.User;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -114,9 +114,9 @@ public class NavigationDrawer
 		//Check if user is logged in
 		if(mSession.isLoggedIn())
 		{
-			Bundle user = mSession.getUserDetails();
+			User user = mSession.getUserDetails();
 			
-			String name = user.getString(mSession.KEY_NAME);
+			String name = user.getName();
 			loginItem.setTitle(name);
 					
 		}

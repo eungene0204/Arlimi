@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.gms.internal.mc;
-
+import siva.arlimi.auth.session.SessionManager;
+import siva.arlimi.auth.util.AuthUtil;
 import siva.arlimi.location.util.LocationUtil;
 import siva.arlimi.main.R;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment.onSelectAddressListener;
 import siva.arlimi.shop.progress.AddressSearchProgressBar;
 import siva.arlimi.shop.util.ShopUtils;
+import siva.arlimi.user.User;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -52,7 +52,8 @@ public class ShopRegistrationActivity extends FragmentActivity
 	private double mShopLatitude = 0.0;
 	private double mShopLongitude = 0.0;
 	
-	private BroadcastReceiver mReciever  = new BroadcastReceiver()
+	
+	private BroadcastReceiver mReverseGeoCodingReciever  = new BroadcastReceiver()
 	{
 		@Override
 		public void onReceive(Context context, Intent intent)
@@ -78,9 +79,21 @@ public class ShopRegistrationActivity extends FragmentActivity
 		{
 			onReceiveGeoCoding(context, intent);
 		}
-
 	
 	};
+	
+	private BroadcastReceiver mRegResultReceiver = new BroadcastReceiver()
+	{
+		
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			onRegResultReceive(intent);
+		}
+
+	};
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -102,9 +115,18 @@ public class ShopRegistrationActivity extends FragmentActivity
 		mShopSearchAddresEt = (EditText) findViewById(R.id.shop_dong_address_et);
 
 	}
+	
+	private void onRegResultReceive(Intent intent)
+	{
+		String result = intent.getStringExtra(ShopUtils.KEY_REGISTRATION_RESULT);
+		
+		Log.i(TAG, "reg result" + result);
+
+	}
 
 	private void onReceiveGeoCoding(Context context, Intent intent)
 	{
+		Log.i(TAG, "onReceiveGeoCoding");
 		String result = intent.getStringExtra(ShopUtils.KEY_GEOCODING);
 		parseGeocodingResult(result);
 		
@@ -112,6 +134,8 @@ public class ShopRegistrationActivity extends FragmentActivity
 
 	private void parseGeocodingResult(String result)
 	{
+		Log.i(TAG, "parseGeoCodingResult");
+		
 		try
 		{
 			JSONObject json = new JSONObject(result);
@@ -128,11 +152,13 @@ public class ShopRegistrationActivity extends FragmentActivity
 			double lat = location.getDouble("lat");
 			double lng = location.getDouble("lng");
 			
-			Log.d(TAG, "lat" + lat);
-			Log.d(TAG, "lng" + lng);
-			
+		
 			mShopLatitude = lat;
 			mShopLongitude = lng;
+			
+			Log.i(TAG, "lat from parse" + mShopLatitude);
+			Log.i(TAG, "lng from parse" + mShopLongitude);
+			
 			
 		} catch (JSONException e)
 		{
@@ -274,13 +300,16 @@ public class ShopRegistrationActivity extends FragmentActivity
 	
 		//Need to remove
 		IntentFilter reverseGeoCodinFilter = new IntentFilter(LocationUtil.ACTION_REVERSE_GEOCODING);
-		registerReceiver(mReciever, reverseGeoCodinFilter);
+		registerReceiver(mReverseGeoCodingReciever, reverseGeoCodinFilter);
+	
+		IntentFilter geocodingFilter = new IntentFilter(ShopUtils.ACTION_GEOCODING);
+		registerReceiver(mGeoCodingReceiver, geocodingFilter);
 		
 		IntentFilter addrResultFilter = new IntentFilter(ShopUtils.ACTION_SEARCH_ADDRESS_RESULT);
 		registerReceiver(mAddrResultReceiver, addrResultFilter);
 		
-		IntentFilter geocodingFilter = new IntentFilter(ShopUtils.ACTION_GEOCODING);
-		registerReceiver(mGeoCodingReceiver, geocodingFilter);
+		IntentFilter regResultFilter = new IntentFilter(ShopUtils.ACTION_REGISTRATION_RESULT);
+		registerReceiver(mRegResultReceiver, regResultFilter);
 		
 	}
 	
@@ -288,9 +317,10 @@ public class ShopRegistrationActivity extends FragmentActivity
 	protected void onPause()
 	{
 		super.onPause();
-		unregisterReceiver(mReciever);
+		unregisterReceiver(mReverseGeoCodingReciever);
 		unregisterReceiver(mAddrResultReceiver);
 		unregisterReceiver(mGeoCodingReceiver);
+		unregisterReceiver(mRegResultReceiver);
 	}
 
 	@Override
@@ -365,7 +395,7 @@ public class ShopRegistrationActivity extends FragmentActivity
 		String zip = mShopZipTv.getText().toString();
 		
 		if(name.isEmpty())
-			empty = "이름";
+			empty = "업체명";
 		else if(address.isEmpty())
 			empty = "주소";
 		else if(detailAddress.isEmpty())
@@ -380,10 +410,13 @@ public class ShopRegistrationActivity extends FragmentActivity
 		if(!isValidInput)
 		{
 			showAlertDialog(empty);
-			
 			return;
 		}
+
+		SessionManager session = new SessionManager(getApplicationContext());
+		User user = session.getUserDetails();
 		
+		intent.putExtra(AuthUtil.KEY_EMAIL, user.getEmail() );
 		intent.putExtra(ShopUtils.KEY_NAME, name);
 		intent.putExtra(ShopUtils.KEY_ADDRESS, address);
 		intent.putExtra(ShopUtils.KEY_DETAIL_ADDRESS, detailAddress);
@@ -392,6 +425,9 @@ public class ShopRegistrationActivity extends FragmentActivity
 	
 		//Find latitude and longitude
 		findLatLng(address, detailAddress);
+		
+		Log.d(TAG, "lat" + mShopLatitude);
+		Log.d(TAG, "lng" + mShopLongitude);
 		
 		intent.putExtra(ShopUtils.KEY_LATITUDE, mShopLatitude);
 		intent.putExtra(ShopUtils.KEY_LONGITUDE, mShopLongitude);
@@ -407,7 +443,21 @@ public class ShopRegistrationActivity extends FragmentActivity
 		String message = empty + "를(을) 확인해주세요.";
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(getResources().getString(R.string.shop_registration));
+		builder.setMessage(message);
+		builder.setPositiveButton(getResources().getString(R.string.dialog_confirm),
+				new DialogInterface.OnClickListener()
+				{
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						
+					}
+				});
 		
+		AlertDialog alertDialog = builder.create();
+		alertDialog.show();
 		
 	}
 
@@ -436,8 +486,6 @@ public class ShopRegistrationActivity extends FragmentActivity
 	
 		mShopAddressTv.setText(addr);
 		mShopZipTv.setText(zip);
-		
-	
 	}
 
 	private void findLatLng(String addr, String detail)

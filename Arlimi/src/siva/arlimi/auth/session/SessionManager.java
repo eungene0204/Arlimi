@@ -1,14 +1,11 @@
 package siva.arlimi.auth.session;
 
-import java.util.HashMap;
-
 import siva.arlimi.main.MainActivity;
-
+import siva.arlimi.user.User;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Bundle;
 
 public class SessionManager
 {
@@ -46,12 +43,12 @@ public class SessionManager
 		
 	}
 	
-	public Bundle getUserDetails()
+	public User getUserDetails()
 	{
-		Bundle user = new Bundle(); 
+		User user = new User(); 
 		
-		user.putString(KEY_EMAIL, mPref.getString(KEY_EMAIL, null));
-		user.putString(KEY_NAME, mPref.getString(KEY_NAME, null));
+		user.setEmail(mPref.getString(KEY_EMAIL, null));
+		user.setName(mPref.getString(KEY_NAME, null));
 		
 		return user;
 	}
