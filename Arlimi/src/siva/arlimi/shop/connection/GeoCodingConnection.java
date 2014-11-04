@@ -35,9 +35,8 @@ public class GeoCodingConnection extends NetworkConnection
 		
 		Log.i(TAG, "result: " + result);
 		
-		
-		mContext.stopService(ShopUtils.getGeoCodingServiceIntent(mContext));
-		mListener.onGeoCoding(result);
+	//	mContext.stopService(ShopUtils.getGeoCodingServiceIntent(mContext));
+	//	mListener.onGeoCoding(result);
 		
 	}
 	

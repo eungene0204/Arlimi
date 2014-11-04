@@ -1,15 +1,16 @@
 package siva.arlimi.auth.activity;
 
-import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.auth.fragment.RegistrationDialogFragment;
 import siva.arlimi.auth.interfaces.OnUserLoginListener;
 import siva.arlimi.auth.session.SessionManager;
 import siva.arlimi.auth.util.AuthUtil;
+import siva.arlimi.dialog.SimpleAlertDialog;
 import siva.arlimi.facebook.FaceBookManager;
 import siva.arlimi.main.MainActivity;
 import siva.arlimi.main.R;
 import siva.arlimi.user.EmailUser;
 import siva.arlimi.user.FacebookUser;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -124,6 +125,10 @@ public class LoginActivity extends FragmentActivity
 		else
 		{
 			//Show invalid User alertDialog
+			String message = "잘못된 이메일/비밀번호 입니다.";
+			String title = getResources().getString(R.string.login);
+			
+			SimpleAlertDialog.showOneButtonDialog(this, title, message);
 		}
 		
 	}

@@ -8,10 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class LoggedInActivity extends Activity implements OnClickListener
 {
-	private Button mButton;
+	private Button mLogOutButton;
+	private Button mShopRegButton;
+	private TextView mUserNameTv;
 	
 	private SessionManager mSession;
 	
@@ -21,11 +24,19 @@ public class LoggedInActivity extends Activity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_logged_in);
 		
-		mButton = (Button) findViewById(R.id.log_out_btn);
-		mButton.setOnClickListener(this);
+		mShopRegButton = (Button)findViewById(R.id.loggedin_shop_reg_btn);
+		mShopRegButton.setOnClickListener(this);
+		
+		mLogOutButton = (Button) findViewById(R.id.loggedin_log_out_btn);
+		mLogOutButton.setOnClickListener(this);
+		
+		mUserNameTv = (TextView) findViewById(R.id.logggedin_name_tv);
 		
 		mSession = new SessionManager(getApplicationContext());
 		
+		if(mSession.isLoggedIn())
+			mUserNameTv.setText(mSession.getUserDetails().getName());
+			
 	}
 
 	@Override
@@ -34,7 +45,7 @@ public class LoggedInActivity extends Activity implements OnClickListener
 		switch(v.getId())
 		{
 		
-		case R.id.log_out_btn:
+		case R.id.loggedin_log_out_btn:
 			logout();
 			break;
 			

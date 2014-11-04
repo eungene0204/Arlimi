@@ -1,14 +1,20 @@
 package siva.arlimi.shop.activity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import siva.arlimi.auth.session.SessionManager;
 import siva.arlimi.auth.util.AuthUtil;
+import siva.arlimi.location.LatLng;
 import siva.arlimi.location.util.LocationUtil;
+import siva.arlimi.main.MainActivity;
 import siva.arlimi.main.R;
+import siva.arlimi.shop.connection.GeoCodingConnection;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment;
 import siva.arlimi.shop.fragment.ShowAddressDialogFragment.onSelectAddressListener;
 import siva.arlimi.shop.progress.AddressSearchProgressBar;
@@ -49,8 +55,7 @@ public class ShopRegistrationActivity extends FragmentActivity
 	private EditText mShopNameEt;
 	private EditText mShopPhoneNumberEt;
 	
-	private double mShopLatitude = 0.0;
-	private double mShopLongitude = 0.0;
+	public enum DialogType {reg, reg_result, search_addr}
 	
 	
 	private BroadcastReceiver mReverseGeoCodingReciever  = new BroadcastReceiver()
@@ -121,6 +126,20 @@ public class ShopRegistrationActivity extends FragmentActivity
 		String result = intent.getStringExtra(ShopUtils.KEY_REGISTRATION_RESULT);
 		
 		Log.i(TAG, "reg result" + result);
+		
+		if(result.trim().equals(ShopUtils.RESULT_OK))
+		{
+			String message = "업체등록이 완료 되었습니다";
+			showAlertDialog(message, DialogType.reg_result);
+		}
+		else if(result.trim().equals(ShopUtils.RESULT_FAIL))
+		{
+			
+		}
+		else if(result.trim().equals(ShopUtils.RESULT_DUPLICATE))
+		{
+		}
+			
 
 	}
 
@@ -132,9 +151,11 @@ public class ShopRegistrationActivity extends FragmentActivity
 		
 	}
 
-	private void parseGeocodingResult(String result)
+	private LatLng parseGeocodingResult(String result)
 	{
 		Log.i(TAG, "parseGeoCodingResult");
+		
+		LatLng latLng = new LatLng();
 		
 		try
 		{
@@ -144,7 +165,7 @@ public class ShopRegistrationActivity extends FragmentActivity
 			if(!json.getString("status").equals("OK"))
 			{
 				//Show alert dialog
-				return;
+				return null;
 			}
 			
 			JSONObject res = json.getJSONArray("results").getJSONObject(0);
@@ -152,12 +173,7 @@ public class ShopRegistrationActivity extends FragmentActivity
 			double lat = location.getDouble("lat");
 			double lng = location.getDouble("lng");
 			
-		
-			mShopLatitude = lat;
-			mShopLongitude = lng;
-			
-			Log.i(TAG, "lat from parse" + mShopLatitude);
-			Log.i(TAG, "lng from parse" + mShopLongitude);
+			latLng.setCoordinate(lat, lng);
 			
 			
 		} catch (JSONException e)
@@ -166,6 +182,8 @@ public class ShopRegistrationActivity extends FragmentActivity
 			e.printStackTrace();
 		}
 		
+		return latLng;
+		
 		
 	}
 
@@ -173,11 +191,10 @@ public class ShopRegistrationActivity extends FragmentActivity
 	{
 		String result =	intent.getStringExtra(ShopUtils.KEY_ADDRESS_SEARCH_RESULT);
 		
-		
-		showAddrDialog(result);
+		showSearchAddrDialog(result);
 	}
 
-	private void showAddrDialog(String result)
+	private void showSearchAddrDialog(String result)
 	{
 		//epost server does not respond
 		if(result.equals("null"))
@@ -409,7 +426,7 @@ public class ShopRegistrationActivity extends FragmentActivity
 		
 		if(!isValidInput)
 		{
-			showAlertDialog(empty);
+			showAlertDialog(empty, DialogType.reg);
 			return;
 		}
 
@@ -417,30 +434,31 @@ public class ShopRegistrationActivity extends FragmentActivity
 		User user = session.getUserDetails();
 		
 		intent.putExtra(AuthUtil.KEY_EMAIL, user.getEmail() );
-		intent.putExtra(ShopUtils.KEY_NAME, name);
-		intent.putExtra(ShopUtils.KEY_ADDRESS, address);
+		intent.putExtra(ShopUtils.KEY_NAME, name.trim());
+		intent.putExtra(ShopUtils.KEY_ADDRESS, address.trim());
 		intent.putExtra(ShopUtils.KEY_DETAIL_ADDRESS, detailAddress);
 		intent.putExtra(ShopUtils.KEY_PHONE, phone);
 		intent.putExtra(ShopUtils.KEY_ZIP, zip);
 	
 		//Find latitude and longitude
-		findLatLng(address, detailAddress);
+		LatLng latLng = findLatLng(address, detailAddress);
 		
-		Log.d(TAG, "lat" + mShopLatitude);
-		Log.d(TAG, "lng" + mShopLongitude);
+		Log.d(TAG, "lat" + latLng.getLatitude());
+		Log.d(TAG, "lng" + latLng.getLongitude());
 		
-		intent.putExtra(ShopUtils.KEY_LATITUDE, mShopLatitude);
-		intent.putExtra(ShopUtils.KEY_LONGITUDE, mShopLongitude);
+		intent.putExtra(ShopUtils.KEY_LATITUDE, latLng.getLatitude());
+		intent.putExtra(ShopUtils.KEY_LONGITUDE, latLng.getLongitude());
 		
 		//Send data to a database
 		startService(intent);
-		
 	}
 		
 
-	private void showAlertDialog(String empty)
+	private void showAlertDialog(String message ,final  DialogType type)
 	{
-		String message = empty + "를(을) 확인해주세요.";
+		
+		if(DialogType.reg == type)
+			message = message + "를(을) 확인해주세요.";
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(getResources().getString(R.string.shop_registration));
@@ -452,13 +470,27 @@ public class ShopRegistrationActivity extends FragmentActivity
 					@Override
 					public void onClick(DialogInterface dialog, int which)
 					{
+						if(DialogType.reg_result == type)
+						{
+							showMainActivity();
+						}
+							
 						
 					}
+
+				
 				});
 		
 		AlertDialog alertDialog = builder.create();
 		alertDialog.show();
 		
+	}
+
+	private void showMainActivity()
+	{
+		Intent intent = new Intent(this, MainActivity.class);
+		
+		startActivity(intent);
 	}
 
 	private boolean isValidInput(ArrayList<String> inputs)
@@ -488,13 +520,47 @@ public class ShopRegistrationActivity extends FragmentActivity
 		mShopZipTv.setText(zip);
 	}
 
-	private void findLatLng(String addr, String detail)
+	private LatLng findLatLng(String addr, String detail)
 	{
+		String result = "";
+		
+		String url = "https://maps.googleapis.com/maps/api/geocode/json?address=";
+		try
+		{
+			addr = URLEncoder.encode(addr, "UTF-8");
+			detail = URLEncoder.encode(detail, "UTF-8");
+			
+		} catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+		}
+		url += addr + detail;
+		
+		GeoCodingConnection conn = new GeoCodingConnection(this);
+		conn.setURL(url);
+		
+		try
+		{
+			result = conn.execute().get();
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		} catch (ExecutionException e)
+		{
+			e.printStackTrace();
+		}
+		
+		LatLng latLng = parseGeocodingResult(result);
+		
+	
+		return latLng;
+	
+		/*
 		Intent intent = ShopUtils.getGeoCodingServiceIntent(this);
 		intent.putExtra(ShopUtils.KEY_ADDRESS, addr);
 		intent.putExtra(ShopUtils.KEY_DETAIL_ADDRESS, detail);
 		
-		startService(intent);
+		startService(intent); */
 		
 	}
 	

@@ -167,17 +167,17 @@ public class NavigationDrawer
 			list.add(item);
 		}
 		
-		//Add Divider
-		list.add(divider);
-	
+
+		/*
+		 * 
+		// Add registration
 		if(mSession.isLoggedIn())
 		{
-			// Add registration
 			NavDrawerItem regItem = new NavDrawerItem(ITEM_TYPE.REGISTRATION,
 					ITEM_ID.REGISTRATION);
 			regItem.setTitle(registration);
 			list.add(regItem);
-		}
+		} */
 		
 	}
 	
