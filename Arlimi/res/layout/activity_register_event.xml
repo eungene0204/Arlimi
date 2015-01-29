@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="center"
         >
         
         <Button
@@ -34,7 +35,7 @@
     </LinearLayout>
     
     <EditText 
-        android:id="@+id/edittext_event_contents"
+        android:id="@+id/regEvent_event_contents_et"
         android:layout_width="match_parent"
         android:lines="30"
         android:layout_height="200px"
@@ -152,29 +153,7 @@
         android:layout_marginBottom="12dp"
         />
     
-    <SeekBar 
-        android:id="@+id/radius_seekbar"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:max="5"
-        />
-    
-    <TextView 
-        android:id="@+id/radius_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="1km"
-        />
-    
-     <View 
-        style="@style/Divider"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        />
-   
-    <Button 
+   <Button 
         android:id="@+id/event_send_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,13 +1,13 @@
-package siva.arlimi.event;
+package siva.arlimi.event.util;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import siva.arlimi.event.service.EventRegistrationService;
+import android.content.Context;
+import android.content.Intent;
 
-public class EventUtil
+public class EventUtils
 {
-	public static final String USER = "USER";
-	public static final String EMAIL = "EMAIL";
+	public static final String KEY_NAME = "NAME";
+	public static final String KEY_EMAIL = "EMAIL";
 
 	public static final String EVENT_ID = "EVENT_ID";
 	public static final String EVENT_CONTENTS = "EVENT_CONTENTS";
@@ -22,6 +22,14 @@ public class EventUtil
 	public static final String SHOP_NAME = "SHOP_NAME";
 	public static final String SHOP_ADDRESS = "SHOP_ADDRESS";
 	public static final String SHOP_PHONE_NUMBER = "SHOP_PHONE_NUMBER";
+
+	public static final String KEY_REG_RESULT = "key_reg_reuslt";
 	
+	public static final String ACTION_REG_RESULT = "action_reg_result";
+	
+	public static Intent getEventRegistrationIntent(Context context)
+	{
+		return new Intent(context,EventRegistrationService.class);
+	}
 	
 }

@@ -1,11 +1,7 @@
 package siva.arlimi.fragment;
 
-import java.io.Serializable;
-
-
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.activity.OpenActivity;
-import siva.arlimi.activity.RegisterEventActivity;
 import siva.arlimi.main.R;
 import siva.arlimi.owner.Owner;
 import android.app.Activity;
@@ -139,9 +135,11 @@ public class MyPageFragment extends Fragment implements OnClickListener
 
 	private void showEventRegistratoinActivity()
 	{
+		/*
 		Intent intent = new Intent(getActivity(), RegisterEventActivity.class);
 		intent.putExtra(Owner.TAG,(Serializable)mPerson);
-		startActivity(intent);
+		startActivity(intent); 
+		*/
 	}
 
 	private void logOut()

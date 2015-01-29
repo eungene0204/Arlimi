@@ -1,4 +1,4 @@
-package siva.arlimi.activity;
+package siva.arlimi.navdrawer;
 
 import android.view.View;
 import android.widget.AdapterView;

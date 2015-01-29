@@ -1,4 +1,4 @@
-package siva.arlimi.networktask;
+package siva.arlimi.event.connection;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.Iterator;
 
 import siva.arlimi.event.EventList;
+import siva.arlimi.networktask.NetworkConnection;
 import android.util.Log;
 
 public class ReadEventListConnection extends NetworkConnection

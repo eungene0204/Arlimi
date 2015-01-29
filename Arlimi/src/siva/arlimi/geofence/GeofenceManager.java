@@ -1,7 +1,6 @@
 package siva.arlimi.geofence;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -11,11 +10,11 @@ import org.json.JSONObject;
 
 import siva.arlimi.event.Event;
 import siva.arlimi.event.EventList;
-import siva.arlimi.event.EventUtil;
+import siva.arlimi.event.connection.ReadEventListByIDConnection;
+import siva.arlimi.event.connection.ReadEventListConnection;
+import siva.arlimi.event.util.EventUtils;
 import siva.arlimi.geofence.GeofenceServiceBinder.EventListener;
 import siva.arlimi.networktask.NetworkURL;
-import siva.arlimi.networktask.ReadEventListByIDConnection;
-import siva.arlimi.networktask.ReadEventListConnection;
 import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -103,11 +102,11 @@ public class GeofenceManager implements
                 	 	// Builder pattern
                         JSONObject obj = jsonList.getJSONObject(i);
                        
-                        String id = obj.getString(EventUtil.EVENT_ID);
-                        String email = obj.getString(EventUtil.EMAIL);
-                        String contents = obj.getString(EventUtil.EVENT_CONTENTS);
-                        String latitude = obj.getString(EventUtil.EVENT_LATITUDE);
-                        String longitude = obj.getString(EventUtil.EVENT_LONGITUDE);
+                        String id = obj.getString(EventUtils.EVENT_ID);
+                        String email = obj.getString(EventUtils.KEY_EMAIL);
+                        String contents = obj.getString(EventUtils.EVENT_CONTENTS);
+                        String latitude = obj.getString(EventUtils.EVENT_LATITUDE);
+                        String longitude = obj.getString(EventUtils.EVENT_LONGITUDE);
                         
                         ArlimiGeofence geofence = new ArlimiGeofence(id, 
                         		Double.valueOf(latitude), Double.valueOf(longitude),
@@ -330,11 +329,11 @@ public class GeofenceManager implements
 		for(int i = 0; i < length; i++)
 		{
 			JSONObject json = array.getJSONObject(i);
-			final String id = json.getString(EventUtil.EVENT_ID);
-			final String contents = json.getString(EventUtil.EVENT_CONTENTS);
-			final String email = json.getString(EventUtil.EMAIL);
-			final String latitude = json.getString(EventUtil.EVENT_LATITUDE);
-			final String longitude = json.getString(EventUtil.EVENT_LONGITUDE);
+			final String id = json.getString(EventUtils.EVENT_ID);
+			final String contents = json.getString(EventUtils.EVENT_CONTENTS);
+			final String email = json.getString(EventUtils.KEY_EMAIL);
+			final String latitude = json.getString(EventUtils.EVENT_LATITUDE);
+			final String longitude = json.getString(EventUtils.EVENT_LONGITUDE);
 			
 			Event event = new Event();
 			event.setEmail(email);

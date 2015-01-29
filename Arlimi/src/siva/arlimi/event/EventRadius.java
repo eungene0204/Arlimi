@@ -32,8 +32,8 @@ public class EventRadius implements OnSeekBarChangeListener, Serializable
 	{
 		mContext = (Activity)context;
 		
-		mSeekBar = (SeekBar) mContext.findViewById(R.id.radius_seekbar);
-		mRadiusTextView = (TextView) mContext.findViewById(R.id.radius_textview);
+		//mSeekBar = (SeekBar) mContext.findViewById(R.id.radius_seekbar);
+		//mRadiusTextView = (TextView) mContext.findViewById(R.id.radius_textview);
 		
 		mSeekBar.setOnSeekBarChangeListener(this);
 	}

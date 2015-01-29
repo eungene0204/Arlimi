@@ -1,4 +1,4 @@
-package siva.arlimi.networktask;
+package siva.arlimi.event.connection;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import siva.arlimi.networktask.NetworkConnection;
 
 import android.util.Log;
 

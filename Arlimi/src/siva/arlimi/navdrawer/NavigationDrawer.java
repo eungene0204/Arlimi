@@ -231,9 +231,7 @@ public class NavigationDrawer
 				mViewPager.setCurrentItem(2);
 				break;
 				
-			case REGISTRATION:
-				openShopRegistrationActivity();
-				break;
+	
 			}
 			
 			mDrawerLayout.closeDrawer(mDrawerList);
@@ -245,12 +243,7 @@ public class NavigationDrawer
 			mContext.startActivity(intent);
 		}
 
-		private void openShopRegistrationActivity()
-		{
-			Intent intent = new Intent(mContext,ShopRegistrationActivity.class );
-			mContext.startActivity(intent);
-		}
-
+	
 		private void openLoginActivity()
 		{
 			Intent intent = new Intent(mContext, LoginActivity.class );
