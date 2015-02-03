@@ -1,6 +1,7 @@
 package siva.arlimi.event.fragment;
 
 import java.util.ArrayList;
+	
 
 import siva.arlimi.activity.HomeActivity.ActionTabListener;
 import siva.arlimi.event.Event;
@@ -29,7 +30,6 @@ public class EventListFragment extends Fragment implements EventListListener,
 	
 	private GeofenceManager mGeofenceManager;
 	private EventList mEventList;
-	private View mRoot;
 	
 	private EventAdapter mEventAdapter;
 	private ListView mListView;
