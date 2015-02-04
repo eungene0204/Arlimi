@@ -57,7 +57,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 		*/
 		
 		ArrayList<Event> list = new ArrayList<Event>();
-	
+/*	
 		for(int i = 0; i < 10; i++)
 		{
 			Event event = new Event();
@@ -72,7 +72,7 @@ public class EventListFragment extends Fragment implements EventListListener,
 		
 		mListView = (ListView)root.findViewById(R.id.eventlist_listview); 
 		mListView.setAdapter(eventAdapter);
-		mListView.setOnItemClickListener(new ItemClickListener());
+		mListView.setOnItemClickListener(new ItemClickListener()); */
 	
 		return  root;
 	}
@@ -122,9 +122,10 @@ public class EventListFragment extends Fragment implements EventListListener,
 	{
 		
 		mEventList = mGeofenceManager.readEventListById();
-				
+	
+		/*
 		mEventAdapter = new EventAdapter(getActivity(),
-				R.layout.listview_item, mEventList.getList());
+				R.layout.listview_item, mEventList.getList()); */
 		
 		mListView.setAdapter(mEventAdapter);
 	

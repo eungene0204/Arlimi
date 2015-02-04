@@ -35,4 +35,13 @@ public interface NetworkURL
 	public static final String EVENT_REGISTRATION =
 			"http://192.168.0.1:8888/event/registration";
 	
+	public static final String SERVICE_RECOMMENDED_LIST =
+			"http://192.168.0.1:8888/service/registration";
+	
+	public static final String SERVICE_READ_ALL_LIST =
+			"http://192.168.0.1:8888/service/readAllServiceList";
+	
+	
+  
+	
 }

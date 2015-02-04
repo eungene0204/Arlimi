@@ -4,6 +4,7 @@ import siva.arlimi.event.fragment.AllListFragment;
 import siva.arlimi.event.fragment.EventListFragment;
 import siva.arlimi.event.fragment.FavoriteListFragment;
 import siva.arlimi.navdrawer.util.ITEM_ID;
+import siva.arlimi.service.fragment.RecommendedServiceListFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -30,7 +31,8 @@ public class ViewPagerAdapter extends FragmentPagerAdapter
 		switch(index)
 		{
 		case 0:
-			fragment = new EventListFragment();
+			fragment = new RecommendedServiceListFragment();
+			//fragment = new EventListFragment();
 			break;
 			
 		case 1:

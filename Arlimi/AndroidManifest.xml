@@ -156,6 +156,7 @@
         <activity android:name="siva.arlimi.auth.activity.LoggedInActivity"></activity>
         <activity android:name="siva.arlimi.event.activity.EventRegistrationActivity"></activity>
         <service android:name="siva.arlimi.event.service.EventRegistrationService"></service>
+        <service android:name="siva.arlimi.service.service.AllServiceListService"></service>
         
     </application>
 
