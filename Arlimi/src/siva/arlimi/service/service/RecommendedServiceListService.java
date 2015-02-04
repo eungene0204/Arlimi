@@ -1,9 +1,6 @@
 package siva.arlimi.service.service;
 
-import siva.arlimi.location.connection.ReverseGeocodingConnection;
-import siva.arlimi.location.util.LocationUtil;
 import siva.arlimi.networktask.NetworkURL;
-import siva.arlimi.service.connection.RecommendedServiceListConn;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;

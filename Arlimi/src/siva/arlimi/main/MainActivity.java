@@ -1,40 +1,25 @@
 package siva.arlimi.main;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
-
-import siva.arlimi.event.fragment.AllListFragment;
-import siva.arlimi.event.fragment.EventListFragment;
-import siva.arlimi.event.fragment.FavoriteListFragment;
-import siva.arlimi.fragment.LoginFragment;
-import siva.arlimi.navdrawer.NavDrawerItem;
 import siva.arlimi.navdrawer.NavigationDrawer;
-import siva.arlimi.navdrawer.adapter.NavDrawerListAdapter;
-import siva.arlimi.navdrawer.adapter.ViewHolder;
-import siva.arlimi.navdrawer.util.ITEM_ID;
+import siva.arlimi.service.util.ServiceUtil;
 import siva.arlimi.viewpager.adapter.ViewPagerAdapter;
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 
 public class MainActivity extends FragmentActivity 
 {
-
 	public static final String TAG = "MainActivity";
 	
 	private ImageView overflowIcon;
@@ -46,14 +31,41 @@ public class MainActivity extends FragmentActivity
 	
 	private NavigationDrawer mNavDrawer;
 	
+	private OnServiceListListener mServiceCallback;
+	
+		
+	private BroadcastReceiver mServiceListReceiver = new BroadcastReceiver()
+	{
+		@Override
+		public void onReceive(Context context, Intent intent)
+		{
+			onServiceListReceiver(intent);
+		}
+
+	};
+	
+	private void onServiceListReceiver(Intent intent)
+	{
+		String result = intent.getStringExtra(ServiceUtil.KEY_ALL_SERVICE_LIST);
+		
+		Log.i(TAG, result.toString());
+	}
+	
+	public void setServiceListListener(OnServiceListListener listner)
+	{
+		this.mServiceCallback = listner;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_arlimi_main);
 		
+		Log.i(TAG, "onCreate");
+		
 		//Init ViewPager
-		mViewPager = (ViewPager)findViewById(R.id.pager);
+		mViewPager = (ViewPager)findViewById(R.id.main_viewpager);
 		mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 		mViewPager.setAdapter(mViewPagerAdapter);
 	
@@ -61,13 +73,35 @@ public class MainActivity extends FragmentActivity
 		//		new EventListFragment()).commit();
 		
 		mActionBar = getActionBar();
-
 		initActionBarOption();
-		
 		mNavDrawer = new NavigationDrawer(this,mViewPager);
 		
 	}
 	
+	
+	@Override
+	protected void onResume()
+	{
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		Log.i(TAG, "onResume");
+		
+		//register Broadcast
+		IntentFilter serviceListfilter = new IntentFilter(ServiceUtil.ACTION_ALL_SERVICE_LIST);
+		registerReceiver(mServiceListReceiver, serviceListfilter);
+	}
+	
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		
+		Log.i(TAG, "onPause");
+		
+		unregisterReceiver(mServiceListReceiver);
+	}
+
 
 	private void initActionBarOption()
 	{
@@ -124,6 +158,12 @@ public class MainActivity extends FragmentActivity
 		
 		return super.onOptionsItemSelected(item);
 	}
-
+	
+	public interface OnServiceListListener
+	{
+		void onListListener(final String result);
+		
+	}
+	
 
 }

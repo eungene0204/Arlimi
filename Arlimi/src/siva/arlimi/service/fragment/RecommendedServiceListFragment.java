@@ -1,12 +1,9 @@
 package siva.arlimi.service.fragment;
 
-import siva.arlimi.event.util.EventUtils;
+import siva.arlimi.main.MainActivity.OnServiceListListener;
 import siva.arlimi.main.R;
 import siva.arlimi.service.util.ServiceUtil;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,45 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class RecommendedServiceListFragment extends Fragment
+public class RecommendedServiceListFragment extends Fragment implements OnServiceListListener
 {
 	static public final String TAG = "RecommendedServiceListFargment";
 	
-		
-	private BroadcastReceiver mServiceListReceiver = new BroadcastReceiver()
-	{
-		@Override
-		public void onReceive(Context context, Intent intent)
-		{
-			onServiceListReceiver(intent);
-		}
-
-	};
-	
-	private void onServiceListReceiver(Intent intent)
-	{
-		String result = intent.getStringExtra(ServiceUtil.KEY_ALL_SERVICE_LIST);
-		
-		Log.i(TAG, "re fragment" + result);
-		
-	}
-	
-	@Override
-	public void onResume()
-	{
-		super.onResume();
-		
-		//register Broadcast
-		IntentFilter serviceListfilter = new IntentFilter(ServiceUtil.ACTION_ALL_SERVICE_LIST);
-		getActivity().registerReceiver(mServiceListReceiver, serviceListfilter);
-	}
-	
-	@Override
-	public void onPause()
-	{
-		super.onPause();
-		getActivity().unregisterReceiver(mServiceListReceiver);
-	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,7 +23,6 @@ public class RecommendedServiceListFragment extends Fragment
 		View root = inflater.inflate(R.layout.fragment_recommended_service_listview, container,
 				false);
 		
-		//Get Service info to init
 		init();
 		
 		/*
@@ -89,11 +50,18 @@ public class RecommendedServiceListFragment extends Fragment
 
 	private void init()
 	{
-		//For the test just get all available service
 		Log.i(TAG, "init of fragment");
+		
+		
 		Intent intent = ServiceUtil.getAllServiceListIntent(getActivity());
 		getActivity().startService(intent);
-		
 	}
+
+	@Override
+	public void onListListener(String result)
+	{
+		Log.i(TAG, result);
+	}
+
 
 }
