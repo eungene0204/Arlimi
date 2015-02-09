@@ -25,7 +25,6 @@ public class AllServiceListConn extends NetworkConnection
 	{
 		super.onPostExecute(result);
 		
-		mContext.stopService(ServiceUtil.getAllServiceListIntent(mContext));
 		mListener.onAllServiceList(result);
 	}
 	
