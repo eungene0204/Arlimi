@@ -15,7 +15,7 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 	public static final String TAG = "GeofenceServiceBinder";
 
 	private ReceiveArlimiTransitionIntentService mBoundService;
-	private FragmentActivity mContext;
+	private Context mContext;
 	
 	private String[] mEventIds;
 
@@ -50,7 +50,7 @@ public class GeofenceServiceBinder implements GeofenceServiceListener
 
 	public GeofenceServiceBinder(Context context)
 	{
-		this.mContext = (FragmentActivity)context;
+		this.mContext = context;
 	}
 
 	

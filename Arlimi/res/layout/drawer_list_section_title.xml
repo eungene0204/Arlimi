@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
+     
+    <View 
+        android:id="@+id/drawer_list_divider"
+        android:clickable="false"
+   		style="@style/Divider"     
+        />
+
+    
     <TextView
         android:id="@+id/drawer_list_section_title_textview"
         android:layout_width="match_parent"

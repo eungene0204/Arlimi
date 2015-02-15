@@ -5,6 +5,10 @@
     <string name="algorithm">ALGORITHM</string>
   
    	<string name="main_activity">mainActivity</string> 
+   	
+   	<!-- Setvice -->
+   	<string name="serivce">서비스</string>	
+   	
    
    	<!-- Event -->
     <string name="event">이벤트</string>
@@ -88,11 +92,11 @@
         https://maps.googleapis.com/maps/api/geocode/json?latlng=</string>
     
     <!-- Nav Drawer Menu Items  -->
-    
-    <string-array name="drawer_list_event_items">
-        <item>현재위치 </item>
-        <item>단골집</item>
-        <item>전체보기</item>
+   
+    <string-array name="drawer_list_serice_items">
+        <item>내주변</item>
+        <item>전체서비스</item>
+        <item>방문한서비스</item>
     </string-array>
     
     <string-array name="drawer_list_tool">

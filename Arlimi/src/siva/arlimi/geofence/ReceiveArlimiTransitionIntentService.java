@@ -2,6 +2,7 @@ package siva.arlimi.geofence;
 
 import java.util.List;
 
+
 import siva.arlimi.activity.HomeActivity;
 import siva.arlimi.main.R;
 import android.app.IntentService;
@@ -17,7 +18,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.LocationClient;
+//import com.google.android.gms.location.LocationClient;
 
 public class ReceiveArlimiTransitionIntentService extends IntentService
 {
@@ -75,6 +76,7 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 	
 	private void parseGeofence(Intent intent)
 	{
+		/*
 		if (LocationClient.hasError(intent))
 		{
 			int errorCode = LocationClient.getErrorCode(intent);
@@ -117,7 +119,8 @@ public class ReceiveArlimiTransitionIntentService extends IntentService
 				Log.e(TAG, "Geofence transition Error: "
 								+ Integer.toString(transitionType));
 			}
-		}
+		} 
+		*/
 	}
 
 	private void sendEventId(String[] triggerIds)

@@ -1,9 +1,12 @@
 package siva.arlimi.service.service;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import siva.arlimi.geofence.GeofenceManager;
 import siva.arlimi.networktask.NetworkURL;
 import siva.arlimi.service.connection.AllServiceListConn;
 import siva.arlimi.service.connection.AllServiceListConn.OnAllServiceListListener;
-import siva.arlimi.service.util.ServiceUtil;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -57,7 +60,28 @@ public class AllServiceListService extends Service implements OnAllServiceListLi
 	private void setResult(final String result)
 	{
 		if(result != null)
+		{
 			this.mClient.getResult(result);
+		
+			//Just for test
+			addGeofence(result);
+		}
+	}
+
+
+	private void addGeofence(String result)
+	{
+		try
+		{
+			JSONArray jsonArry = new JSONArray(result.trim());
+			
+		} catch (JSONException e)
+		{
+			e.printStackTrace();
+		}
+		
+		GeofenceManager geofenceMng = new GeofenceManager(this);
+		
 	}
 
 	public void setClient(OnResultListener client)

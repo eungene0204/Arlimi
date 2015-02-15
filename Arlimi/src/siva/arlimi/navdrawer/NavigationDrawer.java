@@ -7,12 +7,11 @@ import siva.arlimi.auth.activity.LoginActivity;
 import siva.arlimi.auth.session.SessionManager;
 import siva.arlimi.main.MainActivity;
 import siva.arlimi.main.R;
-import siva.arlimi.navdrawer.adapter.NavDrawerListAdapter;
-import siva.arlimi.navdrawer.adapter.ViewHolder;
 import siva.arlimi.navdrawer.util.ITEM_ID;
 import siva.arlimi.navdrawer.util.ITEM_TYPE;
-import siva.arlimi.shop.activity.ShopRegistrationActivity;
 import siva.arlimi.user.User;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -21,10 +20,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class NavigationDrawer
 {
@@ -91,11 +94,11 @@ public class NavigationDrawer
 	private void addItems(ArrayList<NavDrawerItem> list)
 	{
 		String login = mContext.getResources().getString(R.string.login);
-		String event = mContext.getResources().getString(R.string.event);
+		String service = mContext.getResources().getString(R.string.serivce);
 		String tool = mContext.getResources().getString(R.string.tool);
 		String registration = mContext.getResources().getString(R.string.shop_registration);
 		String[] eventItems = mContext.getResources().getStringArray(
-				R.array.drawer_list_event_items);
+				R.array.drawer_list_serice_items);
 		String[] toolItems = mContext.getResources().getStringArray(
 				R.array.drawer_list_tool);
 		
@@ -127,16 +130,13 @@ public class NavigationDrawer
 
 		list.add(loginItem);
 		
-		//Add Divider
-		NavDrawerItem divider = new NavDrawerItem(ITEM_TYPE.DIVIDER);
-		list.add(divider);
-		
+	
 		
 		//Add Event Section Title
-		NavDrawerItem eventSectionTitle = 
+		NavDrawerItem serviceSectionTitle = 
 				new NavDrawerItem(ITEM_TYPE.SECTIONTITLE);
-		eventSectionTitle.setTitle(event);
-		list.add(eventSectionTitle);
+		serviceSectionTitle.setTitle(service);
+		list.add(serviceSectionTitle);
 		
 		// Add event Items 
 		for(int i = 0; i < eventItems.length; i++)
@@ -148,8 +148,6 @@ public class NavigationDrawer
 			list.add(item);
 		}
 		
-		//Add Divider
-		list.add(divider);
 		
 		//Add Tool Section Title
 		NavDrawerItem toolSectionTitle = 
@@ -251,5 +249,165 @@ public class NavigationDrawer
 		}
 
 	}
+	
+	//Adapter
+	private class NavDrawerListAdapter extends BaseAdapter
+	{
+		public static final String TAG = "NavDrawerListAdapter";
+		public static final int ITEM_MAX_COUNT =  10;	
+		
+		private final Context mContext;
+		private ArrayList<NavDrawerItem> mItemList;
+		
+		private final LayoutInflater mInflater;  
+		
+		public NavDrawerListAdapter(Context context, ArrayList<NavDrawerItem> list)
+		{
+			this.mContext = context;
+			mItemList = list;
+
+			mInflater = (LayoutInflater) mContext
+					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+
+		}
+		
+		@Override
+		public boolean isEnabled(int position)
+		{
+			NavDrawerItem item = mItemList.get(position);
+			
+			return (item.getItemType() == ITEM_TYPE.SECTIONTITLE 
+					|| item.getItemType() == ITEM_TYPE.DIVIDER)?
+					false : true;
+		}
+
+		@Override
+		public int getItemViewType(int position)
+		{
+			NavDrawerItem item = mItemList.get(position);
+		
+			return (null!= item) ? item.getItemType().ordinal() 
+					: ITEM_TYPE.DEFAULT.ordinal();
+		}
+		
+		@Override
+		public int getViewTypeCount()
+		{
+			return ITEM_MAX_COUNT;
+		}
+
+		@Override
+		public int getCount()
+		{
+			return mItemList.size();
+		}
+
+		@Override
+		public Object getItem(int position)
+		{
+			return mItemList.get(position);
+		}
+
+		@Override
+		public long getItemId(int position)
+		{
+			return position;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent)
+		{
+			ViewHolder viewHolder;
+			int type = getItemViewType(position);
+			
+			if(null == convertView)
+			{
+				viewHolder = new ViewHolder();
+				
+				if(type == ITEM_TYPE.LOGIN.ordinal())
+				{
+					convertView = 
+							mInflater.inflate(R.layout.drawer_list_login, null);
+					viewHolder.mItemTextView = (TextView) convertView
+							.findViewById(R.id.drawer_list_item_login);
+					
+				}
+				else if(type == ITEM_TYPE.ITEM.ordinal())
+				{
+					convertView = mInflater
+							.inflate(R.layout.drawer_list_item, null);
+					viewHolder.mItemTextView = (TextView) convertView
+							.findViewById(R.id.drawer_list_item_title);
+
+				}
+				/*else if(type == ITEM_TYPE.DIVIDER.ordinal())
+				{
+					 convertView =
+						 mInflater.inflate(R.layout.drawer_list_divider, null);
+				}*/
+				else if(type == ITEM_TYPE.SECTIONTITLE.ordinal())
+				{
+					
+					convertView =  mInflater.inflate(R.layout.drawer_list_section_title, null);
+				  viewHolder.mItemTextView = (TextView) convertView.findViewById(R.id
+				  .drawer_list_section_title_textview); 
+				 
+				}
+				else if(type == ITEM_TYPE.REGISTRATION.ordinal())
+				{
+						convertView = mInflater
+							.inflate(R.layout.drawer_shop_registration, null);
+					viewHolder.mItemTextView = (TextView) convertView
+							.findViewById(R.id.drawer_list_item_shop_registration);
+				}
+
+				/*
+				 * switch(type) {
+				 * 
+				 * case DrawerUtil.ITEM_LIST_ITEM: convertView =
+				 * mInflater.inflate(R.layout.drawer_list_item, null);
+				 * viewHolder.mItemTextView = (TextView)
+				 * convertView.findViewById(R.id.drawer_list_item_title); break;
+				 * 
+				 * case NavDrawerUtil.ITEM_LIST_DIVIDER: 
+				 * convertView =
+				 * mInflater.inflate(R.layout.drawer_list_divider, null); break;
+				 * 
+				 * case NavDrawerUtil.ITEM_LIST_SECTION_TITLE: convertView =
+				 * mInflater.inflate(R.layout.drawer_list_section_title, null);
+				 * viewHolder.mItemTextView = (TextView)
+				 * convertView.findViewById(R.id
+				 * .drawer_list_section_title_textview); break;
+				 * 
+				 * }
+				 */
+				convertView.setTag(viewHolder);
+				
+			}
+			else
+			{
+				viewHolder = (ViewHolder)convertView.getTag(); 
+			}
+			
+			if(null != viewHolder.mItemTextView)
+			{
+				viewHolder.mItemTextView.
+					setText(mItemList.get(position).getTitle());
+			}
+			
+			//Set Id
+			viewHolder.mId = mItemList.get(position).getId();
+		
+			return convertView;
+		}
+		
+	}
+	
+		private static class ViewHolder
+		{
+			public TextView mItemTextView;
+			public ITEM_ID mId;
+			
+		}
 
 }

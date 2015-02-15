@@ -1,6 +1,7 @@
 package siva.arlimi.activity;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Locale;
 
@@ -21,7 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
+//import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -53,7 +54,7 @@ GooglePlayServicesClient.OnConnectionFailedListener,LocationListener
 
 	// Google Location
 	private boolean mUpdatedRequested;
-	LocationClient mLocationClient;
+	//LocationClient mLocationClient;
 	Location mCurrentLocation;
 	LocationRequest mLocationRequest;
 	SharedPreferences.Editor mEditor;
@@ -71,7 +72,7 @@ GooglePlayServicesClient.OnConnectionFailedListener,LocationListener
 		initilizeMap();
 
 		//Location Client
-		mLocationClient = new LocationClient(this, this, this);
+		//mLocationClient = new LocationClient(this, this, this);
 
 		//Google Location
 		mLocationRequest = LocationRequest.create();
@@ -92,23 +93,22 @@ GooglePlayServicesClient.OnConnectionFailedListener,LocationListener
 	protected void onStart()
 	{
 		super.onStart();
-		mLocationClient.connect();
+		//mLocationClient.connect();
 	}
 
 	@Override
 	protected void onStop()
 	{
+		/*
 		// If the client is connected
 		if (mLocationClient.isConnected()) {
-			/*
-			 * Remove location updates for a listener.
-			 * The current Activity is the listener, so
-			 * the argument is "this".
-			 */
-			//removeLocationUpdates(this);
+		//removeLocationUpdates(this);
 		}
+	
+	
 
-		mLocationClient.disconnect();
+		mLocationClient.disconnect(); */
+		
 		super.onStop();
 	}
 
@@ -173,7 +173,7 @@ GooglePlayServicesClient.OnConnectionFailedListener,LocationListener
 		Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
 		// If already requested, start periodic updates
 		if (mUpdatedRequested) {
-			mLocationClient.requestLocationUpdates(mLocationRequest, this);
+			//mLocationClient.requestLocationUpdates(mLocationRequest, this);
 		}
 
 

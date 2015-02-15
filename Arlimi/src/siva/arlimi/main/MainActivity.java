@@ -74,6 +74,8 @@ public class MainActivity extends FragmentActivity
 		
 		mActionBar = getActionBar();
 		initActionBarOption();
+		
+		//Navigation Drawer
 		mNavDrawer = new NavigationDrawer(this,mViewPager);
 		
 	}

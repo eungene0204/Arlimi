@@ -1,6 +1,7 @@
 package siva.arlimi.geofence;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -15,8 +16,10 @@ import siva.arlimi.event.connection.ReadEventListConnection;
 import siva.arlimi.event.util.EventUtils;
 import siva.arlimi.geofence.GeofenceServiceBinder.EventListener;
 import siva.arlimi.networktask.NetworkURL;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
@@ -29,14 +32,13 @@ import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallback
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.LocationClient;
-import com.google.android.gms.location.LocationClient.OnAddGeofencesResultListener;
+//import com.google.android.gms.location.LocationClient;
+//import com.google.android.gms.location.LocationClient.OnAddGeofencesResultListener;
 import com.google.android.gms.location.LocationStatusCodes;
 
 public class GeofenceManager implements 
 							ConnectionCallbacks,
 							OnConnectionFailedListener,
-							OnAddGeofencesResultListener,
 							EventListener
 							
 {
@@ -45,12 +47,12 @@ public class GeofenceManager implements
 	private final static int 
 	CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;	
 	
-	private LocationClient mLocationClient;
+	//private LocationClient mLocationClient;
 	private PendingIntent mGeofenceRequestIntent;
 	public enum REQUEST_TYPE {ADD};
 	private REQUEST_TYPE mRequestType;
 
-	private FragmentActivity mContext;
+	private Context mContext;
 	private boolean mInProgress;
 		
 	private List<Geofence> mGeofenceList;
@@ -60,7 +62,7 @@ public class GeofenceManager implements
 	
 	private EventListListener mEventListListener;
 
-	public GeofenceManager(FragmentActivity context)
+	public GeofenceManager(Context context)
 	{
 		this.mContext = context;
 		mInProgress = false;
@@ -149,14 +151,14 @@ public class GeofenceManager implements
 			return;
 		}
 		
-		mLocationClient = new LocationClient(mContext, this, this);
+		//mLocationClient = new LocationClient(mContext, this, this);
 		
 		//If request is not already underway
 		if(!mInProgress)
 		{
 			mInProgress = true;
 			
-			mLocationClient.connect();
+		//	mLocationClient.connect();
 		}
 		else
 		{
@@ -177,12 +179,12 @@ public class GeofenceManager implements
 		}
 		else
 		{
-			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, mContext, 0);
+			Dialog dialog = GooglePlayServicesUtil.getErrorDialog(resultCode, (Activity) mContext, 0);
 			if(dialog != null)
 			{
 				ErrorDialogFragment errorFragment = new ErrorDialogFragment();
 				errorFragment.setDialog(dialog);
-				errorFragment.show(mContext.getSupportFragmentManager(),TAG ); 
+				errorFragment.show(((FragmentActivity) mContext).getSupportFragmentManager(),TAG ); 
 				
 			}
 			
@@ -200,22 +202,7 @@ public class GeofenceManager implements
 	
 	
 
-	@Override
-	public void onAddGeofencesResult(int statusCode, String[] geofenceRequestIds)
-	{
-		if(LocationStatusCodes.SUCCESS == statusCode)
-		{
-			Log.i(TAG, "The Geofence is added successfully");
-		}
-		else
-		{
-			Log.i(TAG, "Fail to add the geofence");
-		}
-		
-		mInProgress = false;
-		mLocationClient.disconnect();
-		
-	}
+	
 
 	@Override
 	public void onConnectionFailed(ConnectionResult result)
@@ -226,7 +213,7 @@ public class GeofenceManager implements
 		{
 			try
 			{
-				result.startResolutionForResult(mContext, 
+				result.startResolutionForResult((Activity) mContext, 
 						CONNECTION_FAILURE_RESOLUTION_REQUEST);
 			}
 			catch(SendIntentException e)
@@ -239,7 +226,7 @@ public class GeofenceManager implements
 			int errorCode = result.getErrorCode();
 			
 			Dialog errorDialog = GooglePlayServicesUtil.getErrorDialog(
-					errorCode, mContext, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+					errorCode, (Activity) mContext, CONNECTION_FAILURE_RESOLUTION_REQUEST);
 			
 			if(null != errorDialog)
 			{
@@ -247,7 +234,7 @@ public class GeofenceManager implements
 						new ErrorDialogFragment();
 				errorFragment.setDialog(errorDialog);
 				
-				errorFragment.show(mContext.getSupportFragmentManager(), TAG);
+				errorFragment.show(((FragmentActivity) mContext).getSupportFragmentManager(), TAG);
 				
 			}
 			
@@ -264,9 +251,14 @@ public class GeofenceManager implements
 			mGeofenceRequestIntent = getTransitionPendingIntent();
 			
 			if(!mGeofenceList.isEmpty())
-				mLocationClient.addGeofences(mGeofenceList, mGeofenceRequestIntent, this);
+			{
+				//mLocationClient.addGeofences(mGeofenceList, mGeofenceRequestIntent, this);
+			}
 			else
+			{
+				Log.i(TAG, "Geofence is empty");
 				return;
+			}
 			
 			break;
 		}
@@ -277,7 +269,7 @@ public class GeofenceManager implements
 	public void onDisconnected()
 	{
 		mInProgress = false;
-		mLocationClient = null;
+		//mLocationClient = null;
 	}
 	
 

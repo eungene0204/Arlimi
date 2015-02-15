@@ -1,6 +1,7 @@
 package siva.arlimi.location;
 
 import siva.arlimi.main.R;
+
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
-import com.google.android.gms.location.LocationClient;
+//import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,7 +36,7 @@ public class ArlimiLocationClient implements
 	
 	private final Context mContext;
 	private final GoogleMap mGoogleMap;
-	private LocationClient mLocationClient;
+	//private LocationClient mLocationClient;
 	private LocationRequest mLocationRequest;
 
 	boolean mUpdatesRequested = false;
@@ -47,7 +48,7 @@ public class ArlimiLocationClient implements
 	public ArlimiLocationClient(Context context, GoogleMap map )
 	{
 		this.mContext = context;
-		this.mLocationClient = new LocationClient(mContext, this, this);
+	//	this.mLocationClient = new LocationClient(mContext, this, this);
 		this.mLocationRequest = LocationRequest.create();
 		
 		mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
@@ -82,36 +83,33 @@ public class ArlimiLocationClient implements
 	{
 		return this.mUpdatesRequested;
 	}
-
-	public LocationClient getLocationClient()
-	{
-		return this.mLocationClient;
-	}
 	
 
 	public void connect()
 	{
-		mLocationClient.connect();
+//		mLocationClient.connect();
 	}
 	
 	public void disconnect()
 	{
-		mLocationClient.disconnect();
+//		mLocationClient.disconnect();
 	}
 	
 	public Location getLastLocation()
 	{
-		return mLocationClient.getLastLocation();
+//		return mLocationClient.getLastLocation();
+		return null;
 	}
 	
 	public boolean isConnected()
 	{
-		return mLocationClient.isConnected();
+//		return mLocationClient.isConnected();
+		return false;
 	}
 	
 	public void removeLocationUpdates()
 	{
-		mLocationClient.removeLocationUpdates(this);
+//		mLocationClient.removeLocationUpdates(this);
 	}
 	
 	public void moveCamera(LatLng position)
@@ -146,7 +144,7 @@ public class ArlimiLocationClient implements
 		
 		if(mUpdatesRequested)
 		{
-			mLocationClient.requestLocationUpdates(mLocationRequest, this);
+			//mLocationClient.requestLocationUpdates(mLocationRequest, this);
 		}
 	}
 
